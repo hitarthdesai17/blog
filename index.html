@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Little Love Space 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", "Poppins", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffb6c1, #ffd6e8, #cce7ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.95);
+      width: 100%;
+      max-width: 900px;
+      border-radius: 25px;
+      padding: 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff4f8b;
+      margin-bottom: 6px;
+    }
+
+    .sub {
+      text-align: center;
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    /* 🔐 LOCK SCREEN */
+    #lock {
+      text-align: center;
+      padding: 20px;
+    }
+
+    #lock p {
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    #password {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      outline: none;
+      width: 80%;
+      max-width: 240px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    #password:focus {
+      border-color: #ff6fa5;
+    }
+
+    .btn {
+      margin-top: 10px;
+      padding: 9px 22px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+      color: white;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .error {
+      color: crimson;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      min-height: 18px;
+    }
+
+    /* 💗 BLOG */
+    #blog {
+      display: none;
+    }
+
+    .memory {
+      background: linear-gradient(135deg, #fff0f6, #fce4ff);
+      border: 1px solid #ffd1e6;
+      border-radius: 20px;
+      padding: 15px;
+      margin-bottom: 18px;
+      animation: fadeIn 1s ease;
+    }
+
+    .memory h2 {
+      color: #ff4f8b;
+      margin-bottom: 6px;
+      font-size: 1.2rem;
+    }
+
+    .memory p {
+      color: #444;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .memory img {
+      width: 100%;
+      max-height: 330px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid #ffc1da;
+    }
+
+    .love-note {
+      text-align: center;
+      color: #ff4f8b;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Our Love Scrapbook 💗</h1>
+    <div class="sub">A secret cute little world only for us 🥺✨</div>
+
+    <!-- 🔐 PASSWORD SCREEN -->
+    <div id="lock">
+      <p>Enter our secret password to unlock our memories 💕</p>
+
+      <form id="login-form">
+        <input id="password" type="password" placeholder="Our secret..." required>
+        <br>
+        <button class="btn" type="submit">Unlock 💗</button>
+      </form>
+
+      <div id="error" class="error"></div>
+    </div>
+
+    <!-- 💕 BLOG CONTENT -->
+    <div id="blog">
+
+      <!-- ✅ FIRST SPECIAL MEMORY (APPEARS IMMEDIATELY AFTER UNLOCK) -->
+      <div class="memory">
+        <h2>💗💞 The Day We First Spoke 💞💗</h2>
+        <p>
+          That moment when everything felt different. I didn’t know yet,
+          but my heart already chose you that day. 🥺💗  
+          This was the beginning of *us*.
+        </p>
+        <img src="images/first.jpg" alt="First memory">
+      </div>
+
+      <div class="memory">
+        <h2>🌙 Our Late Night Talks</h2>
+        <p>
+          When the whole world slept but we stayed awake,
+          sharing dreams, jokes, fears… and love. 💗
+        </p>
+        <img src="images/night.jpg" alt="Late night chat">
+      </div>
+
+      <div class="memory">
+        <h2>💖 Every Little Moment</h2>
+        <p>
+          From silly fights to tight hugs,
+          from missed calls to long smiles —
+          everything with you is special. 💕
+        </p>
+        <img src="images/us.jpg" alt="Us together">
+      </div>
+
+      <div class="love-note">
+        No matter how far you are…  
+        scan this, enter our secret,  
+        and I’ll be right here with you. 💗🌙
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const CORRECT_PASSWORD = "Hitarth777";  
+
+    const form = document.getElementById("login-form");
+    const passInput = document.getElementById("password");
+    const error = document.getElementById("error");
+    const lock = document.getElementById("lock");
+    const blog = document.getElementById("blog");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      if (passInput.value === CORRECT_PASSWORD) {
+        lock.style.display = "none";
+        blog.style.display = "block";
+      } else {
+        error.textContent = "Wrong password 😭 Try again, my love 💔";
+        passInput.value = "";
+      }
+    });
+  </script>
+
+</body>
+</html>
