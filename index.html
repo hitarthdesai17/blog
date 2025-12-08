@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Our Little Love Space 💗</title>
+  <title>Our Cutiee World 💗</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -295,19 +295,20 @@
     }
 
     /* 💌 MEMORIES – text left, image right */
-    .memory {
-      background: linear-gradient(135deg, #fff0f6, #fce4ff);
-      border: 1px solid #ffd1e6;
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 18px;
-      animation: fadeIn 1s ease;
+  .memory {
+  background: linear-gradient(135deg, #fff0f6, #fce4ff);
+  border: 1px solid #ffd1e6;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 18px;
+  animation: fadeIn 1s ease;
 
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 14px;
-      align-items: center;
-    }
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
 
     .memory h2,
     .memory p {
@@ -325,23 +326,42 @@
     }
 
     /* 💗 STICKY FOOTER LOVE NOTE – typing + blinking */
-    .love-note {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-      color: white;
-      text-align: center;
-      font-size: 0.85rem;
-      padding: 10px 14px;
-      z-index: 9999;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
-      white-space: pre-line;
+    /* 💗 STICKY FOOTER LOVE NOTE – TEXT BLINK ONLY */
+.love-note {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+  color: white;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  z-index: 9999;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+  white-space: pre-line;
 
-      opacity: 0;
-      transform: translateY(100%);
-    }
+  opacity: 0;
+  transform: translateY(100%);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* only appears after unlock */
+body.unlocked .love-note {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ✅ ONLY THE TEXT BLINKS */
+.love-note span {
+  animation: textBlink 1.4s ease-in-out infinite;
+}
+
+@keyframes textBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 
     @keyframes footerIn {
       from { transform: translateY(100%); opacity: 0; }
@@ -412,17 +432,7 @@
       }
     }
 
-    @media (max-width: 700px) {
-      .memory {
-        grid-template-columns: 1fr;
-      }
-
-      .memory img {
-        grid-column: 1 / 2;
-        grid-row: auto;
-        margin-top: 8px;
-      }
-    }
+  
 
     @media (max-width: 600px) {
       .container {
@@ -596,9 +606,12 @@
 
   <!-- 💗 STICKY LOVE FOOTER (TEXT UNCHANGED) -->
   <div class="love-note">
-No matter how far you are…    
-I’ll be right here with you. 💗🌙
-  </div>
+  <span>
+    No matter how far you are…    
+    I’ll be right here with you. 💗🌙
+  </span>
+</div>
+
 
   <script>
     const CORRECT_PASSWORD = "Hitarth777";  
@@ -610,11 +623,7 @@ I’ll be right here with you. 💗🌙
     const blog = document.getElementById("blog");
     const loveNote = document.querySelector(".love-note");
 
-    let footerTyped = false;
-
-    function startFooterTyping() {
-      if (!loveNote || footerTyped) return;
-      footerTyped = true;
+    
 
       const fullText = loveNote.textContent;
       loveNote.textContent = "";
@@ -655,7 +664,7 @@ I’ll be right here with you. 💗🌙
         });
 
         // ✍️ start typing footer text
-        startFooterTyping();
+        
 
       } else {
         error.textContent = "Yaad rakho barabar 😭";
