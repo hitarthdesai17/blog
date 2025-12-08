@@ -295,20 +295,19 @@
     }
 
     /* 💌 MEMORIES – text left, image right */
-  .memory {
-  background: linear-gradient(135deg, #fff0f6, #fce4ff);
-  border: 1px solid #ffd1e6;
-  border-radius: 20px;
-  padding: 16px;
-  margin-bottom: 18px;
-  animation: fadeIn 1s ease;
+    .memory {
+      background: linear-gradient(135deg, #fff0f6, #fce4ff);
+      border: 1px solid #ffd1e6;
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 18px;
+      animation: fadeIn 1s ease;
 
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: 14px;
-  align-items: center;
-}
-
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
 
     .memory h2,
     .memory p {
@@ -325,58 +324,40 @@
       border: 1px solid #ffc1da;
     }
 
-    /* 💗 STICKY FOOTER LOVE NOTE – typing + blinking */
     /* 💗 STICKY FOOTER LOVE NOTE – TEXT BLINK ONLY */
-.love-note {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  color: white;
-  text-align: center;
-  font-size: 0.85rem;
-  padding: 10px 14px;
-  z-index: 9999;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
-  white-space: pre-line;
+    .love-note {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+      color: white;
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 10px 14px;
+      z-index: 9999;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+      white-space: pre-line;
 
-  opacity: 0;
-  transform: translateY(100%);
-  transition: transform 0.6s ease, opacity 0.6s ease;
-}
-
-/* only appears after unlock */
-body.unlocked .love-note {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ✅ ONLY THE TEXT BLINKS */
-.love-note span {
-  animation: textBlink 1.4s ease-in-out infinite;
-}
-
-@keyframes textBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-
-    @keyframes footerIn {
-      from { transform: translateY(100%); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
+      opacity: 0;
+      transform: translateY(100%);
+      transition: transform 0.6s ease, opacity 0.6s ease;
     }
 
-    @keyframes footerBlink {
-      0%, 100% { opacity: 1; }
-      50%      { opacity: 0.6; }
-    }
-
+    /* only appears after unlock */
     body.unlocked .love-note {
-      animation:
-        footerIn 0.8s ease-out forwards,
-        footerBlink 1.2s ease-in-out 0.8s infinite alternate;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ✅ ONLY THE TEXT BLINKS */
+    .love-note span {
+      animation: textBlink 1.4s ease-in-out infinite;
+    }
+
+    @keyframes textBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
     /* 💗 TAP HEART */
@@ -431,8 +412,6 @@ body.unlocked .love-note {
         opacity: 0;
       }
     }
-
-  
 
     @media (max-width: 600px) {
       .container {
@@ -604,113 +583,95 @@ body.unlocked .love-note {
     </div>
   </div>
 
-  <!-- 💗 STICKY LOVE FOOTER (TEXT UNCHANGED) -->
+  <!-- 💗 STICKY LOVE FOOTER (TEXT UNCHANGED, BLINKING) -->
   <div class="love-note">
-  <span>
-    No matter how far you are…    
-    I’ll be right here with you. 💗🌙
-  </span>
-</div>
+    <span>
+No matter how far you are…    
+I’ll be right here with you. 💗🌙
+    </span>
+  </div>
 
+ <script>
+  const CORRECT_PASSWORD = "Hitarth777";
 
-  <script>
-    const CORRECT_PASSWORD = "Hitarth777";  
+  const form = document.getElementById("login-form");
+  const passInput = document.getElementById("password");
+  const error = document.getElementById("error");
+  const lock = document.getElementById("lock");
+  const blog = document.getElementById("blog");
 
-    const form = document.getElementById("login-form");
-    const passInput = document.getElementById("password");
-    const error = document.getElementById("error");
-    const lock = document.getElementById("lock");
-    const blog = document.getElementById("blog");
-    const loveNote = document.querySelector(".love-note");
+  // 🔐 Password check (now trims spaces + ignores case)
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-    
+    const entered = passInput.value.trim();
 
-      const fullText = loveNote.textContent;
-      loveNote.textContent = "";
-      let i = 0;
-      const speed = 40; // ms per character
+    if (entered.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+      // unlock
+      lock.style.display = "none";
+      blog.style.display = "block";
+      document.body.classList.add("unlocked");
 
-      const typer = setInterval(() => {
-        loveNote.textContent += fullText[i] || "";
-        i++;
-        if (i >= fullText.length) {
-          clearInterval(typer);
-        }
-      }, speed);
-    }
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      if (passInput.value === CORRECT_PASSWORD) {
-        lock.style.display = "none";
-        blog.style.display = "block";
-        document.body.classList.add("unlocked");
-
-        // 🎥 auto-play reels + tap to pause/play
-        const reels = document.querySelectorAll(".autoplay-reel");
-        reels.forEach(video => {
-          video.play().catch(() => {
-            console.log("Reel autoplay blocked, tap to play.");
-          });
-
-          video.addEventListener("click", () => {
-            if (video.paused) {
-              video.play();
-            } else {
-              video.pause();
-            }
-          });
+      // 🎥 auto-play reels + tap to pause/play
+      const reels = document.querySelectorAll(".autoplay-reel");
+      reels.forEach((video) => {
+        video.play().catch(() => {
+          console.log("Reel autoplay blocked, tap to play.");
         });
 
-        // ✍️ start typing footer text
-        
+        video.addEventListener("click", () => {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      });
+    } else {
+      error.textContent = "Yaad rakho barabar 😭";
+      passInput.value = "";
+    }
+  });
 
-      } else {
-        error.textContent = "Yaad rakho barabar 😭";
-        passInput.value = "";
-      }
-    });
+  // 💗 HEART APPEARS ON EVERY TAP / CLICK
+  document.addEventListener("click", function (e) {
+    const heart = document.createElement("div");
+    heart.className = "tap-heart";
+    heart.textContent = "💗";
 
-    // 💗 HEART APPEARS ON EVERY TAP / CLICK
-    document.addEventListener("click", function(e) {
-      const heart = document.createElement("div");
-      heart.className = "tap-heart";
-      heart.textContent = "💗";
+    heart.style.left = e.clientX + "px";
+    heart.style.top = e.clientY + "px";
 
-      heart.style.left = e.clientX + "px";
-      heart.style.top = e.clientY + "px";
+    document.body.appendChild(heart);
 
-      document.body.appendChild(heart);
+    setTimeout(() => {
+      heart.remove();
+    }, 1200);
+  });
 
-      setTimeout(() => {
-        heart.remove();
-      }, 1200);
-    });
+  // 💬 "I love you <3" appears every 15 seconds in blank space (after unlock)
+  setInterval(() => {
+    if (!document.body.classList.contains("unlocked")) return;
 
-    // 💬 "I love you <3" appears every 15 seconds in blank space (after unlock)
-    setInterval(() => {
-      if (!document.body.classList.contains("unlocked")) return;
+    const msg = document.createElement("div");
+    msg.className = "love-popup";
+    msg.textContent = "I love you <3";
 
-      const msg = document.createElement("div");
-      msg.className = "love-popup";
-      msg.textContent = "I love you <3";
+    const padding = 60;
+    const x = Math.random() * (window.innerWidth - padding * 2) + padding;
+    const y = Math.random() * (window.innerHeight - padding * 2) + padding;
 
-      const padding = 60;
-      const x = Math.random() * (window.innerWidth - padding * 2) + padding;
-      const y = Math.random() * (window.innerHeight - padding * 2) + padding;
+    msg.style.left = x + "px";
+    msg.style.top = y + "px";
 
-      msg.style.left = x + "px";
-      msg.style.top = y + "px";
+    document.body.appendChild(msg);
 
-      document.body.appendChild(msg);
+    setTimeout(() => {
+      msg.remove();
+    }, 3500);
+  }, 15000);
+</script>
 
-      setTimeout(() => {
-        msg.remove();
-      }, 3500);
-    }, 15000);
-  </script>
 
 </body>
 </html>
-
