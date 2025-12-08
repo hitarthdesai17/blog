@@ -19,9 +19,58 @@
       justify-content: center;
       align-items: center;
       padding: 20px;
+      padding-bottom: 70px; /* space for sticky footer */
+    }
+
+    /* 🔳 BACKGROUND COLLAGE (LOCK SCREEN) */
+    .bg-collage-grid {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-collage-grid .tile {
+      position: relative;
+      overflow: hidden;
+      transform: translateX(100%);
+      animation: slideIn 0.9s forwards ease-out;
+      filter: brightness(0.45);
+    }
+
+    .bg-collage-grid .tile:nth-child(1) { animation-delay: 0.0s; }
+    .bg-collage-grid .tile:nth-child(2) { animation-delay: 0.2s; }
+    .bg-collage-grid .tile:nth-child(3) { animation-delay: 0.4s; }
+    .bg-collage-grid .tile:nth-child(4) { animation-delay: 0.6s; }
+    .bg-collage-grid .tile:nth-child(5) { animation-delay: 0.8s; }
+    .bg-collage-grid .tile:nth-child(6) { animation-delay: 1.0s; }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+
+    .bg-collage-grid img,
+    .bg-collage-grid video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* fade out collage after unlock */
+    body.unlocked .bg-collage-grid {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
     }
 
     .container {
+      position: relative;
+      z-index: 1;
       background: rgba(255,255,255,0.95);
       width: 100%;
       max-width: 900px;
@@ -46,7 +95,7 @@
       text-align: center;
       color: #666;
       font-size: 0.95rem;
-      margin-bottom: 18px;
+      margin-bottom: 8px;
     }
 
     /* 🔐 LOCK SCREEN */
@@ -102,6 +151,149 @@
       display: none;
     }
 
+    /* 🎥 CELEB REELS SECTION */
+    .reel-section {
+      margin-bottom: 18px;
+      background: #fff1f6;
+      border-radius: 18px;
+      padding: 12px;
+      border: 1px solid #ffb3c8;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .reel-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #ff4f8b;
+    }
+
+    .reel-sub {
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .reel-grid {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .reel {
+      width: 160px;
+      max-width: 45%;
+      aspect-ratio: 9 / 16;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #ffb3c8;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+      background: #000;
+    }
+
+    .reel video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 📰 SWEETHEART JOURNAL BOX */
+    .journal-wrapper {
+      margin-bottom: 18px;
+      background: #ffe6f0;
+      border: 2px solid #d36a8a;
+      border-radius: 16px;
+      padding: 14px 12px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+      font-family: "Times New Roman", Georgia, serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .journal-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .journal-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .journal-top-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .journal-name {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      padding: 4px 0;
+      border-top: 2px solid #d36a8a;
+      border-bottom: 2px solid #d36a8a;
+      margin-bottom: 10px;
+    }
+
+    .journal-title-bar {
+      border: 2px solid #d36a8a;
+      padding: 6px 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .journal-byline {
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .journal-lead {
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    .journal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      border-top: 1px solid #d36a8a;
+      padding-top: 8px;
+    }
+
+    .journal-column {
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .journal-subtitle {
+      font-weight: 700;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #d36a8a;
+      padding-bottom: 2px;
+    }
+
+    .journal-list p {
+      margin: 3px 0;
+    }
+
+    .journal-heart-bullet::before {
+      content: "♥ ";
+      color: #d64375;
+    }
+
     .memory {
       background: linear-gradient(135deg, #fff0f6, #fce4ff);
       border: 1px solid #ffd1e6;
@@ -131,22 +323,55 @@
       border: 1px solid #ffc1da;
     }
 
+    /* 💗 STICKY FOOTER LOVE NOTE */
     .love-note {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+      color: white;
       text-align: center;
-      color: #ff4f8b;
-      font-size: 0.9rem;
-      margin-top: 10px;
+      font-size: 0.85rem;
+      padding: 10px 14px;
+      z-index: 9999;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.6s ease;
+      white-space: pre-line;
+    }
+
+    body.unlocked .love-note {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @media (max-width: 600px) {
       .container {
         padding: 16px;
       }
+      .journal-grid {
+        grid-template-columns: 1fr;
+      }
+      .reel {
+        width: 46%;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- 🔳 BACKGROUND COLLAGE (replace with your real images/videos) -->
+  <div class="bg-collage-grid">
+    <div class="tile"><img src="images/bg1.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg2.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg3.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg4.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg5.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg6.jpg" alt=""></div>
+  </div>
 
   <div class="container">
     <h1>Our Love Scrapbook 💗</h1>
@@ -169,13 +394,95 @@
     <!-- 💕 BLOG CONTENT -->
     <div id="blog">
 
-      <!-- ✅ FIRST SPECIAL MEMORY (APPEARS IMMEDIATELY AFTER UNLOCK) -->
+      <!-- 🎥 CELEB TROLL REELS -->
+      <div class="reel-section">
+        <div class="reel-title">Here are your favourite guys 😏🎥</div>
+        <div class="reel-sub">
+          Since you love them so much, I kept them ready in reel format just for you.
+          After this, back to your real favourite guy (me). 💗
+        </div>
+
+        <div class="reel-grid">
+          <div class="reel">
+            <video
+              class="autoplay-reel"
+              muted
+              loop
+              playsinline
+              preload="auto"
+            >
+              <source src="videos/reel1.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="reel">
+            <video
+              class="autoplay-reel"
+              muted
+              loop
+              playsinline
+              preload="auto"
+            >
+              <source src="videos/reel2.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!-- 📰 SWEETHEART JOURNAL -->
+      <div class="journal-wrapper">
+        <div class="journal-inner">
+          <div class="journal-top-line">
+            <span>HITARTH DESAI</span>
+            <span>THE SWEETHEART JOURNAL</span>
+            <span>DATE: 31/12/24</span>
+          </div>
+
+          <div class="journal-name">THE SWEETHEART JOURNAL</div>
+
+          <div class="journal-title-bar">
+            Title: The Day My Life Changed Because of You
+          </div>
+
+          <div class="journal-byline">By Hitarth</div>
+
+          <div class="journal-lead">
+            Sometimes life changes quietly. No fireworks, no big announcement —
+            just a message, a call, a smile. That’s how it started with you, and
+            that’s how my ordinary days turned into my favourite story. 💗
+          </div>
+
+          <div class="journal-grid">
+            <div class="journal-column">
+              <div class="journal-subtitle">Little Moments That Started It</div>
+              <div class="journal-list">
+                <p class="journal-heart-bullet"><b>First Chat:</b> That first “hi” that didn’t feel like just a hi.</p>
+                <p class="journal-heart-bullet"><b>Late-Night Talks:</b> When sleep lost and feelings won.</p>
+                <p class="journal-heart-bullet"><b>Inside Jokes:</b> The kind only we understand.</p>
+                <p class="journal-heart-bullet"><b>Random Good Mornings:</b> The first notifications I started waiting for.</p>
+              </div>
+            </div>
+
+            <div class="journal-column">
+              <div class="journal-subtitle">Why You’re My Favourite Person</div>
+              <div class="journal-list">
+                <p class="journal-heart-bullet"><b>Peace:</b> You make my overthinking brain feel calm.</p>
+                <p class="journal-heart-bullet"><b>Support:</b> On bad days, your words feel like home.</p>
+                <p class="journal-heart-bullet"><b>Happiness:</b> Even texts from you make the whole day better.</p>
+                <p class="journal-heart-bullet"><b>Future:</b> When I imagine tomorrow, you’re already there. ✨</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ YOUR ORIGINAL MEMORIES (UNCHANGED CONTENT) -->
       <div class="memory">
         <h2>💗💞 The Day We First Spoke 💞💗</h2>
         <p>
           That moment when everything felt different. I didn’t know yet,
           but my heart already chose you that day. 🥺💗  
-          This was the beginning of *us*.
+          This was the beginning of *us*.It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿
         </p>
         <img src="images/first.jpg" alt="First memory">
       </div>
@@ -184,7 +491,7 @@
         <h2>🌙 Our Late Night Talks</h2>
         <p>
           When the whole world slept but we stayed awake,
-          sharing dreams, jokes, fears… and love. 💗
+          sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...
         </p>
         <img src="images/night.jpg" alt="Late night chat">
       </div>
@@ -194,17 +501,26 @@
         <p>
           From silly fights to tight hugs,
           from missed calls to long smiles —
-          everything with you is special. 💕
+          everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿
         </p>
         <img src="images/us.jpg" alt="Us together">
       </div>
 
-      <div class="love-note">
-        No matter how far you are…    
-        I’ll be right here with you. 💗🌙
+      <div class="memory">
+        <h2>Our Fav Moment🥹</h2>
+        <p>
+          It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me  was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day! 
+        </p>
+        <img src="images/us.jpg" alt="Us together">
       </div>
 
     </div>
+  </div>
+
+  <!-- 💗 STICKY LOVE FOOTER (TEXT UNCHANGED) -->
+  <div class="love-note">
+No matter how far you are…    
+I’ll be right here with you. 💗🌙
   </div>
 
   <script>
@@ -222,6 +538,24 @@
       if (passInput.value === CORRECT_PASSWORD) {
         lock.style.display = "none";
         blog.style.display = "block";
+        document.body.classList.add("unlocked");
+
+        // 🎥 auto-play reels + tap to pause/play
+        const reels = document.querySelectorAll(".autoplay-reel");
+        reels.forEach(video => {
+          video.play().catch(() => {
+            console.log("Reel autoplay blocked, tap to play.");
+          });
+
+          video.addEventListener("click", () => {
+            if (video.paused) {
+              video.play();
+            } else {
+              video.pause();
+            }
+          });
+        });
+
       } else {
         error.textContent = "Yaad rakho barabar 😭";
         passInput.value = "";
@@ -231,6 +565,3 @@
 
 </body>
 </html>
-
-
-
