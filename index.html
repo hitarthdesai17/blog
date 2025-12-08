@@ -294,43 +294,37 @@
       color: #d64375;
     }
 
+    /* 💌 MEMORIES – text left, image right */
     .memory {
-  background: linear-gradient(135deg, #fff0f6, #fce4ff);
-  border: 1px solid #ffd1e6;
-  border-radius: 20px;
-  padding: 16px;
-  margin-bottom: 18px;
-  animation: fadeIn 1s ease;
+      background: linear-gradient(135deg, #fff0f6, #fce4ff);
+      border: 1px solid #ffd1e6;
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 18px;
+      animation: fadeIn 1s ease;
 
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;  /* text left, image right */
-  gap: 14px;
-  align-items: center;
-}
-
-
-    .memory h2 {
-      color: #ff4f8b;
-      margin-bottom: 6px;
-      font-size: 1.2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
     }
 
+    .memory h2,
     .memory p {
-      color: #444;
-      margin-bottom: 10px;
-      line-height: 1.5;
+      grid-column: 1 / 2; /* left side */
     }
 
-   .memory img {
-  width: 100%;
-  max-height: 280px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 1px solid #ffc1da;
+    .memory img {
+      grid-column: 2 / 3;   /* right side */
+      grid-row: 1 / 3;      /* span title + paragraph */
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid #ffc1da;
     }
 
-
-    /* 💗 STICKY FOOTER LOVE NOTE */
+    /* 💗 STICKY FOOTER LOVE NOTE – typing + blinking */
     .love-note {
       position: fixed;
       bottom: 0;
@@ -343,15 +337,91 @@
       padding: 10px 14px;
       z-index: 9999;
       box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+      white-space: pre-line;
+
       opacity: 0;
       transform: translateY(100%);
-      transition: all 0.6s ease;
-      white-space: pre-line;
+    }
+
+    @keyframes footerIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    @keyframes footerBlink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.6; }
     }
 
     body.unlocked .love-note {
-      opacity: 1;
-      transform: translateY(0);
+      animation:
+        footerIn 0.8s ease-out forwards,
+        footerBlink 1.2s ease-in-out 0.8s infinite alternate;
+    }
+
+    /* 💗 TAP HEART */
+    .tap-heart {
+      position: fixed;
+      font-size: 20px;
+      color: #ff4f8b;
+      pointer-events: none;
+      animation: floatHeart 1.2s ease-out forwards;
+      z-index: 10000;
+      user-select: none;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-60px) scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    /* 💬 AUTO "I love you <3" FLOATING TEXT */
+    .love-popup {
+      position: fixed;
+      font-size: 14px;
+      color: #ff4f8b;
+      font-weight: 600;
+      opacity: 0;
+      animation: loveFloat 3.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 9998;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    @keyframes loveFloat {
+      0% {
+        transform: translateY(10px) scale(0.9);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-30px) scale(1.05);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .memory {
+        grid-template-columns: 1fr;
+      }
+
+      .memory img {
+        grid-column: 1 / 2;
+        grid-row: auto;
+        margin-top: 8px;
+      }
     }
 
     @media (max-width: 600px) {
@@ -365,16 +435,6 @@
         width: 46%;
       }
     }
-    @media (max-width: 700px) {
-  .memory {
-    grid-template-columns: 1fr;
-  }
-
-  .memory img {
-    margin-top: 10px;
-  }
-}
-
   </style>
 </head>
 
@@ -493,7 +553,7 @@
         </div>
       </div>
 
-      <!-- ✅ YOUR ORIGINAL MEMORIES (UNCHANGED CONTENT) -->
+      <!-- ✅ YOUR ORIGINAL MEMORIES (CONTENT UNCHANGED) -->
       <div class="memory">
         <h2>💗💞 The Day We First Spoke 💞💗</h2>
         <p>
@@ -548,6 +608,27 @@ I’ll be right here with you. 💗🌙
     const error = document.getElementById("error");
     const lock = document.getElementById("lock");
     const blog = document.getElementById("blog");
+    const loveNote = document.querySelector(".love-note");
+
+    let footerTyped = false;
+
+    function startFooterTyping() {
+      if (!loveNote || footerTyped) return;
+      footerTyped = true;
+
+      const fullText = loveNote.textContent;
+      loveNote.textContent = "";
+      let i = 0;
+      const speed = 40; // ms per character
+
+      const typer = setInterval(() => {
+        loveNote.textContent += fullText[i] || "";
+        i++;
+        if (i >= fullText.length) {
+          clearInterval(typer);
+        }
+      }, speed);
+    }
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -573,11 +654,52 @@ I’ll be right here with you. 💗🌙
           });
         });
 
+        // ✍️ start typing footer text
+        startFooterTyping();
+
       } else {
         error.textContent = "Yaad rakho barabar 😭";
         passInput.value = "";
       }
     });
+
+    // 💗 HEART APPEARS ON EVERY TAP / CLICK
+    document.addEventListener("click", function(e) {
+      const heart = document.createElement("div");
+      heart.className = "tap-heart";
+      heart.textContent = "💗";
+
+      heart.style.left = e.clientX + "px";
+      heart.style.top = e.clientY + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1200);
+    });
+
+    // 💬 "I love you <3" appears every 15 seconds in blank space (after unlock)
+    setInterval(() => {
+      if (!document.body.classList.contains("unlocked")) return;
+
+      const msg = document.createElement("div");
+      msg.className = "love-popup";
+      msg.textContent = "I love you <3";
+
+      const padding = 60;
+      const x = Math.random() * (window.innerWidth - padding * 2) + padding;
+      const y = Math.random() * (window.innerHeight - padding * 2) + padding;
+
+      msg.style.left = x + "px";
+      msg.style.top = y + "px";
+
+      document.body.appendChild(msg);
+
+      setTimeout(() => {
+        msg.remove();
+      }, 3500);
+    }, 15000);
   </script>
 
 </body>
