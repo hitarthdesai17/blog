@@ -295,13 +295,19 @@
     }
 
     .memory {
-      background: linear-gradient(135deg, #fff0f6, #fce4ff);
-      border: 1px solid #ffd1e6;
-      border-radius: 20px;
-      padding: 15px;
-      margin-bottom: 18px;
-      animation: fadeIn 1s ease;
-    }
+  background: linear-gradient(135deg, #fff0f6, #fce4ff);
+  border: 1px solid #ffd1e6;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 18px;
+  animation: fadeIn 1s ease;
+
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;  /* text left, image right */
+  gap: 14px;
+  align-items: center;
+}
+
 
     .memory h2 {
       color: #ff4f8b;
@@ -315,13 +321,14 @@
       line-height: 1.5;
     }
 
-    .memory img {
-      width: 100%;
-      max-height: 330px;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid #ffc1da;
+   .memory img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #ffc1da;
     }
+
 
     /* 💗 STICKY FOOTER LOVE NOTE */
     .love-note {
@@ -358,6 +365,16 @@
         width: 46%;
       }
     }
+    @media (max-width: 700px) {
+  .memory {
+    grid-template-columns: 1fr;
+  }
+
+  .memory img {
+    margin-top: 10px;
+  }
+}
+
   </style>
 </head>
 
