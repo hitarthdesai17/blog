@@ -424,114 +424,112 @@
         width: 46%;
       }
     }
- /* ───── Big collage page ───── */
-.collage-section {
-  margin: 18px 0 22px;
-}
 
-.collage-full {
-  width: 100%;
-  height: auto;         /* keeps original aspect ratio */
-  display: block;
-  border-radius: 18px;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
-  border: 2px solid rgba(255,255,255,0.9);
-}
+    /* ───── Big collage page ───── */
+    .collage-section {
+      margin: 18px 0 22px;
+    }
 
-/* optional small caption under the photo */
-.collage-caption-text {
-  margin-top: 8px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #d64375;
-  font-weight: 600;
-}
+    .collage-full {
+      width: 100%;
+      height: auto;         /* keeps original aspect ratio */
+      display: block;
+      border-radius: 18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+      border: 2px solid rgba(255,255,255,0.9);
+    }
 
+    /* optional small caption under the photo */
+    .collage-caption-text {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #d64375;
+      font-weight: 600;
+    }
 
-/* mobile tweaks */
-@media (max-width: 600px) {
-  .collage-modal-inner img { height: 70vh; }
-  .collage-caption { font-size: 0.8rem; padding: 5px 8px; right: 10px; bottom: 10px; }
-}
-/* 💌 HANGING LOVE MESSAGE (FALLS FROM TOP ON A STRING) */
-.love-message-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: none;
-  align-items: flex-start;   /* start from top */
-  justify-content: center;
-  z-index: 10050;
-  padding-top: 0;
-}
+    /* mobile tweaks for old modal (safe but currently unused) */
+    @media (max-width: 600px) {
+      .collage-modal-inner img { height: 70vh; }
+      .collage-caption { font-size: 0.8rem; padding: 5px 8px; right: 10px; bottom: 10px; }
+    }
 
-.love-message-overlay.show {
-  display: flex;
-}
+    /* 💌 HANGING LOVE MESSAGE (FALLS FROM TOP ON A STRING) */
+    .love-message-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: flex-start;   /* start from top */
+      justify-content: center;
+      z-index: 10050;
+      padding-top: 0;
+    }
 
-/* STRING */
-.love-string {
-  position: absolute;
-  top: 0;
-  width: 2px;
-  height: 140px;
-  background: #fff;
-  left: 50%;
-  transform: translateX(-50%);
-}
+    .love-message-overlay.show {
+      display: flex;
+    }
 
-/* MESSAGE BOX */
-.love-message-box {
-  margin-top: 140px; /* where it hangs */
-  background: #fff7fb;
-  border-radius: 18px;
-  padding: 18px 16px;
-  max-width: 320px;
-  width: 90%;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-  border: 2px solid #ffb3d6;
-  text-align: center;
+    /* STRING */
+    .love-string {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 140px;
+      background: #fff;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-  transform: translateY(-120vh);
-  animation: fallDown 1.4s ease-out forwards;
-}
+    /* MESSAGE BOX */
+    .love-message-box {
+      margin-top: 140px; /* where it hangs */
+      background: #fff7fb;
+      border-radius: 18px;
+      padding: 18px 16px;
+      max-width: 320px;
+      width: 90%;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+      border: 2px solid #ffb3d6;
+      text-align: center;
 
-/* FALL ANIMATION */
-@keyframes fallDown {
-  0% {
-    transform: translateY(-120vh);
-  }
-  70% {
-    transform: translateY(20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
+      transform: translateY(-120vh);
+      animation: fallDown 1.4s ease-out forwards;
+    }
 
-.love-message-box p {
-  margin: 0 0 12px;
-  font-size: 0.9rem;
-  color: #444;
-  line-height: 1.5;
-}
+    /* FALL ANIMATION */
+    @keyframes fallDown {
+      0% {
+        transform: translateY(-120vh);
+      }
+      70% {
+        transform: translateY(20px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
 
-.love-message-box strong {
-  color: #ff4f8b;
-}
+    .love-message-box p {
+      margin: 0 0 12px;
+      font-size: 0.9rem;
+      color: #444;
+      line-height: 1.5;
+    }
 
-.love-message-button {
-  border: none;
-  border-radius: 999px;
-  padding: 8px 18px;
-  background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  color: #fff;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
+    .love-message-box strong {
+      color: #ff4f8b;
+    }
 
-
-
+    .love-message-button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 18px;
+      background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+      color: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -630,7 +628,7 @@
             <div class="journal-column">
               <div class="journal-subtitle">Little Moments That Started It</div>
               <div class="journal-list">
-                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you<p>
+                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you</p>
                 <p class="journal-heart-bullet"><b>Late-Night Talks:</b> Where every word and text meant whole world</p>
                 <p class="journal-heart-bullet"><b>Inside Jokes:</b> The kind only we understand.</p>
                 <p class="journal-heart-bullet"><b>Random Good Mornings:</b>The texts i loved!</p>
@@ -649,19 +647,19 @@
           </div>
         </div>
       </div>
-     <!-- 🌸 BIG COLLAGE PAGE -->
-<div class="collage-section">
-  <img
-    class="collage-full"
-    src="images/collage.jpg"
-    alt="Our Collage"
-    loading="lazy"
-  >
-  <div class="collage-caption-text">
-    Our Collage — a whole page of us 💗
-  </div>
-</div>
 
+      <!-- 🌸 BIG COLLAGE PAGE -->
+      <div class="collage-section">
+        <img
+          class="collage-full"
+          src="images/collage.jpg"
+          alt="Our Collage"
+          loading="lazy"
+        >
+        <div class="collage-caption-text">
+          Our Collage — a whole page of us 💗
+        </div>
+      </div>
 
       <!-- ✅ YOUR ORIGINAL MEMORIES (CONTENT UNCHANGED) -->
       <div class="memory">
@@ -703,8 +701,13 @@
 
     </div>
   </div>
+
+  <!-- 💌 Hanging love popup -->
   <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true">
-  <div class="love-string"><p>
+    <div class="love-string"></div>
+
+    <div class="love-message-box">
+      <p>
         Heyy <strong>my lovee</strong> 💗<br>
         Just wanted to remind you that<br>
         no matter how hard life gets,<br>
@@ -716,10 +719,6 @@
     </div>
   </div>
 
-  <div class="love-message-box">
-
-  
-
   <!-- 💗 STICKY LOVE FOOTER (TEXT UNCHANGED, BLINKING) -->
   <div class="love-note">
     <span>
@@ -728,134 +727,132 @@ I’ll be right here with you. 💗🌙
     </span>
   </div>
 
- <script>
-  const CORRECT_PASSWORD = "Hitarth777";  
+  <script>
+    const CORRECT_PASSWORD = "Hitarth777";  
 
-  const form = document.getElementById("login-form");
-  const passInput = document.getElementById("password");
-  const error = document.getElementById("error");
-  const lock = document.getElementById("lock");
-  const blog = document.getElementById("blog");
+    const form = document.getElementById("login-form");
+    const passInput = document.getElementById("password");
+    const error = document.getElementById("error");
+    const lock = document.getElementById("lock");
+    const blog = document.getElementById("blog");
 
-  // 💌 popup elements
-  const loveOverlay = document.getElementById("loveMessageOverlay");
-  const loveCloseBtn = document.getElementById("loveMessageClose");
-  let lovePopupScheduled = false;
+    // 💌 popup elements
+    const loveOverlay = document.getElementById("loveMessageOverlay");
+    const loveCloseBtn = document.getElementById("loveMessageClose");
+    let lovePopupScheduled = false;
 
-  function showLovePopup() {
-    if (!loveOverlay) return;
-    loveOverlay.classList.add("show");
-    loveOverlay.setAttribute("aria-hidden", "false");
-  }
+    function showLovePopup() {
+      if (!loveOverlay) return;
+      loveOverlay.classList.add("show");
+      loveOverlay.setAttribute("aria-hidden", "false");
+    }
 
-  function hideLovePopup() {
-    if (!loveOverlay) return;
-    loveOverlay.classList.remove("show");
-    loveOverlay.setAttribute("aria-hidden", "true");
-  }
+    function hideLovePopup() {
+      if (!loveOverlay) return;
+      loveOverlay.classList.remove("show");
+      loveOverlay.setAttribute("aria-hidden", "true");
+    }
 
-  function scheduleLovePopup() {
-    if (lovePopupScheduled) return;
-    lovePopupScheduled = true;
+    function scheduleLovePopup() {
+      if (lovePopupScheduled) return;
+      lovePopupScheduled = true;
 
-    // show after 12 seconds of unlock
-    setTimeout(() => {
-      // only show if still unlocked
-      if (document.body.classList.contains("unlocked")) {
-        showLovePopup();
-      }
-    }, 12000);
-  }
+      // show after 25 seconds of unlock
+      setTimeout(() => {
+        // only show if still unlocked
+        if (document.body.classList.contains("unlocked")) {
+          showLovePopup();
+        }
+      }, 25000);
+    }
 
-  if (loveCloseBtn) {
-    loveCloseBtn.addEventListener("click", hideLovePopup);
-  }
+    if (loveCloseBtn) {
+      loveCloseBtn.addEventListener("click", hideLovePopup);
+    }
 
-  if (loveOverlay) {
-    // close when clicking outside the box
-    loveOverlay.addEventListener("click", (e) => {
-      if (e.target === loveOverlay) {
-        hideLovePopup();
+    if (loveOverlay) {
+      // close when clicking outside the box
+      loveOverlay.addEventListener("click", (e) => {
+        if (e.target === loveOverlay) {
+          hideLovePopup();
+        }
+      });
+    }
+
+    // 🔐 Password check
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const entered = passInput.value.trim();
+
+      if (entered.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+        lock.style.display = "none";
+        blog.style.display = "block";
+        document.body.classList.add("unlocked");
+
+        // 🎥 auto-play reels + tap to pause/play
+        const reels = document.querySelectorAll(".autoplay-reel");
+        reels.forEach((video) => {
+          video.play().catch(() => {
+            console.log("Reel autoplay blocked, tap to play.");
+          });
+
+          video.addEventListener("click", () => {
+            if (video.paused) {
+              video.play();
+            } else {
+              video.pause();
+            }
+          });
+        });
+
+        // 💌 schedule soft love popup
+        scheduleLovePopup();
+
+      } else {
+        error.textContent = "Yaad rakho barabar 😭";
+        passInput.value = "";
       }
     });
-  }
 
-  // 🔐 Password check
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+    // 💗 HEART APPEARS ON EVERY TAP / CLICK
+    document.addEventListener("click", function (e) {
+      const heart = document.createElement("div");
+      heart.className = "tap-heart";
+      heart.textContent = "💗";
 
-    const entered = passInput.value.trim();
+      heart.style.left = e.clientX + "px";
+      heart.style.top = e.clientY + "px";
 
-    if (entered.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
-      lock.style.display = "none";
-      blog.style.display = "block";
-      document.body.classList.add("unlocked");
+      document.body.appendChild(heart);
 
-      // 🎥 auto-play reels + tap to pause/play
-      const reels = document.querySelectorAll(".autoplay-reel");
-      reels.forEach((video) => {
-        video.play().catch(() => {
-          console.log("Reel autoplay blocked, tap to play.");
-        });
+      setTimeout(() => {
+        heart.remove();
+      }, 1200);
+    });
 
-        video.addEventListener("click", () => {
-          if (video.paused) {
-            video.play();
-          } else {
-            video.pause();
-          }
-        });
-      });
+    // 💬 "I love you <3" appears every 15 seconds in blank space (after unlock)
+    setInterval(() => {
+      if (!document.body.classList.contains("unlocked")) return;
 
-      // 💌 schedule soft love popup
-      scheduleLovePopup();
+      const msg = document.createElement("div");
+      msg.className = "love-popup";
+      msg.textContent = "I love you <3";
 
-    } else {
-      error.textContent = "Yaad rakho barabar 😭";
-      passInput.value = "";
-    }
-  });
+      const padding = 60;
+      const x = Math.random() * (window.innerWidth - padding * 2) + padding;
+      const y = Math.random() * (window.innerHeight - padding * 2) + padding;
 
-  // 💗 HEART APPEARS ON EVERY TAP / CLICK
-  document.addEventListener("click", function (e) {
-    const heart = document.createElement("div");
-    heart.className = "tap-heart";
-    heart.textContent = "💗";
+      msg.style.left = x + "px";
+      msg.style.top = y + "px";
 
-    heart.style.left = e.clientX + "px";
-    heart.style.top = e.clientY + "px";
+      document.body.appendChild(msg);
 
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-      heart.remove();
-    }, 1200);
-  });
-
-  // 💬 "I love you <3" appears every 15 seconds in blank space (after unlock)
-  setInterval(() => {
-    if (!document.body.classList.contains("unlocked")) return;
-
-    const msg = document.createElement("div");
-    msg.className = "love-popup";
-    msg.textContent = "I love you <3";
-
-    const padding = 60;
-    const x = Math.random() * (window.innerWidth - padding * 2) + padding;
-    const y = Math.random() * (window.innerHeight - padding * 2) + padding;
-
-    msg.style.left = x + "px";
-    msg.style.top = y + "px";
-
-    document.body.appendChild(msg);
-
-    setTimeout(() => {
-      msg.remove();
-    }, 3500);
-  }, 25000);
-</script>
-
-
+      setTimeout(() => {
+        msg.remove();
+      }, 3500);
+    }, 15000);
+  </script>
 
 </body>
 </html>
