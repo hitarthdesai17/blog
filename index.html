@@ -424,104 +424,29 @@
         width: 46%;
       }
     }
-    /* ───── Collage highlight card ───── */
+ /* ───── Big collage page ───── */
 .collage-section {
-  margin: 18px 0;
-  display: flex;
-  justify-content: center;
+  margin: 18px 0 22px;
 }
 
-.collage-card {
+.collage-full {
   width: 100%;
-  max-width: 920px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-  cursor: pointer;
-  position: relative;
-  transition: transform 300ms ease, box-shadow 300ms ease;
-  border: 2px solid rgba(255,255,255,0.6);
-}
-
-.collage-card img {
-  width: 100%;
-  height: auto;
+  height: auto;         /* keeps original aspect ratio */
   display: block;
-  object-fit: cover;
-  vertical-align: middle;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+  border: 2px solid rgba(255,255,255,0.9);
 }
 
-/* little caption overlay */
-.collage-caption {
-  position: absolute;
-  right: 14px;
-  bottom: 12px;
-  background: rgba(255, 255, 255, 0.85);
-  color: #d64375;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight: 700;
+/* optional small caption under the photo */
+.collage-caption-text {
+  margin-top: 8px;
+  text-align: center;
   font-size: 0.9rem;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  color: #d64375;
+  font-weight: 600;
 }
 
-/* hover / tap effect */
-.collage-card:active,
-.collage-card:focus,
-.collage-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.28);
-  outline: none;
-}
-
-/* ───── Modal full-screen viewer ───── */
-.collage-modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10,10,12,0.75);
-  z-index: 10010;
-  padding: 20px;
-}
-
-.collage-modal[aria-hidden="false"] {
-  display: flex;
-}
-
-.collage-modal-inner {
-  max-width: 100%;
-  max-height: 100%;
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 18px 60px rgba(0,0,0,0.6);
-}
-
-.collage-modal-inner img {
-  width: auto;
-  height: 80vh;
-  max-width: 95vw;
-  display: block;
-  object-fit: contain;
-  background: #fff;
-}
-
-/* close button */
-.collage-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10020;
-  background: rgba(255,255,255,0.92);
-  border: none;
-  padding: 6px 8px;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-}
 
 /* mobile tweaks */
 @media (max-width: 600px) {
@@ -724,21 +649,19 @@
           </div>
         </div>
       </div>
-      <!-- 🌸 COLLAGE HIGHLIGHT (place after the journal, before memories) -->
-<div class="collage-section" id="collageSection">
-  <div class="collage-card" role="button" tabindex="0" aria-label="Open collage">
-    <img src="images/collage.jpg" alt="Our Collage" loading="lazy">
-    <div class="collage-caption">Our Collage — Memories Together</div>
+     <!-- 🌸 BIG COLLAGE PAGE -->
+<div class="collage-section">
+  <img
+    class="collage-full"
+    src="images/collage.jpg"
+    alt="Our Collage"
+    loading="lazy"
+  >
+  <div class="collage-caption-text">
+    Our Collage — a whole page of us 💗
   </div>
 </div>
 
-<!-- Fullscreen modal viewer -->
-<div id="collageModal" class="collage-modal" aria-hidden="true">
-  <div class="collage-modal-inner" role="dialog" aria-modal="true">
-    <button class="collage-close" aria-label="Close collage">✕</button>
-    <img id="collageModalImg" src="images/collage.jpg" alt="Our Collage Full">
-  </div>
-</div>
 
       <!-- ✅ YOUR ORIGINAL MEMORIES (CONTENT UNCHANGED) -->
       <div class="memory">
