@@ -424,6 +424,111 @@
         width: 46%;
       }
     }
+    /* ───── Collage highlight card ───── */
+.collage-section {
+  margin: 18px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.collage-card {
+  width: 100%;
+  max-width: 920px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  cursor: pointer;
+  position: relative;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+  border: 2px solid rgba(255,255,255,0.6);
+}
+
+.collage-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+/* little caption overlay */
+.collage-caption {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #d64375;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* hover / tap effect */
+.collage-card:active,
+.collage-card:focus,
+.collage-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+  outline: none;
+}
+
+/* ───── Modal full-screen viewer ───── */
+.collage-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10,10,12,0.75);
+  z-index: 10010;
+  padding: 20px;
+}
+
+.collage-modal[aria-hidden="false"] {
+  display: flex;
+}
+
+.collage-modal-inner {
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.6);
+}
+
+.collage-modal-inner img {
+  width: auto;
+  height: 80vh;
+  max-width: 95vw;
+  display: block;
+  object-fit: contain;
+  background: #fff;
+}
+
+/* close button */
+.collage-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10020;
+  background: rgba(255,255,255,0.92);
+  border: none;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* mobile tweaks */
+@media (max-width: 600px) {
+  .collage-modal-inner img { height: 70vh; }
+  .collage-caption { font-size: 0.8rem; padding: 5px 8px; right: 10px; bottom: 10px; }
+}
+
   </style>
 </head>
 
@@ -515,7 +620,7 @@
           <div class="journal-lead">
             Sometimes life changes quietly. No fireworks, no big announcement —
             just a message, a call, a smile. That’s how it started with you, and
-            that’s how our ordinary days turned into our favourite story. 💗
+            that’s how our ordinary days turned into mour favourite story. 💗
           </div>
 
           <div class="journal-grid">
@@ -534,13 +639,28 @@
               <div class="journal-list">
                 <p class="journal-heart-bullet">With you storms felt lovely.</p>
                 <p class="journal-heart-bullet">On bad days, your words feel like home.</p>
-                <p class="journal-heart-bullet">Your thought's are always enough to make me smile.</p>
+                <p class="journal-heart-bullet">Your thought's always enough to make me smile.</p>
                 <p class="journal-heart-bullet">When i know i will miss you more in a room full of people..</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- 🌸 COLLAGE HIGHLIGHT (place after the journal, before memories) -->
+<div class="collage-section" id="collageSection">
+  <div class="collage-card" role="button" tabindex="0" aria-label="Open collage">
+    <img src="images/collage.jpg" alt="Our Collage" loading="lazy">
+    <div class="collage-caption">Our Collage — Memories Together</div>
+  </div>
+</div>
+
+<!-- Fullscreen modal viewer -->
+<div id="collageModal" class="collage-modal" aria-hidden="true">
+  <div class="collage-modal-inner" role="dialog" aria-modal="true">
+    <button class="collage-close" aria-label="Close collage">✕</button>
+    <img id="collageModalImg" src="images/collage.jpg" alt="Our Collage Full">
+  </div>
+</div>
 
       <!-- ✅ YOUR ORIGINAL MEMORIES (CONTENT UNCHANGED) -->
       <div class="memory">
@@ -670,9 +790,46 @@ I’ll be right here with you. 💗🌙
       msg.remove();
     }, 3500);
   }, 15000);
+  // Collage modal open / close
+(function () {
+  const card = document.querySelector('.collage-card');
+  const modal = document.getElementById('collageModal');
+  const modalImg = document.getElementById('collageModalImg');
+  const closeBtn = document.querySelector('.collage-close');
+
+  if (!card || !modal || !modalImg) return;
+
+  function openCollage() {
+    modal.setAttribute('aria-hidden', 'false');
+    // optional: lock body scroll
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCollage() {
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  card.addEventListener('click', openCollage);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') openCollage();
+  });
+
+  closeBtn.addEventListener('click', closeCollage);
+  modal.addEventListener('click', (e) => {
+    // close when backdrop clicked (but not when clicking the image itself)
+    if (e.target === modal) closeCollage();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCollage();
+  });
+})();
+
 </script>
 
 
 </body>
 </html>
-
