@@ -484,6 +484,7 @@
       opacity: 0.4;
     }
 
+    /* ✅ UPDATED SLOW ANIMATION HERE */
     .timeline-item {
       position: relative;
       margin: 18px 0 26px;
@@ -491,7 +492,8 @@
       align-items: flex-start;
       opacity: 0;
       transform: translateX(-40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      /* Increased to 2.5s for a very slow, dreamy entrance */
+      transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1), transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     /* right side items slide from right */
@@ -666,6 +668,75 @@
       font-size: 0.85rem;
       cursor: pointer;
     }
+    /* 💗 LOVE COUNTER */
+.love-counter {
+  margin: 18px auto 24px;
+  background: linear-gradient(135deg, #fff0f6, #ffe4f0);
+  border-radius: 20px;
+  border: 2px solid #ffb3d6;
+  padding: 14px 12px 16px;
+  box-shadow: 0 10px 28px rgba(255, 79, 139, 0.18);
+  text-align: center;
+}
+
+.counter-title {
+  margin: 0 0 2px;
+  font-size: 1.1rem;
+  color: #ff4f8b;
+  font-weight: 700;
+}
+
+.counter-date {
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.counter-box {
+  background: #fff;
+  border-radius: 14px;
+  padding: 8px 4px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid #ffd1e6;
+  animation: counterPop 0.6s ease;
+}
+
+@keyframes counterPop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.counter-number {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ff4f8b;
+}
+
+.counter-label {
+  font-size: 0.7rem;
+  color: #666;
+}
+
+/* mobile tweak */
+@media (max-width: 500px) {
+  .counter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
   </style>
 </head>
 
@@ -789,6 +860,33 @@
           Our Collage — a whole page of us 💗
         </div>
       </div>
+      <!-- 💗 LOVE COUNTER -->
+    <div class="love-counter">
+      <h2 class="counter-title">Since The Day Our Hands First Met 🤝💗</h2>
+      <p class="counter-date">6 July</p>
+
+      <div class="counter-grid" id="loveCounter">
+        <div class="counter-box">
+          <span class="counter-number" id="c-days">0</span>
+          <span class="counter-label">Days</span>
+        </div>
+
+        <div class="counter-box">
+          <span class="counter-number" id="c-hours">0</span>
+          <span class="counter-label">Hours</span>
+        </div>
+
+        <div class="counter-box">
+          <span class="counter-number" id="c-minutes">0</span>
+          <span class="counter-label">Minutes</span>
+        </div>
+
+        <div class="counter-box">
+          <span class="counter-number" id="c-seconds">0</span>
+          <span class="counter-label">Seconds</span>
+        </div>
+      </div>
+    </div>
 
       <div class="timeline-section" id="our-story">
         <div class="timeline-inner">
@@ -814,7 +912,7 @@
             <div class="timeline-marker">♥</div>
             <div class="timeline-card">
               <div class="timeline-label">First Call</div>
-              <div class="timeline-date">6 July 2024</div>
+              <div class="timeline-date">4 July 2024</div>
               <div class="timeline-text">
                 Your voice that night felt more like home than my own room.
               </div>
@@ -1077,6 +1175,44 @@
         observer.observe(item);
       });
     }
+    // 💗 LOVE COUNTER — Since 6 July (First Handshake)
+function startLoveCounter() {
+  // IMPORTANT: set the YEAR correctly
+  const startDate = new Date("2024-07-06T00:00:00"); // change year if needed
+
+  function updateCounter() {
+    const now = new Date();
+    let diff = now - startDate;
+    if (diff < 0) diff = 0;
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const d = document.getElementById("c-days");
+    const h = document.getElementById("c-hours");
+    const m = document.getElementById("c-minutes");
+    const s = document.getElementById("c-seconds");
+
+    if (!d || !h || !m || !s) return;
+
+    d.textContent = days;
+    h.textContent = hours;
+    m.textContent = minutes;
+    s.textContent = seconds;
+  }
+
+  updateCounter();
+  setInterval(updateCounter, 1000);
+}
+
+// ✅ start the counter ONLY after unlock
+document.addEventListener("DOMContentLoaded", () => {
+  startLoveCounter();
+});
+
   </script>
 
 </body>
