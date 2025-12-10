@@ -294,34 +294,123 @@
       color: #d64375;
     }
 
-    /* 💌 MEMORIES – text left, image right */
+    /* 💌 MEMORIES – The "Scrapbook Polaroid" Style */
     .memory {
-      background: linear-gradient(135deg, #fff0f6, #fce4ff);
-      border: 1px solid #ffd1e6;
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 18px;
+      /* Create a cute patterned background (tiny faint dots) */
+      background-color: #fff9fb;
+      background-image: radial-gradient(#ffc1da 1.5px, transparent 1.5px);
+      background-size: 15px 15px;
+      
+      /* A playful dashed border instead of a solid one */
+      border: 3px dashed #ff99c8;
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 26px;
       animation: fadeIn 1s ease;
 
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 14px;
+      /* Ensure stacked layout on mobile, side-by-side on larger screens */
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 18px;
       align-items: center;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(189, 97, 129, 0.15);
+      overflow: visible; /* Needed for elements to pop out */
     }
 
-    .memory h2,
-    .memory p {
-      grid-column: 1 / 2; /* left side */
+    /* Desktop layout tweak */
+    @media (min-width: 700px) {
+      .memory {
+        flex-direction: row;
+        align-items: flex-start;
+      }
     }
 
-    .memory img {
-      grid-column: 2 / 3;   /* right side */
-      grid-row: 1 / 3;      /* span title + paragraph */
+    /* The Text Content Container */
+    .memory-content {
+      flex: 1;
+    }
+
+    /* Cute Heading Style */
+    .memory h2 {
+      color: #ff4f8b;
+      text-align: center;
+      margin-top: 0;
+      position: relative;
+      display: inline-block;
+      /* Ensures the squiggly line stays under the text */
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* The squiggly line doodle under the heading */
+    .memory h2::after {
+      content: "";
+      display: block;
       width: 100%;
-      max-height: 280px;
+      height: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='%23ff6fa5' stroke-width='2' d='M0 3.5c5 0 5-3 10-3s5 3 10 3 5-3 10-3 5 3 10 3'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 20px auto;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    .memory p {
+      color: #555;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.7); /* semi-transparent bg for readability */
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* The "Polaroid Sticker" Image Style */
+    .memory img {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 280px; /* Slightly smaller to look like a photo card */
+      height: auto;
       object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid #ffc1da;
+      
+      /* The Polaroid look: Thick white border and shadow */
+      border: 8px solid #fff;
+      border-bottom-width: 20px; /* Thicker bottom like a real polaroid */
+      border-radius: 4px;
+      box-shadow: 5px 8px 15px rgba(0,0,0,0.2);
+      
+      /* The "Silly" Tilt */
+      transform: rotate(3deg);
+      transition: transform 0.3s ease;
+    }
+
+    /* Hover effect: straighten the photo slightly */
+    .memory:hover img {
+      transform: rotate(1deg) scale(1.02);
+    }
+
+    /* Adding a "Heart Sticker" to the photo corner using CSS */
+    .memory::before {
+      content: "♥";
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 30px;
+      color: #ff4f8b;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      z-index: 10;
+      transform: rotate(15deg);
+      pointer-events: none;
+    }
+    /* Alternate tilt for every second memory block for variety */
+    .memory:nth-child(even) img {
+        transform: rotate(-2deg);
+    }
+    .memory:nth-child(even)::before {
+      left: 15px;
+      right: auto;
+      transform: rotate(-15deg);
     }
 
     /* 💗 STICKY FOOTER LOVE NOTE – TEXT BLINK ONLY */
@@ -669,93 +758,161 @@
       cursor: pointer;
     }
     /* 💗 LOVE COUNTER */
-.love-counter {
-  margin: 18px auto 24px;
-  background: linear-gradient(135deg, #fff0f6, #ffe4f0);
-  border-radius: 20px;
-  border: 2px solid #ffb3d6;
-  padding: 14px 12px 16px;
-  box-shadow: 0 10px 28px rgba(255, 79, 139, 0.18);
-  text-align: center;
-}
+    .love-counter {
+      margin: 18px auto 24px;
+      background: linear-gradient(135deg, #fff0f6, #ffe4f0);
+      border-radius: 20px;
+      border: 2px solid #ffb3d6;
+      padding: 14px 12px 16px;
+      box-shadow: 0 10px 28px rgba(255, 79, 139, 0.18);
+      text-align: center;
+    }
 
-.counter-title {
-  margin: 0 0 2px;
-  font-size: 1.1rem;
-  color: #ff4f8b;
-  font-weight: 700;
-}
+    .counter-title {
+      margin: 0 0 2px;
+      font-size: 1.1rem;
+      color: #ff4f8b;
+      font-weight: 700;
+    }
 
-.counter-date {
-  margin: 0 0 10px;
-  font-size: 0.8rem;
-  color: #888;
-}
+    .counter-date {
+      margin: 0 0 10px;
+      font-size: 0.8rem;
+      color: #888;
+    }
 
-.counter-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
 
-.counter-box {
-  background: #fff;
-  border-radius: 14px;
-  padding: 8px 4px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-  border: 1px solid #ffd1e6;
-  animation: counterPop 0.6s ease;
-}
+    .counter-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 8px 4px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+      border: 1px solid #ffd1e6;
+      animation: counterPop 0.6s ease;
+    }
 
-@keyframes counterPop {
-  from {
-    transform: scale(0.85);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+    @keyframes counterPop {
+      from {
+        transform: scale(0.85);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
 
-.counter-number {
-  display: block;
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #ff4f8b;
-}
+    .counter-number {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #ff4f8b;
+    }
 
-.counter-label {
-  font-size: 0.7rem;
-  color: #666;
-}
+    .counter-label {
+      font-size: 0.7rem;
+      color: #666;
+    }
 
-/* mobile tweak */
-@media (max-width: 500px) {
-  .counter-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-/* ✨ Glow animation on seconds change */
-.counter-glow {
-  animation: glowPulse 0.4s ease;
-}
+    /* mobile tweak */
+    @media (max-width: 500px) {
+      .counter-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-@keyframes glowPulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(255, 79, 139, 0);
-  }
-  50% {
-    transform: scale(1.15);
-    box-shadow: 0 0 14px rgba(255, 79, 139, 0.8);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(255, 79, 139, 0);
-  }
-}
+    /* 🎲 ANIMATED REASON GENERATOR */
+    .reason-section {
+      text-align: center;
+      margin: 30px auto;
+      max-width: 600px;
+      padding: 24px;
+      position: relative;
+    }
 
+    .reason-title {
+      color: #ff4f8b;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.5);
+    }
+
+    .reason-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px dashed #ffb3d6;
+      border-radius: 18px;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 20px rgba(255, 179, 214, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .reason-card:hover {
+      transform: translateY(-3px);
+    }
+
+    #reason-display {
+      font-size: 1.05rem;
+      color: #555;
+      font-style: italic;
+      margin: 0;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    .reason-btn {
+      background: linear-gradient(45deg, #ff4f8b, #ff7eb3, #ff4f8b);
+      background-size: 200% auto;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 99px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 79, 139, 0.4);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      animation: gradientMove 3s infinite linear;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .reason-btn:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 79, 139, 0.5);
+    }
+
+    .reason-btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-heart {
+      font-size: 1.2rem;
+      animation: heartBeat 1.2s infinite;
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.3); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
 
   </style>
 </head>
@@ -881,31 +1038,42 @@
         </div>
       </div>
       <div class="love-counter">
-      <h2 class="counter-title">Since The Day Our Hearts First Met 🤝💗</h2>
-      <p class="counter-date">6 July</p>
+        <h2 class="counter-title">Since The Day Our Hands First Met 🤝💗</h2>
+        <p class="counter-date">6 July</p>
 
-      <div class="counter-grid" id="loveCounter">
-        <div class="counter-box">
-          <span class="counter-number" id="c-days">0</span>
-          <span class="counter-label">Days</span>
-        </div>
+        <div class="counter-grid" id="loveCounter">
+          <div class="counter-box">
+            <span class="counter-number" id="c-days">0</span>
+            <span class="counter-label">Days</span>
+          </div>
 
-        <div class="counter-box">
-          <span class="counter-number" id="c-hours">0</span>
-          <span class="counter-label">Hours</span>
-        </div>
+          <div class="counter-box">
+            <span class="counter-number" id="c-hours">0</span>
+            <span class="counter-label">Hours</span>
+          </div>
 
-        <div class="counter-box">
-          <span class="counter-number" id="c-minutes">0</span>
-          <span class="counter-label">Minutes</span>
-        </div>
+          <div class="counter-box">
+            <span class="counter-number" id="c-minutes">0</span>
+            <span class="counter-label">Minutes</span>
+          </div>
 
-        <div class="counter-box">
-          <span class="counter-number" id="c-seconds">0</span>
-          <span class="counter-label">Seconds</span>
+          <div class="counter-box">
+            <span class="counter-number" id="c-seconds">0</span>
+            <span class="counter-label">Seconds</span>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div class="reason-section">
+        <h3 class="reason-title">✨ Why I Love You? ✨</h3>
+        <div class="reason-card">
+          <p id="reason-display">Click the button below! 👇</p>
+        </div>
+        <button class="reason-btn" onclick="showReason()">
+          <span class="btn-text">Tell me why 🥺</span>
+          <span class="btn-heart">💗</span>
+        </button>
+      </div>
 
       <div class="timeline-section" id="our-story">
         <div class="timeline-inner">
@@ -985,43 +1153,54 @@
       </div>
 
       <div class="memory">
-        <h2>💗💞 The Day We First Spoke 💞💗</h2>
-        <p>
-          That moment when everything felt different. I didn’t know yet,
-          but my heart already chose you that day. 🥺💗  
-          This was the beginning of *us*.It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿
-        </p>
+        <div class="memory-content">
+          <h2>💗💞 The Day We First Spoke 💞💗</h2>
+          <p>
+            That moment when everything felt different. I didn’t know yet,
+            but my heart already chose you that day. 🥺💗  
+            This was the beginning of *us*.It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿
+          </p>
+        </div>
         <img src="images/first.jpg" alt="First memory">
       </div>
 
       <div class="memory">
-        <h2>🌙 Our Late Night Talks</h2>
-        <p>
-          When the whole world slept but we stayed awake,
-          sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...
-        </p>
+        <div class="memory-content">
+          <h2>🌙 Our Late Night Talks</h2>
+          <p>
+            When the whole world slept but we stayed awake,
+            sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...
+          </p>
+        </div>
         <img src="images/night.jpg" alt="Late night chat">
       </div>
 
       <div class="memory">
-        <h2>💖 Every Little Moment</h2>
-        <p>
-          From silly fights to tight hugs,
-          from missed calls to long smiles —
-          everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿
-        </p>
+        <div class="memory-content">
+          <h2>💖 Every Little Moment</h2>
+          <p>
+            From silly fights to tight hugs,
+            from missed calls to long smiles —
+            everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿
+          </p>
+        </div>
         <img src="images/us.jpg" alt="Us together">
       </div>
 
       <div class="memory">
-        <h2>Our Fav Moment🥹</h2>
-        <p>
-          It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me  was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day! 
-        </p>
+        <div class="memory-content">
+          <h2>Our Fav Moment🥹</h2>
+          <p>
+            It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me  was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day! 
+          </p>
+        </div>
         <img src="images/us.jpg" alt="Us together">
       </div>
 
-    </div> </div> <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true">
+    </div> 
+  </div> 
+
+  <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true">
     <div class="love-string"></div>
     <div class="love-message-box">
       <p>
@@ -1195,55 +1374,72 @@
       });
     }
     // 💗 LOVE COUNTER — Since 6 July (First Handshake)
-function startLoveCounter() {
-  // IMPORTANT: set the YEAR correctly
-  const startDate = new Date("2024-07-06T22:00:00"); // change year if needed
+    function startLoveCounter() {
+      // IMPORTANT: set the YEAR correctly
+      const startDate = new Date("2024-07-06T22:00:00"); // change year if needed
 
-  function updateCounter() {
-    const now = new Date();
-    let diff = now - startDate;
-    if (diff < 0) diff = 0;
+      function updateCounter() {
+        const now = new Date();
+        let diff = now - startDate;
+        if (diff < 0) diff = 0;
 
-    const totalSeconds = Math.floor(diff / 1000);
-    const days = Math.floor(totalSeconds / (3600 * 24));
-    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-    const d = document.getElementById("c-days");
-    const h = document.getElementById("c-hours");
-    const m = document.getElementById("c-minutes");
-    const s = document.getElementById("c-seconds");
+        const d = document.getElementById("c-days");
+        const h = document.getElementById("c-hours");
+        const m = document.getElementById("c-minutes");
+        const s = document.getElementById("c-seconds");
 
-    if (!d || !h || !m || !s) return;
+        if (!d || !h || !m || !s) return;
 
-    d.textContent = days;
-    h.textContent = hours;
-    m.textContent = minutes;
-    // animate seconds on every change
-if (s.textContent !== seconds.toString()) {
-  s.classList.remove("counter-glow"); // reset
-  void s.offsetWidth;                 // re-trigger animation
-  s.classList.add("counter-glow");
-}
+        d.textContent = days;
+        h.textContent = hours;
+        m.textContent = minutes;
+        s.textContent = seconds;
+      }
 
-s.textContent = seconds;
+      updateCounter();
+      setInterval(updateCounter, 1000);
+    }
 
-  }
+    // ✅ start the counter ONLY after unlock
+    document.addEventListener("DOMContentLoaded", () => {
+      startLoveCounter();
+    });
 
-  updateCounter();
-  setInterval(updateCounter, 1000);
-}
+    // 🎲 REASONS ARRAY & LOGIC
+    const reasons = [
+      "Because you make even boring days feel special.",
+      "Because of the way your eyes light up when you smile.",
+      "Because you are the only one who understands my weird jokes.",
+      "Because your voice is my favorite sound.",
+      "Because you support my dreams.",
+      "Because you look cute even when you are angry.",
+      "Because being with you feels like home.",
+      "Because you have the kindest heart.",
+      "Because you make me want to be a better man.",
+      "Because I just can't imagine a tomorrow without you."
+    ];
 
-// ✅ start the counter ONLY after unlock
-document.addEventListener("DOMContentLoaded", () => {
-  startLoveCounter();
-});
+    function showReason() {
+      const display = document.getElementById("reason-display");
+      // Fade out effect
+      display.style.opacity = 0;
+      
+      setTimeout(() => {
+        // Pick a random reason
+        const random = reasons[Math.floor(Math.random() * reasons.length)];
+        display.textContent = `"${random}"`;
+        // Fade in
+        display.style.opacity = 1;
+      }, 300);
+    }
 
   </script>
 
 </body>
 </html>
-
-
-
