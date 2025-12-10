@@ -294,34 +294,108 @@
       color: #d64375;
     }
 
-    /* 💌 MEMORIES – text left, image right */
+    /* 💌 MEMORIES – Scrapbook / Polaroid style */
     .memory {
-      background: linear-gradient(135deg, #fff0f6, #fce4ff);
-      border: 1px solid #ffd1e6;
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 18px;
+      background-color: #fff9fb;
+      background-image: radial-gradient(#ffc1da 1.5px, transparent 1.5px);
+      background-size: 15px 15px;
+      border: 3px dashed #ff99c8;
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 26px;
       animation: fadeIn 1s ease;
 
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 14px;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 18px;
       align-items: center;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(189, 97, 129, 0.15);
+      overflow: visible;
     }
 
-    .memory h2,
+    @media (min-width: 700px) {
+      .memory {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    .memory-content {
+      flex: 1;
+    }
+
+    .memory h2 {
+      color: #ff4f8b;
+      text-align: center;
+      margin-top: 0;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .memory h2::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='%23ff6fa5' stroke-width='2' d='M0 3.5c5 0 5-3 10-3s5 3 10 3 5-3 10-3 5 3 10 3'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 20px auto;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
     .memory p {
-      grid-column: 1 / 2; /* left side */
+      color: #555;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .memory img {
-      grid-column: 2 / 3;   /* right side */
-      grid-row: 1 / 3;      /* span title + paragraph */
+      flex: 0 0 auto;
       width: 100%;
-      max-height: 280px;
+      max-width: 280px;
+      height: auto;
       object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid #ffc1da;
+
+      border: 8px solid #fff;
+      border-bottom-width: 20px;
+      border-radius: 4px;
+      box-shadow: 5px 8px 15px rgba(0,0,0,0.2);
+      transform: rotate(3deg);
+      transition: transform 0.3s ease;
+    }
+
+    .memory:hover img {
+      transform: rotate(1deg) scale(1.02);
+    }
+
+    .memory::before {
+      content: "♥";
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 30px;
+      color: #ff4f8b;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      z-index: 10;
+      transform: rotate(15deg);
+      pointer-events: none;
+    }
+
+    .memory:nth-child(even) img {
+      transform: rotate(-2deg);
+    }
+    .memory:nth-child(even)::before {
+      left: 15px;
+      right: auto;
+      transform: rotate(-15deg);
     }
 
     /* 💗 STICKY FOOTER LOVE NOTE – TEXT BLINK ONLY */
@@ -344,13 +418,11 @@
       transition: transform 0.6s ease, opacity 0.6s ease;
     }
 
-    /* only appears after unlock */
     body.unlocked .love-note {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* ✅ ONLY THE TEXT BLINKS */
     .love-note span {
       animation: textBlink 1.4s ease-in-out infinite;
     }
@@ -424,6 +496,7 @@
         width: 46%;
       }
     }
+
     /* ───── Big collage page ───── */
     .collage-section {
       margin: 18px 0 22px;
@@ -431,14 +504,13 @@
 
     .collage-full {
       width: 100%;
-      height: auto;         /* keeps original aspect ratio */
+      height: auto;
       display: block;
       border-radius: 18px;
       box-shadow: 0 10px 26px rgba(0,0,0,0.18);
       border: 2px solid rgba(255,255,255,0.9);
     }
 
-    /* optional small caption under the photo */
     .collage-caption-text {
       margin-top: 8px;
       text-align: center;
@@ -484,7 +556,6 @@
       opacity: 0.4;
     }
 
-    /* ✅ UPDATED SLOW ANIMATION HERE */
     .timeline-item {
       position: relative;
       margin: 18px 0 26px;
@@ -492,11 +563,10 @@
       align-items: flex-start;
       opacity: 0;
       transform: translateX(-40px);
-      /* Increased to 2.5s for a very slow, dreamy entrance */
-      transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1), transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* right side items slide from right */
     .timeline-item.from-right {
       justify-content: flex-end;
       transform: translateX(40px);
@@ -561,7 +631,6 @@
       line-height: 1.4;
     }
 
-    /* mobile: center everything, no left/right alternation */
     @media (max-width: 700px) {
       .timeline-line {
         left: 10px;
@@ -575,7 +644,7 @@
 
       .timeline-item,
       .timeline-item.from-right {
-        transform: translateX(0); /* base transform; animation still handles entry */
+        transform: translateX(0);
       }
 
       .timeline-card {
@@ -585,19 +654,13 @@
       }
     }
 
-
-    /* mobile tweaks */
-    @media (max-width: 600px) {
-      .collage-modal-inner img { height: 70vh; }
-      .collage-caption { font-size: 0.8rem; padding: 5px 8px; right: 10px; bottom: 10px; }
-    }
-    /* 💌 HANGING LOVE MESSAGE (FALLS FROM TOP ON A STRING) */
+    /* 💌 HANGING LOVE MESSAGE (STRING POPUP) */
     .love-message-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       display: none;
-      align-items: flex-start;   /* start from top */
+      align-items: flex-start;
       justify-content: center;
       z-index: 10050;
       padding-top: 0;
@@ -607,7 +670,6 @@
       display: flex;
     }
 
-    /* STRING */
     .love-string {
       position: absolute;
       top: 0;
@@ -618,9 +680,8 @@
       transform: translateX(-50%);
     }
 
-    /* MESSAGE BOX */
     .love-message-box {
-      margin-top: 140px; /* where it hangs */
+      margin-top: 140px;
       background: #fff7fb;
       border-radius: 18px;
       padding: 18px 16px;
@@ -632,10 +693,9 @@
 
       transform: translateY(-120vh);
       animation: fallDown 1.4s ease-out forwards;
-      position: relative; /* Fixed context */
+      position: relative;
     }
 
-    /* FALL ANIMATION */
     @keyframes fallDown {
       0% {
         transform: translateY(-120vh);
@@ -668,80 +728,462 @@
       font-size: 0.85rem;
       cursor: pointer;
     }
+
     /* 💗 LOVE COUNTER */
-.love-counter {
-  margin: 18px auto 24px;
-  background: linear-gradient(135deg, #fff0f6, #ffe4f0);
-  border-radius: 20px;
-  border: 2px solid #ffb3d6;
-  padding: 14px 12px 16px;
-  box-shadow: 0 10px 28px rgba(255, 79, 139, 0.18);
-  text-align: center;
-}
+    .love-counter {
+      margin: 18px auto 24px;
+      background: linear-gradient(135deg, #fff0f6, #ffe4f0);
+      border-radius: 20px;
+      border: 2px solid #ffb3d6;
+      padding: 14px 12px 16px;
+      box-shadow: 0 10px 28px rgba(255, 79, 139, 0.18);
+      text-align: center;
+    }
 
-.counter-title {
-  margin: 0 0 2px;
-  font-size: 1.1rem;
-  color: #ff4f8b;
-  font-weight: 700;
-}
+    .counter-title {
+      margin: 0 0 2px;
+      font-size: 1.1rem;
+      color: #ff4f8b;
+      font-weight: 700;
+    }
 
-.counter-date {
-  margin: 0 0 10px;
-  font-size: 0.8rem;
-  color: #888;
-}
+    .counter-date {
+      margin: 0 0 10px;
+      font-size: 0.8rem;
+      color: #888;
+    }
 
-.counter-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
 
-.counter-box {
-  background: #fff;
-  border-radius: 14px;
-  padding: 8px 4px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-  border: 1px solid #ffd1e6;
-  animation: counterPop 0.6s ease;
-}
+    .counter-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 8px 4px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+      border: 1px solid #ffd1e6;
+      animation: counterPop 0.6s ease;
+    }
 
-@keyframes counterPop {
-  from {
-    transform: scale(0.85);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+    @keyframes counterPop {
+      from {
+        transform: scale(0.85);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
 
-.counter-number {
-  display: block;
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #ff4f8b;
-}
+    .counter-number {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #ff4f8b;
+    }
 
-.counter-label {
-  font-size: 0.7rem;
-  color: #666;
-}
+    .counter-label {
+      font-size: 0.7rem;
+      color: #666;
+    }
 
-/* mobile tweak */
-@media (max-width: 500px) {
-  .counter-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+    @media (max-width: 500px) {
+      .counter-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* 🎲 ANIMATED REASON GENERATOR */
+    .reason-section {
+      text-align: center;
+      margin: 30px auto;
+      max-width: 600px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .reason-title {
+      color: #ff4f8b;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.5);
+    }
+
+    .reason-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px dashed #ffb3d6;
+      border-radius: 18px;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 20px rgba(255, 179, 214, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .reason-card:hover {
+      transform: translateY(-3px);
+    }
+
+    #reason-display {
+      font-size: 1.05rem;
+      color: #555;
+      font-style: italic;
+      margin: 0;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    .reason-btn {
+      background: linear-gradient(45deg, #ff4f8b, #ff7eb3, #ff4f8b);
+      background-size: 200% auto;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 99px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 79, 139, 0.4);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      animation: gradientMove 3s infinite linear;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .reason-btn:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 79, 139, 0.5);
+    }
+
+    .reason-btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-heart {
+      font-size: 1.2rem;
+      animation: heartBeat 1.2s infinite;
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.3); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    /* ─── Open-When letters styles ─── */
+    .open-when-section {
+      margin: 20px 0 30px;
+      text-align: center;
+    }
+
+    .ow-heading {
+      color: #ff4f8b;
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+    }
+
+    .ow-sub {
+      color: #666;
+      margin: 0 0 12px;
+      font-size: 0.9rem;
+    }
+
+    .ow-envelope-toggle {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .ow-envelope-body {
+      background: linear-gradient(135deg, #fff6fb, #ffe0f2);
+      border-radius: 18px;
+      border: 2px solid #ffb3d6;
+      padding: 10px 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ow-envelope-body:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+    }
+
+    .ow-envelope-icon {
+      font-size: 30px;
+    }
+
+    .ow-envelope-text-main {
+      font-weight: 700;
+      color: #d64375;
+      font-size: 0.95rem;
+    }
+
+    .ow-envelope-text-sub {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .ow-envelope-badge {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 0.75rem;
+      background: #ff4f8b;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .ow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 900px;
+      margin: 0 auto;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(10px);
+      overflow: hidden;
+      pointer-events: none;
+      transition: max-height 0.6s ease, opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .ow-grid.show {
+      max-height: 600px;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .ow-card {
+      background: linear-gradient(135deg,#fff6fb,#fff0f6);
+      border: 1px solid #ffd1e6;
+      border-radius: 14px;
+      padding: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: transform .18s ease, box-shadow .18s ease, opacity 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 110px;
+      display: inline-flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(18px) scale(0.97);
+    }
+
+    .ow-grid.show .ow-card {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .ow-grid.show .ow-card:nth-child(1) { transition-delay: 0.05s; }
+    .ow-grid.show .ow-card:nth-child(2) { transition-delay: 0.12s; }
+    .ow-grid.show .ow-card:nth-child(3) { transition-delay: 0.19s; }
+    .ow-grid.show .ow-card:nth-child(4) { transition-delay: 0.26s; }
+
+    .ow-card:active { transform: translateY(3px) scale(.995); }
+    .ow-card:hover { box-shadow: 0 12px 26px rgba(0,0,0,0.08); }
+
+    .ow-card-inner {
+      width: 100%;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .ow-icon {
+      font-size: 26px;
+      width: 46px;
+      height:46px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      background: #fff;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+      color:#ff6fa5;
+    }
+
+    .ow-title {
+      font-weight:700;
+      color:#d64375;
+      font-size:0.95rem;
+      margin-bottom:4px;
+    }
+
+    .ow-preview {
+      color:#666;
+      font-size:0.85rem;
+      line-height:1.25;
+      opacity:0.95;
+    }
+
+    .ow-locked {
+      position:absolute;
+      right:10px;
+      top:10px;
+      font-size:18px;
+      color:#ff6fa5;
+    }
+
+    @media (max-width: 900px) {
+      .ow-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 460px) {
+      .ow-grid { grid-template-columns: 1fr; }
+    }
+
+    /* modal */
+    .ow-modal {
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:10050;
+      align-items:center;
+      justify-content:center;
+    }
+    .ow-modal[aria-hidden="false"] {
+      display:flex;
+    }
+    .ow-modal-backdrop {
+      position:absolute;
+      inset:0;
+      background: rgba(6,6,8,0.6);
+      backdrop-filter: blur(4px);
+    }
+    .ow-modal-content {
+      position:relative;
+      z-index:10060;
+      max-width:420px;
+      width:92%;
+      background: linear-gradient(180deg,#fff8fb,#fff2f7);
+      border-radius:14px;
+      padding:16px;
+      box-shadow:0 20px 50px rgba(0,0,0,0.3);
+      border:1px solid #ffd1e6;
+    }
+
+    .ow-locked-title {
+      font-weight:800;
+      color:#ff4f8b;
+      margin-bottom:6px;
+      text-align:center;
+    }
+    .ow-locked-instr {
+      color:#666;
+      text-align:center;
+      margin:0 0 12px;
+    }
+    .ow-pass-input {
+      width:100%;
+      padding:10px;
+      border-radius:10px;
+      border:1px solid #ffd6e8;
+      margin-bottom:12px;
+      text-align:center;
+      font-size:0.95rem;
+    }
+    .ow-locked-actions {
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      margin-bottom:8px;
+    }
+    .ow-btn {
+      padding:8px 14px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#ff6fa5,#ff99c8);
+      color:#fff;
+      cursor:pointer;
+      font-size:0.9rem;
+    }
+    .ow-btn.secondary {
+      background:linear-gradient(135deg,#ffeef6,#ffbcd9);
+      color:#d64375;
+      border:1px solid rgba(214,106,138,0.18);
+    }
+
+    .ow-unlocked-view h3 {
+      margin:0 0 8px;
+      color:#d64375;
+      text-align:center;
+    }
+    .ow-unlocked-text {
+      color:#444;
+      line-height:1.5;
+      font-size:0.95rem;
+      max-height:50vh;
+      overflow:auto;
+      padding:6px 4px;
+    }
+
+    .ow-error {
+      color:crimson;
+      font-size:0.85rem;
+      text-align:center;
+      min-height:20px;
+      margin-top:6px;
+    }
+
+    .ow-close {
+      position:absolute;
+      right:12px;
+      top:10px;
+      background:transparent;
+      border:none;
+      font-size:18px;
+      cursor:pointer;
+      color:#c33;
+    }
+
+    .ow-unlocked-view,
+    .ow-locked-view {
+      animation: owFade .36s ease;
+    }
+    @keyframes owFade {
+      from { opacity:0; transform: translateY(-6px); }
+      to   { opacity:1; transform:none; }
+    }
+
+    .ow-shake {
+      animation: owShake 0.25s ease;
+    }
+    @keyframes owShake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
 
   </style>
 </head>
 
 <body>
 
+  <!-- 🔳 BACKGROUND COLLAGE -->
   <div class="bg-collage-grid">
     <div class="tile"><img src="images/bg1.jpg" alt=""></div>
     <div class="tile"><img src="images/bg2.jpg" alt=""></div>
@@ -756,6 +1198,7 @@
     <div class="sub">A secret cute little world only for us 🥺✨</div>
     <div class="sub"><b>I am just a man written by you..</b></div>
 
+    <!-- 🔐 PASSWORD SCREEN -->
     <div id="lock">
       <p>Enter our secret password to unlock our memories 💕</p>
 
@@ -768,8 +1211,10 @@
       <div id="error" class="error"></div>
     </div>
 
+    <!-- 💕 BLOG CONTENT -->
     <div id="blog">
 
+      <!-- 🎥 CELEB TROLL REELS -->
       <div class="reel-section">
         <div class="reel-title">Here are your favourite guys 😏🎥</div>
         <div class="reel-sub">
@@ -804,6 +1249,7 @@
         </div>
       </div>
 
+      <!-- 📰 SWEETHEART JOURNAL -->
       <div class="journal-wrapper">
         <div class="journal-inner">
           <div class="journal-top-line">
@@ -830,10 +1276,10 @@
             <div class="journal-column">
               <div class="journal-subtitle">Little Moments That Started It</div>
               <div class="journal-list">
-                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you<p>
+                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you</p>
                 <p class="journal-heart-bullet"><b>Late-Night Talks:</b> Where every word and text meant whole world</p>
                 <p class="journal-heart-bullet"><b>Inside Jokes:</b> The kind only we understand.</p>
-                <p class="journal-heart-bullet"><b>Random Good Mornings:</b>The texts i loved!</p>
+                <p class="journal-heart-bullet"><b>Random Good Mornings:</b> The texts i loved!</p>
               </div>
             </div>
 
@@ -849,6 +1295,8 @@
           </div>
         </div>
       </div>
+
+      <!-- 🌸 BIG COLLAGE PAGE -->
       <div class="collage-section">
         <img
           class="collage-full"
@@ -860,33 +1308,48 @@
           Our Collage — a whole page of us 💗
         </div>
       </div>
+
+      <!-- 💗 LOVE COUNTER -->
       <div class="love-counter">
-      <h2 class="counter-title">Since The Day Our Hands First Met 🤝💗</h2>
-      <p class="counter-date">6 July</p>
+        <h2 class="counter-title">Since The Day Our Hands First Met 🤝💗</h2>
+        <p class="counter-date">6 July, around 10 pm</p>
 
-      <div class="counter-grid" id="loveCounter">
-        <div class="counter-box">
-          <span class="counter-number" id="c-days">0</span>
-          <span class="counter-label">Days</span>
-        </div>
+        <div class="counter-grid">
+          <div class="counter-box">
+            <span class="counter-number" id="c-days">0</span>
+            <span class="counter-label">Days</span>
+          </div>
 
-        <div class="counter-box">
-          <span class="counter-number" id="c-hours">0</span>
-          <span class="counter-label">Hours</span>
-        </div>
+          <div class="counter-box">
+            <span class="counter-number" id="c-hours">0</span>
+            <span class="counter-label">Hours</span>
+          </div>
 
-        <div class="counter-box">
-          <span class="counter-number" id="c-minutes">0</span>
-          <span class="counter-label">Minutes</span>
-        </div>
+          <div class="counter-box">
+            <span class="counter-number" id="c-minutes">0</span>
+            <span class="counter-label">Minutes</span>
+          </div>
 
-        <div class="counter-box">
-          <span class="counter-number" id="c-seconds">0</span>
-          <span class="counter-label">Seconds</span>
+          <div class="counter-box">
+            <span class="counter-number" id="c-seconds">0</span>
+            <span class="counter-label">Seconds</span>
+          </div>
         </div>
       </div>
-    </div>
 
+      <!-- 🎲 REASON GENERATOR -->
+      <div class="reason-section">
+        <h3 class="reason-title">✨ Why I Love You? ✨</h3>
+        <div class="reason-card">
+          <p id="reason-display">Click the button below! 👇</p>
+        </div>
+        <button class="reason-btn" onclick="showReason()">
+          <span class="btn-text">Tell me why 🥺</span>
+          <span class="btn-heart">💗</span>
+        </button>
+      </div>
+
+      <!-- 💞 TIMELINE -->
       <div class="timeline-section" id="our-story">
         <div class="timeline-inner">
           <h2 class="timeline-heading">Our Story, Step by Step 💗</h2>
@@ -964,44 +1427,122 @@
         </div>
       </div>
 
+      <!-- ✉️ OPEN-WHEN SECTION -->
+      <section class="open-when-section" id="openWhenSection">
+        <h2 class="ow-heading">Open When… ✉️</h2>
+        <p class="ow-sub">Tiny letters she can open whenever her heart feels a certain way.</p>
+
+        <!-- Envelope toggle -->
+        <button class="ow-envelope-toggle" id="owEnvelopeToggle">
+          <div class="ow-envelope-body">
+            <div class="ow-envelope-icon">📨</div>
+            <div>
+              <div class="ow-envelope-text-main">Open your secret letters</div>
+              <div class="ow-envelope-text-sub">Tap and all your little “open when…” notes will jump out.</div>
+            </div>
+            <div class="ow-envelope-badge">4 letters</div>
+          </div>
+        </button>
+
+        <!-- Letters grid -->
+        <div class="ow-grid" id="owGrid">
+          <button class="ow-card" data-id="sad" data-pass="hitu" aria-label="Open when you're sad">
+            <div class="ow-card-inner">
+              <div class="ow-icon">💌</div>
+              <div>
+                <div class="ow-title">Open when you're sad</div>
+                <div class="ow-preview">For when your heart needs a hug...</div>
+              </div>
+              <div class="ow-locked">🔒</div>
+            </div>
+          </button>
+
+          <button class="ow-card" data-id="miss" data-pass="hitu" aria-label="Open when you miss me">
+            <div class="ow-card-inner">
+              <div class="ow-icon">🥺</div>
+              <div>
+                <div class="ow-title">Open when you miss me</div>
+                <div class="ow-preview">When distance is loud and you need me near...</div>
+              </div>
+              <div class="ow-locked">🔒</div>
+            </div>
+          </button>
+
+          <button class="ow-card" data-id="happy" data-pass="hitu" aria-label="Open when you need a laugh">
+            <div class="ow-card-inner">
+              <div class="ow-icon">😂</div>
+              <div>
+                <div class="ow-title">Open when you need a laugh</div>
+                <div class="ow-preview">A silly memory just for giggles...</div>
+              </div>
+              <div class="ow-locked">🔒</div>
+            </div>
+          </button>
+
+          <button class="ow-card" data-id="love" data-pass="hitu" aria-label="Open when you want to know why I love you">
+            <div class="ow-card-inner">
+              <div class="ow-icon">💖</div>
+              <div>
+                <div class="ow-title">Open when you want to know why I love you</div>
+                <div class="ow-preview">Short reasons that fit in my pocket...</div>
+              </div>
+              <div class="ow-locked">🔒</div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- 🧷 MEMORIES -->
       <div class="memory">
-        <h2>💗💞 The Day We First Spoke 💞💗</h2>
-        <p>
-          That moment when everything felt different. I didn’t know yet,
-          but my heart already chose you that day. 🥺💗  
-          This was the beginning of *us*.It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿
-        </p>
+        <div class="memory-content">
+          <h2>💗💞 The Day We First Spoke 💞💗</h2>
+          <p>
+            That moment when everything felt different. I didn’t know yet,
+            but my heart already chose you that day. 🥺💗  
+            This was the beginning of *us*. It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt 🥹🧿
+          </p>
+        </div>
         <img src="images/first.jpg" alt="First memory">
       </div>
 
       <div class="memory">
-        <h2>🌙 Our Late Night Talks</h2>
-        <p>
-          When the whole world slept but we stayed awake,
-          sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...
-        </p>
+        <div class="memory-content">
+          <h2>🌙 Our Late Night Talks</h2>
+          <p>
+            When the whole world slept but we stayed awake,
+            sharing dreams, jokes, fears… and love. 💗 Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...
+          </p>
+        </div>
         <img src="images/night.jpg" alt="Late night chat">
       </div>
 
       <div class="memory">
-        <h2>💖 Every Little Moment</h2>
-        <p>
-          From silly fights to tight hugs,
-          from missed calls to long smiles —
-          everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿
-        </p>
+        <div class="memory-content">
+          <h2>💖 Every Little Moment</h2>
+          <p>
+            From silly fights to tight hugs,
+            from missed calls to long smiles —
+            everything with you is special. 💕 Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll ❤️‍🩹🧿
+          </p>
+        </div>
         <img src="images/us.jpg" alt="Us together">
       </div>
 
       <div class="memory">
-        <h2>Our Fav Moment🥹</h2>
-        <p>
-          It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me  was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day! 
-        </p>
+        <div class="memory-content">
+          <h2>Our Fav Moment🥹</h2>
+          <p>
+            It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me  was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day!
+          </p>
+        </div>
         <img src="images/us.jpg" alt="Us together">
       </div>
 
-    </div> </div> <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true">
+    </div> <!-- end #blog -->
+  </div> <!-- end .container -->
+
+  <!-- 💌 HANGING LOVE STRING POPUP -->
+  <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true">
     <div class="love-string"></div>
     <div class="love-message-box">
       <p>
@@ -1016,15 +1557,43 @@
     </div>
   </div>
 
+  <!-- 💗 STICKY FOOTER -->
   <div class="love-note">
     <span>
-      No matter how far you are…    
-      I’ll be right here with you. 💗🌙
+No matter how far you are…    
+I’ll be right here with you. 💗🌙
     </span>
   </div>
 
+  <!-- OPEN-WHEN MODAL -->
+  <div id="owModal" class="ow-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="ow-modal-backdrop" id="owBackdrop"></div>
+    <div class="ow-modal-content" role="document">
+      <button class="ow-close" id="owClose" aria-label="Close letter">✕</button>
+
+      <div class="ow-locked-view" id="owLockedView">
+        <div class="ow-locked-title">This letter is sealed ✉️</div>
+        <p class="ow-locked-instr">Enter the secret word to open it:</p>
+        <input id="owPasswordInput" class="ow-pass-input" type="password" placeholder="Type secret word" aria-label="Type secret word">
+        <div class="ow-locked-actions">
+          <button id="owTryBtn" class="ow-btn">Open</button>
+          <button id="owHintBtn" class="ow-btn secondary">Hint</button>
+        </div>
+        <div id="owError" class="ow-error" aria-live="polite"></div>
+      </div>
+
+      <div class="ow-unlocked-view" id="owUnlockedView" hidden>
+        <h3 id="owUnlockedTitle">Letter title</h3>
+        <div id="owUnlockedText" class="ow-unlocked-text"></div>
+        <div class="ow-locked-actions">
+          <button id="owCloseUnlock" class="ow-btn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const CORRECT_PASSWORD = "Hitarth777";  
+    const CORRECT_PASSWORD = "Hitarth777";
 
     const form = document.getElementById("login-form");
     const passInput = document.getElementById("password");
@@ -1032,10 +1601,10 @@
     const lock = document.getElementById("lock");
     const blog = document.getElementById("blog");
 
-    // 💌 popup elements
     const loveOverlay = document.getElementById("loveMessageOverlay");
     const loveCloseBtn = document.getElementById("loveMessageClose");
     let lovePopupScheduled = false;
+    let counterStarted = false;
 
     function showLovePopup() {
       if (!loveOverlay) return;
@@ -1053,13 +1622,11 @@
       if (lovePopupScheduled) return;
       lovePopupScheduled = true;
 
-      // show after 12 seconds of unlock
       setTimeout(() => {
-        // only show if still unlocked
         if (document.body.classList.contains("unlocked")) {
           showLovePopup();
         }
-      }, 12000);
+      }, 25000);  // 25 seconds
     }
 
     if (loveCloseBtn) {
@@ -1067,12 +1634,46 @@
     }
 
     if (loveOverlay) {
-      // close when clicking outside the box
       loveOverlay.addEventListener("click", (e) => {
         if (e.target === loveOverlay) {
           hideLovePopup();
         }
       });
+    }
+
+    // 💗 LOVE COUNTER – since 6 July, ~10 pm
+    function startLoveCounter() {
+      if (counterStarted) return;
+      counterStarted = true;
+
+      const startDate = new Date("2024-07-06T22:00:00");
+
+      function updateCounter() {
+        const now = new Date();
+        let diff = now - startDate;
+        if (diff < 0) diff = 0;
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        const d = document.getElementById("c-days");
+        const h = document.getElementById("c-hours");
+        const m = document.getElementById("c-minutes");
+        const s = document.getElementById("c-seconds");
+
+        if (!d || !h || !m || !s) return;
+
+        d.textContent = days;
+        h.textContent = hours;
+        m.textContent = minutes;
+        s.textContent = seconds;
+      }
+
+      updateCounter();
+      setInterval(updateCounter, 1000);
     }
 
     // 🔐 Password check
@@ -1086,7 +1687,6 @@
         blog.style.display = "block";
         document.body.classList.add("unlocked");
 
-        // 🎥 auto-play reels + tap to pause/play
         const reels = document.querySelectorAll(".autoplay-reel");
         reels.forEach((video) => {
           video.play().catch(() => {
@@ -1102,8 +1702,8 @@
           });
         });
 
-        // 💌 schedule soft love popup
         scheduleLovePopup();
+        startLoveCounter();
 
       } else {
         error.textContent = "Yaad rakho barabar 😭";
@@ -1127,7 +1727,7 @@
       }, 1200);
     });
 
-    // 💬 "I love you <3" appears every 15 seconds in blank space (after unlock)
+    // 💬 "I love you <3" every 25 seconds (after unlock)
     setInterval(() => {
       if (!document.body.classList.contains("unlocked")) return;
 
@@ -1147,9 +1747,9 @@
       setTimeout(() => {
         msg.remove();
       }, 3500);
-    }, 25000);  
+    }, 25000);
 
-    // 💞 TIMELINE SLIDE-IN ON SCROLL
+    // 💞 TIMELINE SLIDE-IN
     const timelineItems = document.querySelectorAll(".timeline-item");
     if (timelineItems.length) {
       const observer = new IntersectionObserver(
@@ -1161,57 +1761,146 @@
             }
           });
         },
-        {
-          threshold: 0.3,
-        }
+        { threshold: 0.3 }
       );
 
       timelineItems.forEach((item, index) => {
-        // even items slide from right side
         if (index % 2 === 1) {
           item.classList.add("from-right");
         }
         observer.observe(item);
       });
     }
-    // 💗 LOVE COUNTER — Since 6 July (First Handshake)
-function startLoveCounter() {
-  // IMPORTANT: set the YEAR correctly
-  const startDate = new Date("2024-07-06T22:00:00"); // change year if needed
 
-  function updateCounter() {
-    const now = new Date();
-    let diff = now - startDate;
-    if (diff < 0) diff = 0;
+    // 🎲 REASONS ARRAY & LOGIC
+    const reasons = [
+      "Because you make even boring days feel special.",
+      "Because of the way your eyes light up when you smile.",
+      "Because you are the only one who understands my weird jokes.",
+      "Because your voice is my favorite sound.",
+      "Because you support my dreams.",
+      "Because you look cute even when you are angry.",
+      "Because being with you feels like home.",
+      "Because you have the kindest heart.",
+      "Because you make me want to be a better man.",
+      "Because I just can't imagine a tomorrow without you."
+    ];
 
-    const totalSeconds = Math.floor(diff / 1000);
-    const days = Math.floor(totalSeconds / (3600 * 24));
-    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+    function showReason() {
+      const display = document.getElementById("reason-display");
+      display.style.opacity = 0;
 
-    const d = document.getElementById("c-days");
-    const h = document.getElementById("c-hours");
-    const m = document.getElementById("c-minutes");
-    const s = document.getElementById("c-seconds");
+      setTimeout(() => {
+        const random = reasons[Math.floor(Math.random() * reasons.length)];
+        display.textContent = `"${random}"`;
+        display.style.opacity = 1;
+      }, 300);
+    }
+    window.showReason = showReason; // so onclick works
 
-    if (!d || !h || !m || !s) return;
+    // ✉️ Envelope toggle
+    const owEnvelope = document.getElementById("owEnvelopeToggle");
+    const owGrid = document.getElementById("owGrid");
 
-    d.textContent = days;
-    h.textContent = hours;
-    m.textContent = minutes;
-    s.textContent = seconds;
-  }
+    if (owEnvelope && owGrid) {
+      owEnvelope.addEventListener("click", () => {
+        owGrid.classList.toggle("show");
+      });
+    }
 
-  updateCounter();
-  setInterval(updateCounter, 1000);
-}
+    // ===== Open-When letters behavior =====
+    (function () {
+      const LETTER_CONTENT = {
+        sad: `When you are sad — remember the time we stayed up till 4am talking. I hold you now in words: breathe, come back to me slowly. I love you.`,
+        miss: `When you miss me — press play on our song, close your eyes and imagine my stupid smile. I'm only a thought away. ♥`,
+        happy: `Silly memory: remember the time I tried to dance and fell? Laugh now on me. I keep a treasure of our dumbest moments for you.`,
+        love: `Why I love you: because you make ordinary days glow. Because your laugh rearranges my heartbeat. Because you.`
+      };
 
-// ✅ start the counter ONLY after unlock
-document.addEventListener("DOMContentLoaded", () => {
-  startLoveCounter();
-});
+      const cards = document.querySelectorAll(".ow-card");
+      const modal = document.getElementById("owModal");
+      const backdrop = document.getElementById("owBackdrop");
+      const closeBtn = document.getElementById("owClose");
+      const lockedView = document.getElementById("owLockedView");
+      const unlockedView = document.getElementById("owUnlockedView");
+      const passInputOW = document.getElementById("owPasswordInput");
+      const tryBtn = document.getElementById("owTryBtn");
+      const hintBtn = document.getElementById("owHintBtn");
+      const errorBox = document.getElementById("owError");
+      const unlockedTitle = document.getElementById("owUnlockedTitle");
+      const unlockedText = document.getElementById("owUnlockedText");
+      const closeUnlock = document.getElementById("owCloseUnlock");
 
+      let currentLetterId = null;
+      let currentPassword = null;
+
+      function openModal() {
+        if (!modal) return;
+        modal.setAttribute("aria-hidden", "false");
+        passInputOW.value = "";
+        errorBox.textContent = "";
+        lockedView.hidden = false;
+        unlockedView.hidden = true;
+        passInputOW.focus();
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.setAttribute("aria-hidden", "true");
+      }
+
+      cards.forEach((card) => {
+        card.addEventListener("click", () => {
+          currentLetterId = card.dataset.id;
+          currentPassword = (card.dataset.pass || "").toString().trim();
+          openModal();
+        });
+      });
+
+      function tryOpen() {
+        const attempt = (passInputOW.value || "").trim();
+        if (!currentLetterId) {
+          errorBox.textContent = "No letter selected.";
+          return;
+        }
+
+        if (attempt.toLowerCase() === (currentPassword || "").toLowerCase()) {
+          const titleElm = document.querySelector(`.ow-card[data-id="${currentLetterId}"] .ow-title`);
+          unlockedTitle.textContent = titleElm ? titleElm.textContent : "Letter";
+          unlockedText.textContent = LETTER_CONTENT[currentLetterId] || "Empty letter — add content in code.";
+          lockedView.hidden = true;
+          unlockedView.hidden = false;
+          errorBox.textContent = "";
+        } else {
+          errorBox.textContent = "Not quite — try again, my love.";
+          passInputOW.classList.remove("ow-shake");
+          void passInputOW.offsetWidth;
+          passInputOW.classList.add("ow-shake");
+        }
+      }
+
+      hintBtn.addEventListener("click", () => {
+        if (!currentPassword) return;
+        const hint = currentPassword.slice(0, Math.max(1, Math.floor(currentPassword.length / 3)));
+        errorBox.textContent = `Hint: starts with "${hint}"`;
+      });
+
+      tryBtn.addEventListener("click", tryOpen);
+      passInputOW.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") tryOpen();
+      });
+
+      closeBtn.addEventListener("click", closeModal);
+      closeUnlock.addEventListener("click", closeModal);
+
+      backdrop.addEventListener("click", (e) => {
+        if (e.target === backdrop) closeModal();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+    })();
   </script>
 
 </body>
