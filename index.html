@@ -913,6 +913,81 @@
       45% { transform: scale(1.3); }
       100% { transform: scale(1); }
     }
+    /* ─── Open-When letters styles ─── */
+.open-when-section { margin: 20px 0 26px; text-align: center; }
+.ow-heading { color: #ff4f8b; margin: 0 0 6px; font-size: 1.15rem; }
+.ow-sub { color: #666; margin: 0 0 12px; font-size: 0.9rem; }
+
+.ow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.ow-card {
+  background: linear-gradient(135deg,#fff6fb,#fff0f6);
+  border: 1px solid #ffd1e6;
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform .18s ease, box-shadow .18s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 110px;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.ow-card:active { transform: translateY(3px) scale(.995); }
+.ow-card:hover { transform: translateY(-6px); box-shadow: 0 12px 26px rgba(0,0,0,0.08); }
+
+.ow-card-inner { width: 100%; display:flex; gap:10px; align-items:flex-start; }
+.ow-icon { font-size: 26px; width: 46px; height:46px; display:flex; align-items:center; justify-content:center; border-radius:12px; background: #fff; box-shadow: 0 6px 14px rgba(0,0,0,0.06); color:#ff6fa5; }
+.ow-title { font-weight:700; color:#d64375; font-size:0.95rem; margin-bottom:4px; }
+.ow-preview { color:#666; font-size:0.85rem; line-height:1.25; opacity:0.95; }
+.ow-locked { position:absolute; right:10px; top:10px; font-size:18px; color:#ff6fa5; }
+
+/* smaller screens */
+@media (max-width: 900px) {
+  .ow-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 460px) {
+  .ow-grid { grid-template-columns: 1fr; }
+}
+
+/* modal */
+.ow-modal { display:none; position:fixed; inset:0; z-index:10050; align-items:center; justify-content:center; }
+.ow-modal[aria-hidden="false"] { display:flex; }
+.ow-modal-backdrop { position:absolute; inset:0; background: rgba(6,6,8,0.6); backdrop-filter: blur(4px); }
+.ow-modal-content {
+  position:relative; z-index:10060; max-width:420px; width:92%;
+  background: linear-gradient(180deg,#fff8fb,#fff2f7); border-radius:14px; padding:16px; box-shadow:0 20px 50px rgba(0,0,0,0.3); border:1px solid #ffd1e6;
+}
+
+/* locked view */
+.ow-locked-title { font-weight:800; color:#ff4f8b; margin-bottom:6px; text-align:center; }
+.ow-locked-instr { color:#666; text-align:center; margin:0 0 12px; }
+.ow-pass-input { width:100%; padding:10px; border-radius:10px; border:1px solid #ffd6e8; margin-bottom:12px; text-align:center; font-size:0.95rem; }
+.ow-locked-actions { display:flex; gap:8px; justify-content:center; margin-bottom:8px; }
+.ow-btn { padding:8px 14px; border-radius:999px; border:none; background:linear-gradient(135deg,#ff6fa5,#ff99c8); color:#fff; cursor:pointer; }
+.ow-btn.secondary { background:linear-gradient(135deg,#ffeef6,#ffbcd9); color:#d64375; border:1px solid rgba(214,106,138,0.18); }
+
+/* unlocked view */
+.ow-unlocked-view h3 { margin:0 0 8px; color:#d64375; text-align:center; }
+.ow-unlocked-text { color:#444; line-height:1.5; font-size:0.95rem; max-height:50vh; overflow:auto; padding:6px 4px; }
+
+/* error */
+.ow-error { color:crimson; font-size:0.85rem; text-align:center; min-height:20px; margin-top:6px; }
+
+/* close button */
+.ow-close { position:absolute; right:12px; top:10px; background:transparent; border:none; font-size:18px; cursor:pointer; color:#c33; }
+
+/* reveal animation */
+.ow-unlocked-view, .ow-locked-view { animation: owFade .36s ease; }
+@keyframes owFade { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform:none; } }
+
 
   </style>
 </head>
@@ -1221,6 +1296,81 @@
       I’ll be right here with you. 💗🌙
     </span>
   </div>
+  <!-- 💌 OPEN-WHEN LETTERS -->
+<section class="open-when-section" id="openWhenSection">
+  <h2 class="ow-heading">Open When… ✉️</h2>
+  <p class="ow-sub">Little letters for moments she can open whenever she needs a smile.</p>
+
+  <div class="ow-grid">
+    <button class="ow-card" data-id="sad" data-pass="hitu" aria-label="Open when you're sad">
+      <div class="ow-card-inner">
+        <div class="ow-icon">💌</div>
+        <div class="ow-title">Open when you're sad</div>
+        <div class="ow-preview">For when your heart needs a hug...</div>
+        <div class="ow-locked">🔒</div>
+      </div>
+    </button>
+
+    <button class="ow-card" data-id="miss" data-pass="hitu" aria-label="Open when you miss me">
+      <div class="ow-card-inner">
+        <div class="ow-icon">🥺</div>
+        <div class="ow-title">Open when you miss me</div>
+        <div class="ow-preview">When distance is loud and you need me near...</div>
+        <div class="ow-locked">🔒</div>
+      </div>
+    </button>
+
+    <button class="ow-card" data-id="happy" data-pass="hitu" aria-label="Open when you need a laugh">
+      <div class="ow-card-inner">
+        <div class="ow-icon">😂</div>
+        <div class="ow-title">Open when you need a laugh</div>
+        <div class="ow-preview">A silly memory just for giggles...</div>
+        <div class="ow-locked">🔒</div>
+      </div>
+    </button>
+
+    <button class="ow-card" data-id="love" data-pass="hitu" aria-label="Open when you want to know why I love you">
+      <div class="ow-card-inner">
+        <div class="ow-icon">💖</div>
+        <div class="ow-title">Open when you want to know why I love you</div>
+        <div class="ow-preview">Short reasons that fit in my pocket...</div>
+        <div class="ow-locked">🔒</div>
+      </div>
+    </button>
+  </div>
+</section>
+
+<!-- MODAL (shared by all letters) -->
+<div id="owModal" class="ow-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="ow-modal-backdrop" id="owBackdrop"></div>
+  <div class="ow-modal-content" role="document">
+    <button class="ow-close" id="owClose" aria-label="Close letter">✕</button>
+
+    <!-- locked prompt -->
+    <div class="ow-locked-view" id="owLockedView">
+      <div class="ow-locked-title">This letter is sealed ✉️</div>
+      <p class="ow-locked-instr">Enter the secret word to open it:</p>
+      <input id="owPasswordInput" class="ow-pass-input" type="password" placeholder="Type secret word" aria-label="Type secret word">
+      <div class="ow-locked-actions">
+        <button id="owTryBtn" class="ow-btn">Open</button>
+        <button id="owHintBtn" class="ow-btn secondary">Hint</button>
+      </div>
+      <div id="owError" class="ow-error" aria-live="polite"></div>
+    </div>
+
+    <!-- unlocked content -->
+    <div class="ow-unlocked-view" id="owUnlockedView" hidden>
+      <h3 id="owUnlockedTitle">Letter title</h3>
+      <div id="owUnlockedText" class="ow-unlocked-text">
+        <!-- filled from JS -->
+      </div>
+      <div class="ow-unlocked-actions">
+        <button id="owCloseUnlock" class="ow-btn">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <script>
     const CORRECT_PASSWORD = "Hitarth777";  
@@ -1438,6 +1588,108 @@
         display.style.opacity = 1;
       }, 300);
     }
+    /* ===== Open-When letters behavior ===== */
+(function () {
+  // letter data (default content)
+  const LETTER_CONTENT = {
+    sad: `When you are sad — remember the time we stayed up till 4am talking. I hold you now in words: breathe, come back to me slowly. I love you.`,
+    miss: `When you miss me — press play on our song, close your eyes and imagine my stupid smile. I'm only a thought away. ♥`,
+    happy: `Silly memory: remember the time I tried to dance and fell? Laugh now on me. I keep a treasure of our dumbest moments for you.`,
+    love: `Why I love you: because you make ordinary days glow. Because your laugh rearranges my heartbeat. Because you.`
+  };
+
+  // each card has data-id and data-pass (change these values in HTML if you want)
+  const cards = document.querySelectorAll(".ow-card");
+  const modal = document.getElementById("owModal");
+  const backdrop = document.getElementById("owBackdrop");
+  const closeBtn = document.getElementById("owClose");
+  const lockedView = document.getElementById("owLockedView");
+  const unlockedView = document.getElementById("owUnlockedView");
+  const passInput = document.getElementById("owPasswordInput");
+  const tryBtn = document.getElementById("owTryBtn");
+  const hintBtn = document.getElementById("owHintBtn");
+  const errorBox = document.getElementById("owError");
+  const unlockedTitle = document.getElementById("owUnlockedTitle");
+  const unlockedText = document.getElementById("owUnlockedText");
+  const closeUnlock = document.getElementById("owCloseUnlock");
+
+  let currentLetterId = null;
+  let currentPassword = null;
+
+  function openModal() {
+    if (!modal) return;
+    modal.setAttribute("aria-hidden", "false");
+    passInput.value = "";
+    errorBox.textContent = "";
+    lockedView.hidden = false;
+    unlockedView.hidden = true;
+    passInput.focus();
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  // click card handler
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      currentLetterId = card.dataset.id;
+      currentPassword = (card.dataset.pass || "").toString().trim();
+      openModal();
+    });
+  });
+
+  // try to open with password
+  function tryOpen() {
+    const attempt = (passInput.value || "").trim();
+    if (!currentLetterId) {
+      errorBox.textContent = "No letter selected.";
+      return;
+    }
+
+    // case-insensitive compare
+    if (attempt.toLowerCase() === (currentPassword || "").toLowerCase()) {
+      // success: show content
+      unlockedTitle.textContent = document.querySelector(`.ow-card[data-id="${currentLetterId}"] .ow-title`).textContent;
+      unlockedText.textContent = LETTER_CONTENT[currentLetterId] || "Empty letter — add content in code.";
+      lockedView.hidden = true;
+      unlockedView.hidden = false;
+      errorBox.textContent = "";
+    } else {
+      errorBox.textContent = "Not quite — try again, my love.";
+      // small shake effect
+      passInput.classList.remove("ow-shake");
+      void passInput.offsetWidth;
+      passInput.classList.add("ow-shake");
+    }
+  }
+
+  // hint button (gives small hint derived from password)
+  hintBtn.addEventListener("click", () => {
+    if (!currentPassword) return;
+    // show first 1-2 letters as hint
+    const hint = currentPassword.slice(0, Math.max(1, Math.floor(currentPassword.length / 3)));
+    errorBox.textContent = `Hint: starts with "${hint}"`;
+  });
+
+  tryBtn.addEventListener("click", tryOpen);
+  passInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") tryOpen();
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+  closeUnlock.addEventListener("click", closeModal);
+
+  backdrop.addEventListener("click", (e) => {
+    if (e.target === backdrop) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+})();
+
 
   </script>
 
