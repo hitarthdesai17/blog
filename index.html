@@ -326,14 +326,19 @@
       background: rgba(255, 255, 255, 0.9); border: 2px dashed #ffb3d6;
       border-radius: 18px; min-height: 80px; display: flex; align-items: center; justify-content: center;
       padding: 16px; margin-bottom: 24px; box-shadow: 0 8px 20px rgba(255, 179, 214, 0.2);
+      transition: transform 0.3s ease;
     }
+    .reason-card:hover { transform: translateY(-3px); }
+    #reason-display { font-size: 1.05rem; color: #555; font-style: italic; margin: 0; opacity: 1; transition: opacity 0.4s ease; }
     .reason-btn {
       background: linear-gradient(45deg, #ff4f8b, #ff7eb3, #ff4f8b); background-size: 200% auto;
       color: white; border: none; padding: 12px 32px; border-radius: 99px;
       font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(255, 79, 139, 0.4);
       display: inline-flex; align-items: center; gap: 8px; animation: gradientMove 3s infinite linear;
+      transition: all 0.3s ease;
     }
-    .reason-btn:hover { transform: scale(1.05) translateY(-2px); }
+    .reason-btn:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 10px 25px rgba(255, 79, 139, 0.5); }
+    .reason-btn:active { transform: scale(0.95); }
     @keyframes gradientMove { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
     .btn-heart { font-size: 1.2rem; animation: heartBeat 1.2s infinite; }
     @keyframes heartBeat { 0%, 100% { transform: scale(1); } 15%, 45% { transform: scale(1.3); } 30% { transform: scale(1); } }
@@ -517,10 +522,10 @@
             <div class="journal-column">
               <div class="journal-subtitle">Little Moments That Started It</div>
               <div class="journal-list">
-                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you</p>
+                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you<p>
                 <p class="journal-heart-bullet"><b>Late-Night Talks:</b> Where every word and text meant whole world</p>
                 <p class="journal-heart-bullet"><b>Inside Jokes:</b> The kind only we understand.</p>
-                <p class="journal-heart-bullet"><b>Random Good Mornings:</b> The texts i loved!</p>
+                <p class="journal-heart-bullet"><b>Random Good Mornings:</b>The texts i loved!</p>
               </div>
             </div>
             <div class="journal-column">
@@ -606,13 +611,21 @@
               <div class="timeline-text">Still choosing you. Still learning you. Still falling again & again.</div>
             </div>
           </div>
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">Tomorrow</div>
+              <div class="timeline-date">Every day after this</div>
+              <div class="timeline-text">I don’t know the future, but I know your name is already in it. ✨</div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="memory">
         <div class="memory-content">
           <h2>💗💞 The Day We First Spoke 💞💗</h2>
-          <p>That moment when everything felt different. I didn’t know yet, but my heart already chose you that day. 🥺💗 This was the beginning of *us*...</p>
+          <p>That moment when everything felt different. I didn’t know yet, but my heart already chose you that day. 🥺💗 This was the beginning of *us*. It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿</p>
         </div>
         <img src="images/first.jpg" alt="First memory">
       </div>
@@ -620,15 +633,23 @@
       <div class="memory">
         <div class="memory-content">
           <h2>🌙 Our Late Night Talks</h2>
-          <p>When the whole world slept but we stayed awake, sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg...</p>
+          <p>When the whole world slept but we stayed awake, sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...</p>
         </div>
         <img src="images/night.jpg" alt="Late night chat">
       </div>
 
       <div class="memory">
         <div class="memory-content">
+          <h2>💖 Every Little Moment</h2>
+          <p>From silly fights to tight hugs, from missed calls to long smiles — everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿</p>
+        </div>
+        <img src="images/us.jpg" alt="Us together">
+      </div>
+
+      <div class="memory">
+        <div class="memory-content">
           <h2>Our Fav Moment🥹</h2>
-          <p>It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons...</p>
+          <p>It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day!</p>
         </div>
         <img src="images/us.jpg" alt="Us together">
       </div>
@@ -649,7 +670,7 @@
       </div>
       <div class="game-scroll-area">
         <div class="game-grid" id="gameGrid"></div>
-        <p class="game-ps">Whatever you open… the task is compulsory for you ;)💗<br>And you owe me 5 videos!</p>
+        <p class="game-ps">Whatever you open… the task is compulsory for you ;)💗<br>And you owe me 5 videos and i will tell how exactly i want you to record hehe</p>
       </div>
       <div class="game-footer">
         <button class="close-game" onclick="closeModal('gameModal')">Close</button>
@@ -797,12 +818,110 @@
 
     // 🎲 REASONS
     const reasons = [
-      "Because you make even boring days feel special.", "Because of the way your eyes light up when you smile.",
-      "Because you are the only one who understands my weird jokes.", "Because your voice is my favorite sound.",
-      "Because being with you feels like home.", "Because you heal me in untold ways.",
-      "Because you are pretty.", "Because you have the prettiest brown honey eyes.",
-      "Because you are my bestfriend", "Because you complete me"
+      "Because you make even boring days feel special.",
+      "Because of the way your eyes light up when you smile.",
+      "Because you are the only one who understands my weird jokes.",
+      "Because your voice is my favorite sound.",
+      "Because you support my dreams.",
+      "Because you look cute even when you are angry.",
+      "Because being with you feels like home.",
+      "Because you have the kindest heart.",
+      "Because you make me want to be a better man.",
+      "Because I just can't imagine a tomorrow without you.",
+      "Because you heal me in untold ways.",
+      "Because you always made me feel loved.",
+      "Because you are pretty.",
+      "Because you are so kind.",
+      "Becuase you never give up things easily ",
+      "Because of how your eyes speaks more than words",
+      "Because of the way you love me.",
+      "Because of the hair you have",
+      "Because of your cutiee nakhraa",
+      "Because of your prettiest brown honey eyes.",
+      "Because of the way you speak.",
+      "Because of the way your behaviour pushes me",
+      "Because the way you express!",
+      "Because of how you keep every of relation strong",
+      "Because you love sm hehe",
+      "Because you are you!",
+      "Because of how you care",
+      "Because of how you still pray!",
+      "Because you are sexyy <3",
+      "Because you stayed instead of leaving!",
+      "Because i can write a novel on you",
+      "Because of how you smell",
+      "Because of how soft your skin is!",
+      "Because the way everything seems coourful with you",
+      "Because how you do crazy things",
+      "Because of how you talk about me!",
+      "Because you care about the boy who disappeared for everyone",
+      "Because you were never bored of me",
+      "Because you wanted solution and not to be the winner of argument",
+      "Because you knew the importance of love",
+      "Because you never degraded me!",
+      "Because you have the prettiest soul",
+      "Because you are the lovliest, babe!",
+      "Because you are my brother! hehe<3",
+      "Because you cared about efforts",
+      "Because wanted me and not better",
+      "Because you are greatest of all time!",
+      "Because you always cared about others while you were not okay!But you dont deserve that okay?",
+      "Because i would live happily with you!",
+      "Because you would be the bestest",
+      "Because you are my bestfriend",
+      "Because you are keeper hehe",
+      "Because you have a pretty nose",
+      "Because i would sit with you for hours silently then having a 2 hour gaming session",
+      "Because i would watch you sitting for hours then roaming in concerts and parties..",
+      "Because your calls make me happiest alive",
+      "Because the way you kiss",
+      "Because the way your hug feels like heaven",
+      "Because when we hold hands i hold my world!",
+      "Because i feel safe wid you",
+      "Because of how cutiee youu aree",
+      "Because of how childishh you can be",
+      "Because of how you respect me",
+      "Because of how you believe in me!",
+      "Because you are more than talha anjum's lyrics to me ",
+      "Because you are calm to my encore!",
+      "Because without you i am getting seedhe maut..",
+      "Because you are words to my letters",
+      "Because you are sun to my moon",
+      "Because you are missing piece to my puzzle",
+      "Because you complete me",
+      "Because you left me no regrets",
+      "Because i can be angry but not without you..",
+      "Because you would teach me!",
+      "Because how warm your touch feels",
+      "Because of how all my fears fades when i am with you",
+      "Because you love doing things i love",
+      "Because for me you would hurt yourself to make me happy",
+      "Because you treat me like i matter!",
+      "Because i want to sleep in your arms",
+      "Because i found eternal peace in your presence",
+      "Because i hate when i am wihtout you",
+      "Because i always wonder what my manu is doing rn?",
+      "Because Manasvi is my fav name!",
+      "Because i want to play luka chupi iykyk",
+      "Because i was worst until you made me best",
+      "Because you saw me not what i was!",
+      "Because i hurt you and you still cared if i was hurt or not",
+      "Because with you my words flow like river",
+      "Because i stopped hating myself",
+      "Because i satarted learning how to live",
+      "Because you  taught me take care of my myself",
+      "Because i want to be part of your every moment",
+      "Because i never happen to be this jealous for someone",
+      "Because i never intended to change myself to good",
+      "Because you are my chicago",
+      "Because you aree myyy!!!",
+      "Because i saw my world in yourr eyes",
+      "Because i happen to be gossiping with moon about your beauty",
+      "Because i started to feel things again",
+      "Because i am so grateful to have you",
+      "Because i would relive my life 9999 times and everytime i would want to fall in love with you<3"
     ];
+
     function showReason() {
       const display = document.getElementById("reason-display");
       display.style.opacity = 0;
@@ -817,7 +936,7 @@
     const LETTER_CONTENT = {
       sad: "When you are sad — Remember the time we stayed up till 4am talking about us teasing out each other my silliest yet lamyy jokes huh?.",
       miss: "When you miss me — If you do miss me then you better do everything happily okay? Cause my memories of mine should bring smile forever! ♥",
-      happy: "Silly memory: Remember we were at hetvi's and like tu mara aagad aam ayine javani hti tease krva jem krto hu but instead you lost your balance...",
+      happy: "Silly memory:Remember we were at hetvi's and like tu mara aagad aam ayine javani hti tease krva jem krto hu but instead you lost your balance and tu mara pr padvani hati pchi banne hsta?.",
       love: "Why I love you? Because it's you!."
     };
     
