@@ -6,6 +6,368 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!--  IMAGE EDITOR: add this near the end of your document (before the main <script> or right before </body>) -->
+<style>
+  /* Image editor modal */
+  .img-editor-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 60000;
+    background: rgba(0,0,0,0.55);
+    padding: 20px;
+  }
+  .img-editor-modal.open { display: flex; }
+
+  .img-editor-card {
+    width: min(930px, 96%);
+    max-height: 92vh;
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .img-preview-wrap {
+    background: #f8f6fb;
+    border-radius: 10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 12px;
+  }
+
+  .img-preview {
+    max-width: 100%;
+    max-height: 80vh;
+    transition: filter .18s ease, transform .18s ease;
+    border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    display:block;
+  }
+
+  .editor-controls {
+    padding: 6px;
+    overflow:auto;
+  }
+  .editor-controls h4 { margin:8px 0; color:#ff4f8b; font-size:1rem; }
+  .preset-btn {
+    display:inline-block;
+    padding:8px 10px;
+    margin:6px 6px 6px 0;
+    border-radius:10px;
+    border:1px solid #f0d8e3;
+    background:#fff;
+    cursor:pointer;
+    font-size:0.9rem;
+  }
+  .preset-btn.active { background: linear-gradient(135deg,#ffb3d6,#fff0f6); box-shadow:0 6px 18px rgba(255,111,165,0.12); }
+
+  .small-toggle { display:flex; align-items:center; gap:8px; margin:8px 0; }
+  .small-toggle input { transform:scale(1.15); }
+
+  .editor-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .editor-actions button { padding:10px 12px; border-radius:10px; border:none; cursor:pointer; }
+
+  .btn-apply { background: linear-gradient(135deg,#34c759,#3fe07a); color:#fff; }
+  .btn-cancel { background:#fff; border:1px solid #eee; }
+
+  /* polaroid frame */
+  .polaroid-frame {
+    padding: 14px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border-radius: 6px;
+    display:inline-block;
+  }
+
+  /* heart-bokeh overlay (SVG pattern via data URL) */
+  .heart-overlay {
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    transition: opacity .25s ease;
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 80px;
+    mix-blend-mode: screen;
+  }
+  .heart-overlay.on { opacity: 0.95; }
+
+  /* small responsive */
+  @media (max-width:900px) {
+    .img-editor-card { grid-template-columns: 1fr; }
+    .editor-controls { max-height: 36vh; }
+    .img-preview { max-height: 44vh; }
+  }
+</style>
+
+<!-- modal -->
+<div id="imgEditor" class="img-editor-modal" aria-hidden="true" role="dialog">
+  <div class="img-editor-card" role="document">
+    <div style="position:relative;">
+      <div class="img-preview-wrap">
+        <div id="polaroidWrap" style="position:relative;">
+          <img id="imgPreview" class="img-preview" src="" alt="Preview image">
+          <div id="heartOverlay" class="heart-overlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="editor-controls" aria-label="Image filters and settings">
+      <h4>Filter presets</h4>
+      <div id="presetList">
+        <button class="preset-btn" data-filter="none">Original</button>
+        <button class="preset-btn" data-filter="grayscale(100%)">B&W</button>
+        <button class="preset-btn" data-filter="sepia(0.6) contrast(1.05) saturate(1.05)">Nostalgia</button>
+        <button class="preset-btn" data-filter="contrast(1.12) saturate(1.25) brightness(1.02)">Vibrant</button>
+        <button class="preset-btn" data-filter="blur(2px) saturate(1.15) contrast(0.98)">Soft Glow</button>
+        <button class="preset-btn" data-filter="hue-rotate(-10deg) saturate(1.18) contrast(0.98)">Warm</button>
+      </div>
+
+      <h4>Fine adjustments</h4>
+      <label>Brightness <input id="fBrightness" type="range" min="0.5" max="1.6" step="0.01" value="1"></label><br>
+      <label>Saturation <input id="fSaturate" type="range" min="0" max="2" step="0.02" value="1"></label><br>
+      <label>Contrast <input id="fContrast" type="range" min="0.5" max="1.6" step="0.01" value="1"></label>
+
+      <h4>Decorations</h4>
+      <div class="small-toggle"><input id="toggleFrame" type="checkbox"><label for="toggleFrame">Polaroid frame</label></div>
+      <div class="small-toggle"><input id="toggleHearts" type="checkbox"><label for="toggleHearts">Heart-bokeh overlay</label></div>
+
+      <div class="editor-actions">
+        <button id="applyBtn" class="btn-apply">Apply to image</button>
+        <button id="downloadBtn" class="btn-cancel">Download</button>
+        <button id="closeEditor" class="btn-cancel">Close</button>
+      </div>
+
+      <small style="display:block;margin-top:8px;color:#666">Tip: click any photo to open this editor. PNG & JPG both supported.</small>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // heart overlay SVG (pink hearts) as a data URL
+    const heartSVG = encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'><g fill='%23ff99c8'><path d='M12 21s-7.5-4.9-9.4-8.2C-.1 9.1 2.4 4.5 6.5 5.2 8.3 5.6 9.4 7.2 12 9.3c2.6-2.1 3.7-3.7 5.5-4.1 4.1-.7 6.6 3.9 3.9 7.6C19.5 16.1 12 21 12 21z'/></g></svg>`
+    );
+
+    const heartOverlay = document.getElementById('heartOverlay');
+    heartOverlay.style.backgroundImage = `url("data:image/svg+xml,${heartSVG}")`;
+
+    // elements
+    const modal = document.getElementById('imgEditor');
+    const preview = document.getElementById('imgPreview');
+    const polaroidWrap = document.getElementById('polaroidWrap');
+    const applyBtn = document.getElementById('applyBtn');
+    const closeBtn = document.getElementById('closeEditor');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    let currentOriginal = null; // the <img> element on page we will update
+    let currentFilter = 'none';
+
+    // open editor when clicking images with class "editable-img"
+    function makeEditable(selector) {
+      document.querySelectorAll(selector).forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.classList.add('editable-img');
+        img.addEventListener('click', () => openEditor(img));
+      });
+    }
+
+    // call it for your existing images
+    makeEditable('.collage-full');
+    makeEditable('.memory img');
+
+    // also allow manual call (if you add images later)
+    window.makeEditable = makeEditable;
+
+    function openEditor(imgEl) {
+      currentOriginal = imgEl;
+      preview.src = imgEl.src;
+      // reset controls
+      document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector('.preset-btn[data-filter="none"]').classList.add('active');
+      document.getElementById('fBrightness').value = 1;
+      document.getElementById('fSaturate').value = 1;
+      document.getElementById('fContrast').value = 1;
+      document.getElementById('toggleFrame').checked = false;
+      document.getElementById('toggleHearts').checked = false;
+      polaroidWrap.classList.remove('polaroid-frame');
+      heartOverlay.classList.remove('on');
+      currentFilter = 'none';
+      applyCssFilter();
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+
+    function closeEditor() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    // presets
+    document.getElementById('presetList').addEventListener('click', e=>{
+      const btn = e.target.closest('.preset-btn');
+      if(!btn) return;
+      document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter || 'none';
+      // reset sliders to neutral when using preset
+      document.getElementById('fBrightness').value = 1;
+      document.getElementById('fSaturate').value = 1;
+      document.getElementById('fContrast').value = 1;
+      applyCssFilter();
+    });
+
+    // sliders / toggles
+    ['fBrightness','fSaturate','fContrast'].forEach(id=>{
+      document.getElementById(id).addEventListener('input', () => {
+        // clear active preset highlight
+        document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+        applyCssFilter();
+      });
+    });
+    document.getElementById('toggleFrame').addEventListener('change', (e)=>{
+      if(e.target.checked) polaroidWrap.classList.add('polaroid-frame');
+      else polaroidWrap.classList.remove('polaroid-frame');
+    });
+    document.getElementById('toggleHearts').addEventListener('change', (e)=>{
+      if(e.target.checked) heartOverlay.classList.add('on');
+      else heartOverlay.classList.remove('on');
+    });
+
+    function applyCssFilter() {
+      const b = parseFloat(document.getElementById('fBrightness').value || 1);
+      const s = parseFloat(document.getElementById('fSaturate').value || 1);
+      const c = parseFloat(document.getElementById('fContrast').value || 1);
+      // combine preset filter with fine adjustments
+      // we keep currentFilter (preset) and then add brightness/saturate/contrast from sliders
+      const composite = `${currentFilter} brightness(${b}) saturate(${s}) contrast(${c})`;
+      preview.style.filter = composite;
+    }
+
+    // apply to original image: draw to canvas with applied filters + decorations, then replace original src
+    applyBtn.addEventListener('click', async ()=>{
+      if(!currentOriginal) return;
+      // create canvas
+      const img = new Image();
+      // crossOrigin for dataURIs vs remote images; but if images are local file paths it should work
+      img.crossOrigin = 'anonymous';
+      img.src = preview.src;
+      await new Promise((res,rej)=> {
+        img.onload = res;
+        img.onerror = res; // continue even if error loading (keeps flow)
+      });
+
+      const w = img.naturalWidth || img.width || 1000;
+      const h = img.naturalHeight || img.height || Math.round(w * 0.66);
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h + (document.getElementById('toggleFrame').checked ? Math.round(h * 0.12) : 0);
+      const ctx = canvas.getContext('2d');
+
+      // build CSS filter string used in preview
+      const filterStr = preview.style.filter || 'none';
+      ctx.filter = filterStr;
+
+      // draw image onto canvas (centered if frame)
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // heart overlay: draw translucent hearts if enabled
+      if(document.getElementById('toggleHearts').checked) {
+        // draw repeated small heart SVGs across canvas
+        const heartImage = new Image();
+        heartImage.src = `data:image/svg+xml,${heartSVG}`;
+        // we won't await for speed; if not ready, skip
+        heartImage.onload = () => {
+          ctx.globalAlpha = 0.28;
+          const step = Math.round(Math.max(80, w/8));
+          for(let x=0;x<w;x+=step) for(let y=0;y<h;y+=step) {
+            const size = Math.round(step * (0.6 + Math.random()*0.6));
+            ctx.drawImage(heartImage, x - size/3, y - size/3, size, size);
+          }
+          ctx.globalAlpha = 1;
+          finalize();
+        };
+        heartImage.onerror = finalize;
+      } else {
+        finalize();
+      }
+
+      function finalize() {
+        // polaroid frame: draw white border with bottom caption space
+        if(document.getElementById('toggleFrame').checked) {
+          const framed = document.createElement('canvas');
+          const border = Math.round(w * 0.05);
+          const bottom = Math.round(h * 0.12);
+          framed.width = w + border*2;
+          framed.height = h + bottom + border*2;
+          const fctx = framed.getContext('2d');
+          // background white
+          fctx.fillStyle = '#fff';
+          fctx.fillRect(0,0,framed.width,framed.height);
+          // drop shadow
+          fctx.shadowColor = 'rgba(0,0,0,0.12)';
+          fctx.shadowBlur = 22;
+          fctx.shadowOffsetY = 6;
+          // draw image onto framed canvas
+          fctx.drawImage(canvas, border, border, w, h);
+          // caption area (empty) - you could draw text here
+          // export framed to main canvas by replacing canvas
+          canvas.width = framed.width;
+          canvas.height = framed.height;
+          const ctx2 = canvas.getContext('2d');
+          ctx2.drawImage(framed, 0, 0);
+        }
+        // replace the original image's src with the new data URL
+        try {
+          const dataURL = canvas.toDataURL('image/png');
+          currentOriginal.src = dataURL;
+          // close modal
+          closeEditor();
+        } catch(err) {
+          alert('Sorry, cannot apply the filter because of browser security restrictions for that image. Try opening the page served from a local server (http) or use same-origin images.');
+          console.error(err);
+        }
+      }
+    });
+
+    // download current preview as PNG (uses canvas similar to apply)
+    downloadBtn.addEventListener('click', ()=> {
+      const a = document.createElement('a');
+      // quick trick: draw preview into a canvas at preview's size
+      const img = new Image();
+      img.crossOrigin='anonymous';
+      img.src = preview.src;
+      img.onload = ()=> {
+        const c = document.createElement('canvas');
+        c.width = img.naturalWidth || img.width;
+        c.height = img.naturalHeight || img.height;
+        const cctx = c.getContext('2d');
+        cctx.filter = preview.style.filter || 'none';
+        cctx.drawImage(img,0,0,c.width,c.height);
+        // hearts/frame not included in downloadable preview for speed
+        a.href = c.toDataURL('image/png');
+        a.download = 'photo.png';
+        a.click();
+      };
+      img.onerror = ()=> alert('Could not prepare download for this image.');
+    });
+
+    // close modal
+    closeBtn.addEventListener('click', closeEditor);
+    modal.addEventListener('click', (e)=> { if(e.target === modal) closeEditor(); });
+    document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closeEditor(); });
+  })();
+</script>
 
   <style>
     /* ───── RESET & BASE ───── */
