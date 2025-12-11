@@ -1,3505 +1,1783 @@
-<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8">  <title>Our Cutiee World 💗</title>  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Cutiee World 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
     * {
-  
       box-sizing: border-box;
-  
       font-family: "Comic Sans MS", "Poppins", Arial, sans-serif;
-  
     }
-  
 
-  
     body {
-  
       margin: 0;
-  
       min-height: 100vh;
-  
       background: linear-gradient(135deg, #ffb6c1, #ffd6e8, #cce7ff);
-  
       display: flex;
-  
       justify-content: center;
-  
       align-items: center;
-  
       padding: 20px;
-  
       padding-bottom: 70px; /* space for sticky footer */
-  
     }
-  
 
-  
     /* 🔳 BACKGROUND COLLAGE (LOCK SCREEN) */
-  
     .bg-collage-grid {
-  
       position: fixed;
-  
       inset: 0;
-  
       display: grid;
-  
       grid-template-columns: repeat(3, 1fr);
-  
       grid-template-rows: repeat(2, 1fr);
-  
       z-index: 0;
-  
       overflow: hidden;
-  
     }
-  
 
-  
     .bg-collage-grid .tile {
-  
       position: relative;
-  
       overflow: hidden;
-  
       transform: translateX(100%);
-  
       animation: slideIn 0.9s forwards ease-out;
-  
       filter: brightness(0.45);
-  
     }
-  
 
-  
     .bg-collage-grid .tile:nth-child(1) { animation-delay: 0.0s; }
-  
     .bg-collage-grid .tile:nth-child(2) { animation-delay: 0.2s; }
-  
     .bg-collage-grid .tile:nth-child(3) { animation-delay: 0.4s; }
-  
     .bg-collage-grid .tile:nth-child(4) { animation-delay: 0.6s; }
-  
     .bg-collage-grid .tile:nth-child(5) { animation-delay: 0.8s; }
-  
     .bg-collage-grid .tile:nth-child(6) { animation-delay: 1.0s; }
-  
 
-  
     @keyframes slideIn {
-  
       from { transform: translateX(100%); opacity: 0; }
-  
       to   { transform: translateX(0);    opacity: 1; }
-  
     }
-  
 
-  
     .bg-collage-grid img,
-  
     .bg-collage-grid video {
-  
       width: 100%;
-  
       height: 100%;
-  
       object-fit: cover;
-  
       display: block;
-  
     }
-  
 
-  
     /* fade out collage after unlock */
-  
     body.unlocked .bg-collage-grid {
-  
       opacity: 0;
-  
       pointer-events: none;
-  
       transition: opacity 0.8s ease;
-  
     }
-  
 
-  
     .container {
-  
       position: relative;
-  
       z-index: 1;
-  
       background: rgba(255,255,255,0.95);
-  
       width: 100%;
-  
       max-width: 900px;
-  
       border-radius: 25px;
-  
       padding: 22px;
-  
       box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  
       animation: fadeIn 1.2s ease;
-  
     }
-  
 
-  
     @keyframes fadeIn {
-  
       from { opacity: 0; transform: scale(0.95); }
-  
       to { opacity: 1; transform: scale(1); }
-  
     }
-  
 
-  
     h1 {
-  
       text-align: center;
-  
       color: #ff4f8b;
-  
       margin-bottom: 6px;
-  
     }
-  
 
-  
     .sub {
-  
       text-align: center;
-  
       color: #666;
-  
       font-size: 0.95rem;
-  
       margin-bottom: 8px;
-  
     }
-  
 
-  
     /* 🔐 LOCK SCREEN */
-  
     #lock {
-  
       text-align: center;
-  
       padding: 20px;
-  
     }
-  
 
-  
     #lock p {
-  
       color: #444;
-  
       margin-bottom: 10px;
-  
     }
-  
 
-  
     #password {
-  
       padding: 10px 14px;
-  
       border-radius: 999px;
-  
       border: 1px solid #ccc;
-  
       outline: none;
-  
       width: 80%;
-  
       max-width: 240px;
-  
       text-align: center;
-  
       font-size: 0.95rem;
-  
     }
-  
 
-  
     #password:focus {
-  
       border-color: #ff6fa5;
-  
     }
-  
 
-  
     .btn {
-  
       margin-top: 10px;
-  
       padding: 9px 22px;
-  
       border-radius: 999px;
-  
       border: none;
-  
       background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  
       color: white;
-  
       cursor: pointer;
-  
       font-size: 0.95rem;
-  
     }
-  
 
-  
     .btn:hover {
-  
       opacity: 0.9;
-  
     }
-  
 
-  
     .error {
-  
       color: crimson;
-  
       font-size: 0.85rem;
-  
       margin-top: 6px;
-  
       min-height: 18px;
-  
     }
-  
 
-  
     /* 💗 BLOG */
-  
     #blog {
-  
       display: none;
-  
     }
-  
 
-  
     /* 🎥 CELEB REELS SECTION */
-  
     .reel-section {
-  
       margin-bottom: 18px;
-  
       background: #fff1f6;
-  
       border-radius: 18px;
-  
       padding: 12px;
-  
       border: 1px solid #ffb3c8;
-  
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  
     }
-  
 
-  
     .reel-title {
-  
       font-weight: 700;
-  
       font-size: 0.95rem;
-  
       margin-bottom: 6px;
-  
       color: #ff4f8b;
-  
     }
-  
 
-  
     .reel-sub {
-  
       font-size: 0.8rem;
-  
       margin-bottom: 10px;
-  
       color: #555;
-  
     }
-  
 
-  
     .reel-grid {
-  
       display: flex;
-  
       gap: 10px;
-  
       flex-wrap: wrap;
-  
       justify-content: center;
-  
     }
-  
 
-  
     .reel {
-  
       width: 160px;
-  
       max-width: 45%;
-  
       aspect-ratio: 9 / 16;
-  
       border-radius: 14px;
-  
       overflow: hidden;
-  
       border: 1px solid #ffb3c8;
-  
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
-  
       background: #000;
-  
     }
-  
 
-  
     .reel video {
-  
       width: 100%;
-  
       height: 100%;
-  
       object-fit: cover;
-  
       display: block;
-  
     }
-  
 
-  
     /* 📰 SWEETHEART JOURNAL BOX */
-  
     .journal-wrapper {
-  
       margin-bottom: 18px;
-  
       background: #ffe6f0;
-  
       border: 2px solid #d36a8a;
-  
       border-radius: 16px;
-  
       padding: 14px 12px;
-  
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
-  
       font-family: "Times New Roman", Georgia, serif;
-  
       position: relative;
-  
       overflow: hidden;
-  
     }
-  
 
-  
     .journal-wrapper::before {
-  
       content: "";
-  
       position: absolute;
-  
       inset: 0;
-  
       background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
-  
       background-size: 20px 20px;
-  
       opacity: 0.25;
-  
       pointer-events: none;
-  
     }
-  
 
-  
     .journal-inner {
-  
       position: relative;
-  
       z-index: 1;
-  
     }
-  
 
-  
     .journal-top-line {
-  
       display: flex;
-  
       justify-content: space-between;
-  
       font-size: 0.75rem;
-  
       letter-spacing: 0.08em;
-  
       margin-bottom: 4px;
-  
       text-transform: uppercase;
-  
     }
-  
 
-  
     .journal-name {
-  
       text-align: center;
-  
       font-size: 1.2rem;
-  
       font-weight: 700;
-  
       letter-spacing: 0.18em;
-  
       padding: 4px 0;
-  
       border-top: 2px solid #d36a8a;
-  
       border-bottom: 2px solid #d36a8a;
-  
       margin-bottom: 10px;
-  
     }
-  
 
-  
     .journal-title-bar {
-  
       border: 2px solid #d36a8a;
-  
       padding: 6px 8px;
-  
       font-weight: 700;
-  
       font-size: 0.95rem;
-  
       margin-bottom: 6px;
-  
     }
-  
 
-  
     .journal-byline {
-  
       font-size: 0.85rem;
-  
       margin-bottom: 6px;
-  
     }
-  
 
-  
     .journal-lead {
-  
       font-size: 0.85rem;
-  
       margin-bottom: 12px;
-  
     }
-  
 
-  
     .journal-grid {
-  
       display: grid;
-  
       grid-template-columns: 1fr 1fr;
-  
       gap: 10px;
-  
       border-top: 1px solid #d36a8a;
-  
       padding-top: 8px;
-  
     }
-  
 
-  
     .journal-column {
-  
       font-size: 0.8rem;
-  
       line-height: 1.4;
-  
     }
-  
 
-  
     .journal-subtitle {
-  
       font-weight: 700;
-  
       margin-bottom: 4px;
-  
       border-bottom: 1px solid #d36a8a;
-  
       padding-bottom: 2px;
-  
     }
-  
 
-  
     .journal-list p {
-  
       margin: 3px 0;
-  
     }
-  
 
-  
     .journal-heart-bullet::before {
-  
       content: "♥ ";
-  
       color: #d64375;
-  
     }
-  
 
-  
     /* 💌 MEMORIES – The "Scrapbook Polaroid" Style */
-  
     .memory {
-  
       /* Create a cute patterned background (tiny faint dots) */
-  
       background-color: #fff9fb;
-  
       background-image: radial-gradient(#ffc1da 1.5px, transparent 1.5px);
-  
       background-size: 15px 15px;
-  
       
-  
       /* A playful dashed border instead of a solid one */
-  
       border: 3px dashed #ff99c8;
-  
       border-radius: 24px;
-  
       padding: 22px;
-  
       margin-bottom: 26px;
-  
       animation: fadeIn 1s ease;
-  
 
-  
       /* Ensure stacked layout on mobile, side-by-side on larger screens */
-  
       display: flex;
-  
       flex-direction: column-reverse;
-  
       gap: 18px;
-  
       align-items: center;
-  
       position: relative;
-  
       box-shadow: 0 8px 20px rgba(189, 97, 129, 0.15);
-  
       overflow: visible; /* Needed for elements to pop out */
-  
     }
-  
 
-  
     /* Desktop layout tweak */
-  
     @media (min-width: 700px) {
-  
       .memory {
-  
         flex-direction: row;
-  
         align-items: flex-start;
-  
       }
-  
     }
-  
 
-  
     /* The Text Content Container */
-  
     .memory-content {
-  
       flex: 1;
-  
     }
-  
 
-  
     /* Cute Heading Style */
-  
     .memory h2 {
-  
       color: #ff4f8b;
-  
       text-align: center;
-  
       margin-top: 0;
-  
       position: relative;
-  
       display: inline-block;
-  
       /* Ensures the squiggly line stays under the text */
-  
       left: 50%;
-  
       transform: translateX(-50%);
-  
     }
-  
 
-  
     /* The squiggly line doodle under the heading */
-  
     .memory h2::after {
-  
       content: "";
-  
       display: block;
-  
       width: 100%;
-  
       height: 6px;
-  
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='%23ff6fa5' stroke-width='2' d='M0 3.5c5 0 5-3 10-3s5 3 10 3 5-3 10-3 5 3 10 3'/%3E%3C/svg%3E");
-  
       background-repeat: repeat-x;
-  
       background-size: 20px auto;
-  
       margin-top: 4px;
-  
       opacity: 0.7;
-  
     }
-  
 
-  
     .memory p {
-  
       color: #555;
-  
       line-height: 1.6;
-  
       font-size: 0.95rem;
-  
       background: rgba(255, 255, 255, 0.7); /* semi-transparent bg for readability */
-  
       padding: 12px;
-  
       border-radius: 12px;
-  
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  
     }
-  
 
-  
     /* The "Polaroid Sticker" Image Style */
-  
     .memory img {
-  
       flex: 0 0 auto;
-  
       width: 100%;
-  
       max-width: 280px; /* Slightly smaller to look like a photo card */
-  
       height: auto;
-  
       object-fit: cover;
-  
       
-  
       /* The Polaroid look: Thick white border and shadow */
-  
       border: 8px solid #fff;
-  
       border-bottom-width: 20px; /* Thicker bottom like a real polaroid */
-  
       border-radius: 4px;
-  
       box-shadow: 5px 8px 15px rgba(0,0,0,0.2);
-  
       
-  
       /* The "Silly" Tilt */
-  
       transform: rotate(3deg);
-  
       transition: transform 0.3s ease;
-  
     }
-  
 
-  
     /* Hover effect: straighten the photo slightly */
-  
     .memory:hover img {
-  
       transform: rotate(1deg) scale(1.02);
-  
     }
-  
 
-  
     /* Adding a "Heart Sticker" to the photo corner using CSS */
-  
     .memory::before {
-  
       content: "♥";
-  
       position: absolute;
-  
       top: 15px;
-  
       right: 15px;
-  
       font-size: 30px;
-  
       color: #ff4f8b;
-  
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-  
       z-index: 10;
-  
       transform: rotate(15deg);
-  
       pointer-events: none;
-  
     }
-  
     /* Alternate tilt for every second memory block for variety */
-  
     .memory:nth-child(even) img {
-  
         transform: rotate(-2deg);
-  
     }
-  
     .memory:nth-child(even)::before {
-  
       left: 15px;
-  
       right: auto;
-  
       transform: rotate(-15deg);
-  
     }
-  
 
-  
     /* 💗 STICKY FOOTER LOVE NOTE – TEXT BLINK ONLY */
-  
     .love-note {
-  
       position: fixed;
-  
       bottom: 0;
-  
       left: 0;
-  
       width: 100%;
-  
       background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  
       color: white;
-  
       text-align: center;
-  
       font-size: 0.85rem;
-  
       padding: 10px 14px;
-  
       z-index: 9999;
-  
       box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
-  
       white-space: pre-line;
-  
 
-  
       opacity: 0;
-  
       transform: translateY(100%);
-  
       transition: transform 0.6s ease, opacity 0.6s ease;
-  
     }
-  
 
-  
     /* only appears after unlock */
-  
     body.unlocked .love-note {
-  
       opacity: 1;
-  
       transform: translateY(0);
-  
     }
-  
 
-  
     /* ✅ ONLY THE TEXT BLINKS */
-  
     .love-note span {
-  
       animation: textBlink 1.4s ease-in-out infinite;
-  
     }
-  
 
-  
     @keyframes textBlink {
-  
       0%, 100% { opacity: 1; }
-  
       50% { opacity: 0.4; }
-  
     }
-  
 
-  
     /* 💗 TAP HEART */
-  
     .tap-heart {
-  
       position: fixed;
-  
       font-size: 20px;
-  
       color: #ff4f8b;
-  
       pointer-events: none;
-  
       animation: floatHeart 1.2s ease-out forwards;
-  
       z-index: 10000;
-  
       user-select: none;
-  
     }
-  
 
-  
     @keyframes floatHeart {
-  
       0% {
-  
         transform: translateY(0) scale(1);
-  
         opacity: 1;
-  
       }
-  
       100% {
-  
         transform: translateY(-60px) scale(1.6);
-  
         opacity: 0;
-  
       }
-  
     }
-  
 
-  
     /* 💬 AUTO "I love you <3" FLOATING TEXT */
-  
     .love-popup {
-  
       position: fixed;
-  
       font-size: 18px;
-  
       color: #ff4f8b;
-  
       font-weight: 600;
-  
       opacity: 0;
-  
       animation: loveFloat 3.5s ease-out forwards;
-  
       pointer-events: none;
-  
       z-index: 9998;
-  
       user-select: none;
-  
       white-space: nowrap;
-  
     }
-  
 
-  
     @keyframes loveFloat {
-  
       0% {
-  
         transform: translateY(10px) scale(0.9);
-  
         opacity: 0;
-  
       }
-  
       20% {
-  
         opacity: 1;
-  
       }
-  
       70% {
-  
         opacity: 1;
-  
       }
-  
       100% {
-  
         transform: translateY(-30px) scale(1.05);
-  
         opacity: 0;
-  
       }
-  
     }
-  
 
-  
     /* ───── Big collage page ───── */
-  
     .collage-section {
-  
       margin: 18px 0 22px;
-  
     }
-  
 
-  
     .collage-full {
-  
       width: 100%;
-  
       height: auto;         /* keeps original aspect ratio */
-  
       display: block;
-  
       border-radius: 18px;
-  
       box-shadow: 0 10px 26px rgba(0,0,0,0.18);
-  
       border: 2px solid rgba(255,255,255,0.9);
-  
     }
-  
 
-  
     /* optional small caption under the photo */
-  
     .collage-caption-text {
-  
       margin-top: 8px;
-  
       text-align: center;
-  
       font-size: 0.9rem;
-  
       color: #d64375;
-  
       font-weight: 600;
-  
     }
-  
 
-  
     /* 💞 OUR STORY TIMELINE */
-  
     .timeline-section {
-  
       margin: 20px 0 26px;
-  
     }
-  
 
-  
     .timeline-inner {
-  
       max-width: 760px;
-  
       margin: 0 auto;
-  
       position: relative;
-  
       padding: 8px 0 4px;
-  
     }
-  
 
-  
     .timeline-heading {
-  
       text-align: center;
-  
       font-size: 1.2rem;
-  
       color: #ff4f8b;
-  
       margin-bottom: 4px;
-  
     }
-  
 
-  
     .timeline-subtitle {
-  
       text-align: center;
-  
       font-size: 0.85rem;
-  
       color: #666;
-  
       margin-bottom: 14px;
-  
     }
-  
 
-  
     .timeline-line {
-  
       position: absolute;
-  
       top: 36px;
-  
       bottom: 0;
-  
       left: 50%;
-  
       width: 3px;
-  
       transform: translateX(-50%);
-  
       background: linear-gradient(#ffb3d6, #ff6fa5);
-  
       opacity: 0.4;
-  
     }
-  
 
-  
     /* ✅ UPDATED SLOW ANIMATION HERE */
-  
     .timeline-item {
-  
       position: relative;
-  
       margin: 18px 0 26px;
-  
       display: flex;
-  
       align-items: flex-start;
-  
       opacity: 0;
-  
       transform: translateX(-40px);
-  
       /* Increased to 2.5s for a very slow, dreamy entrance */
-  
       transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1), transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
-  
     }
-  
 
-  
     /* right side items slide from right */
-  
     .timeline-item.from-right {
-  
       justify-content: flex-end;
-  
       transform: translateX(40px);
-  
     }
-  
 
-  
     .timeline-item.visible {
-  
       opacity: 1;
-  
       transform: translateX(0);
-  
     }
-  
 
-  
     .timeline-marker {
-  
       position: absolute;
-  
       left: 50%;
-  
       top: 26px;
-  
       transform: translate(-50%, -50%);
-  
       width: 18px;
-  
       height: 18px;
-  
       border-radius: 999px;
-  
       background: #fff;
-  
       border: 3px solid #ff6fa5;
-  
       display: flex;
-  
       align-items: center;
-  
       justify-content: center;
-  
       font-size: 10px;
-  
       color: #ff6fa5;
-  
       box-shadow: 0 0 0 3px rgba(255, 111, 165, 0.25);
-  
     }
-  
 
-  
     .timeline-card {
-  
       background: #fff7fb;
-  
       border-radius: 16px;
-  
       padding: 10px 12px;
-  
       border: 1px solid #ffd1e6;
-  
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-  
       width: calc(50% - 40px);
-  
     }
-  
 
-  
     .timeline-item:not(.from-right) .timeline-card {
-  
       margin-right: auto;
-  
     }
-  
 
-  
     .timeline-item.from-right .timeline-card {
-  
       margin-left: auto;
-  
     }
-  
 
-  
     .timeline-label {
-  
       font-weight: 700;
-  
       font-size: 0.95rem;
-  
       color: #ff4f8b;
-  
       margin-bottom: 2px;
-  
     }
-  
 
-  
     .timeline-date {
-  
       font-size: 0.75rem;
-  
       color: #999;
-  
       margin-bottom: 4px;
-  
     }
-  
 
-  
     .timeline-text {
-  
       font-size: 0.85rem;
-  
       color: #444;
-  
       line-height: 1.4;
-  
     }
-  
 
-  
     /* mobile: center everything, no left/right alternation */
-  
     @media (max-width: 700px) {
-  
       .timeline-line {
-  
         left: 10px;
-  
         transform: none;
-  
       }
-  
 
-  
       .timeline-marker {
-  
         left: 10px;
-  
         transform: translate(-50%, -50%);
-  
       }
-  
 
-  
       .timeline-item,
-  
       .timeline-item.from-right {
-  
         transform: translateX(0); /* base transform; animation still handles entry */
-  
       }
-  
 
-  
       .timeline-card {
-  
         width: 100%;
-  
         margin-left: 26px !important;
-  
         margin-right: 0 !important;
-  
       }
-  
     }
-  
 
-  
 
-  
     /* mobile tweaks */
-  
     @media (max-width: 600px) {
-  
       .collage-modal-inner img { height: 70vh; }
-  
       .collage-caption { font-size: 0.8rem; padding: 5px 8px; right: 10px; bottom: 10px; }
-  
     }
-  
     /* 💌 HANGING LOVE MESSAGE (FALLS FROM TOP ON A STRING) */
-  
     .love-message-overlay {
-  
       position: fixed;
-  
       inset: 0;
-  
       background: rgba(0, 0, 0, 0.45);
-  
       display: none;
-  
       align-items: flex-start;   /* start from top */
-  
       justify-content: center;
-  
       z-index: 10050;
-  
       padding-top: 0;
-  
     }
-  
 
-  
     .love-message-overlay.show {
-  
       display: flex;
-  
     }
-  
 
-  
     /* STRING */
-  
     .love-string {
-  
       position: absolute;
-  
       top: 0;
-  
       width: 2px;
-  
       height: 140px;
-  
       background: #fff;
-  
       left: 50%;
-  
       transform: translateX(-50%);
-  
     }
-  
 
-  
     /* MESSAGE BOX */
-  
     .love-message-box {
-  
       margin-top: 140px; /* where it hangs */
-  
       background: #fff7fb;
-  
       border-radius: 18px;
-  
       padding: 18px 16px;
-  
       max-width: 320px;
-  
       width: 90%;
-  
       box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-  
       border: 2px solid #ffb3d6;
-  
       text-align: center;
-  
 
-  
       transform: translateY(-120vh);
-  
       animation: fallDown 1.4s ease-out forwards;
-  
       position: relative; /* Fixed context */
-  
     }
-  
 
-  
     /* FALL ANIMATION */
-  
     @keyframes fallDown {
-  
       0% {
-  
         transform: translateY(-120vh);
-  
       }
-  
       70% {
-  
         transform: translateY(20px);
-  
       }
-  
       100% {
-  
         transform: translateY(0);
-  
       }
-  
     }
-  
 
-  
     .love-message-box p {
-  
       margin: 0 0 12px;
-  
       font-size: 0.9rem;
-  
       color: #444;
-  
       line-height: 1.5;
-  
     }
-  
 
-  
     .love-message-box strong {
-  
       color: #ff4f8b;
-  
     }
-  
 
-  
     .love-message-button {
-  
       border: none;
-  
       border-radius: 999px;
-  
       padding: 8px 18px;
-  
       background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  
       color: #fff;
-  
       font-size: 0.85rem;
-  
       cursor: pointer;
-  
     }
-  
     /* 💗 LOVE COUNTER */
-  
     .love-counter {
-  
       margin: 18px auto 24px;
-  
       background: linear-gradient(135deg, #fff0f6, #ffe4f0);
-  
       border-radius: 20px;
-  
       border: 2px solid #ffb3d6;
-  
       padding: 14px 12px 16px;
-  
       box-shadow: 0 10px 28px rgba(255, 79, 139, 0.18);
-  
       text-align: center;
-  
     }
-  
 
-  
     .counter-title {
-  
       margin: 0 0 2px;
-  
       font-size: 1.1rem;
-  
       color: #ff4f8b;
-  
       font-weight: 700;
-  
     }
-  
 
-  
     .counter-date {
-  
       margin: 0 0 10px;
-  
       font-size: 0.8rem;
-  
       color: #888;
-  
     }
-  
 
-  
     .counter-grid {
-  
       display: grid;
-  
       grid-template-columns: repeat(4, 1fr);
-  
       gap: 8px;
-  
     }
-  
 
-  
     .counter-box {
-  
       background: #fff;
-  
       border-radius: 14px;
-  
       padding: 8px 4px;
-  
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-  
       border: 1px solid #ffd1e6;
-  
       animation: counterPop 0.6s ease;
-  
     }
-  
 
-  
     @keyframes counterPop {
-  
       from {
-  
         transform: scale(0.85);
-  
         opacity: 0;
-  
       }
-  
       to {
-  
         transform: scale(1);
-  
         opacity: 1;
-  
       }
-  
     }
-  
 
-  
     .counter-number {
-  
       display: block;
-  
       font-size: 1.1rem;
-  
       font-weight: 800;
-  
       color: #ff4f8b;
-  
     }
-  
 
-  
     .counter-label {
-  
       font-size: 0.7rem;
-  
       color: #666;
-  
     }
-  
 
-  
     /* mobile tweak */
-  
     @media (max-width: 500px) {
-  
       .counter-grid {
-  
         grid-template-columns: repeat(2, 1fr);
-  
       }
-  
     }
-  
 
-  
     /* 🎲 ANIMATED REASON GENERATOR */
-  
     .reason-section {
-  
       text-align: center;
-  
       margin: 30px auto;
-  
       max-width: 600px;
-  
       padding: 24px;
-  
       position: relative;
-  
     }
-  
 
-  
     .reason-title {
-  
       color: #ff4f8b;
-  
       font-size: 1.25rem;
-  
       margin-bottom: 20px;
-  
       text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.5);
-  
     }
-  
 
-  
     .reason-card {
-  
       background: rgba(255, 255, 255, 0.9);
-  
       border: 2px dashed #ffb3d6;
-  
       border-radius: 18px;
-  
       min-height: 80px;
-  
       display: flex;
-  
       align-items: center;
-  
       justify-content: center;
-  
       padding: 16px;
-  
       margin-bottom: 24px;
-  
       box-shadow: 0 8px 20px rgba(255, 179, 214, 0.2);
-  
       transition: transform 0.3s ease;
-  
     }
-  
 
-  
     .reason-card:hover {
-  
       transform: translateY(-3px);
-  
     }
-  
 
-  
     #reason-display {
-  
       font-size: 1.05rem;
-  
       color: #555;
-  
       font-style: italic;
-  
       margin: 0;
-  
       opacity: 1;
-  
       transition: opacity 0.4s ease;
-  
     }
-  
 
-  
     .reason-btn {
-  
       background: linear-gradient(45deg, #ff4f8b, #ff7eb3, #ff4f8b);
-  
       background-size: 200% auto;
-  
       color: white;
-  
       border: none;
-  
       padding: 12px 32px;
-  
       border-radius: 99px;
-  
       font-size: 1rem;
-  
       font-weight: bold;
-  
       cursor: pointer;
-  
       box-shadow: 0 6px 20px rgba(255, 79, 139, 0.4);
-  
       transition: all 0.3s ease;
-  
       display: inline-flex;
-  
       align-items: center;
-  
       gap: 8px;
-  
       animation: gradientMove 3s infinite linear;
-  
     }
-  
 
-  
     @keyframes gradientMove {
-  
       0% { background-position: 0% 50%; }
-  
       100% { background-position: 200% 50%; }
-  
     }
-  
 
-  
     .reason-btn:hover {
-  
       transform: scale(1.05) translateY(-2px);
-  
       box-shadow: 0 10px 25px rgba(255, 79, 139, 0.5);
-  
     }
-  
 
-  
     .reason-btn:active {
-  
       transform: scale(0.95);
-  
     }
-  
 
-  
     .btn-heart {
-  
       font-size: 1.2rem;
-  
       animation: heartBeat 1.2s infinite;
-  
     }
-  
 
-  
     @keyframes heartBeat {
-  
       0% { transform: scale(1); }
-  
       15% { transform: scale(1.3); }
-  
       30% { transform: scale(1); }
-  
       45% { transform: scale(1.3); }
-  
       100% { transform: scale(1); }
-  
     }
-  
 
-  
     /* 💌 NEW OPEN-WHEN ENVELOPE STYLES */
-  
     .open-when-section {
-  
       text-align: center;
-  
       margin: 20px 0 30px;
-  
     }
-  
     
-  
     .ow-heading {
-  
       color: #ff4f8b;
-  
       margin-bottom: 15px;
-  
       font-size: 1.3rem;
-  
     }
-  
 
-  
     .envelope-grid {
-  
       display: flex;
-  
       flex-wrap: wrap;
-  
       justify-content: center;
-  
       gap: 20px;
-  
     }
-  
 
-  
     .envelope-container {
-  
       cursor: pointer;
-  
       display: flex;
-  
       flex-direction: column;
-  
       align-items: center;
-  
       transition: transform 0.2s;
-  
     }
-  
 
-  
     .envelope-container:hover {
-  
       transform: translateY(-5px);
-  
     }
-  
 
-  
     /* CSS Drawn Envelope */
-  
     .envelope {
-  
       width: 80px;
-  
       height: 50px;
-  
       background: #ff99c8;
-  
       position: relative;
-  
       border-radius: 4px;
-  
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  
       display: flex;
-  
       justify-content: center;
-  
       align-items: center;
-  
       z-index: 1;
-  
     }
-  
 
-  
     /* The Flap */
-  
     .envelope::before {
-  
       content: '';
-  
       position: absolute;
-  
       top: 0;
-  
       width: 0;
-  
       height: 0;
-  
       border-left: 40px solid transparent;
-  
       border-right: 40px solid transparent;
-  
       border-top: 30px solid #ffb3d6; /* Slightly lighter */
-  
       transform-origin: top;
-  
       transition: transform 0.4s;
-  
       z-index: 3;
-  
     }
-  
 
-  
     /* The Pocket (bottom triangle visual) */
-  
     .envelope::after {
-  
       content: '';
-  
       position: absolute;
-  
       bottom: 0;
-  
       width: 0;
-  
       height: 0;
-  
       border-left: 40px solid #ff85b6;
-  
       border-right: 40px solid #ff85b6;
-  
       border-top: 25px solid transparent;
-  
       z-index: 2;
-  
       border-radius: 0 0 4px 4px;
-  
     }
-  
 
-  
     /* Heart Seal */
-  
     .envelope .seal {
-  
       position: absolute;
-  
       top: 18px;
-  
       z-index: 4;
-  
       font-size: 14px;
-  
       color: #d64375;
-  
       text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  
     }
-  
 
-  
     .envelope-label {
-  
       margin-top: 8px;
-  
       font-size: 0.8rem;
-  
       color: #555;
-  
       font-weight: 600;
-  
       max-width: 90px;
-  
       line-height: 1.2;
-  
     }
-  
 
-  
     /* Hover Effect: Flap Opens */
-  
     .envelope-container:hover .envelope::before {
-  
       transform: rotateX(180deg);
-  
       z-index: 0;
-  
     }
-  
 
-  
     /* MODAL */
-  
     .ow-modal { display:none; position:fixed; inset:0; z-index:10050; align-items:center; justify-content:center; }
-  
     .ow-modal[aria-hidden="false"] { display:flex; }
-  
     .ow-modal-backdrop { position:absolute; inset:0; background: rgba(6,6,8,0.6); backdrop-filter: blur(4px); }
-  
     .ow-modal-content {
-  
       position:relative; z-index:10060; max-width:420px; width:92%;
-  
       background: linear-gradient(180deg,#fff8fb,#fff2f7); border-radius:14px; padding:20px; 
-  
       box-shadow:0 20px 50px rgba(0,0,0,0.3); border:2px solid #ffb3d6; text-align: center;
-  
     }
-  
 
-  
     .ow-unlocked-text { 
-  
       font-family: 'Times New Roman', serif;
-  
       font-size: 1.1rem;
-  
       line-height: 1.6;
-  
       color: #444;
-  
       margin: 15px 0;
-  
       padding: 10px;
-  
       border: 1px dashed #ffb3d6;
-  
       background: #fff;
-  
     }
-  
 
-  
     .ow-close-btn {
-  
       background: #ff4f8b; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer;
-  
     }
-  
     /* GAME BUTTON */
-  
 #gameButton {
-  
   display: none;
-  
   position: fixed;
-  
   bottom: 80px;
-  
   left: 50%;
-  
   transform: translateX(-50%);
-  
   background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  
   color: white;
-  
   font-size: 1rem;
-  
   font-weight: bold;
-  
   border: none;
-  
   padding: 12px 26px;
-  
   border-radius: 999px;
-  
   box-shadow: 0 6px 20px rgba(255, 111, 165, 0.4);
-  
   cursor: pointer;
-  
   z-index: 10000;
-  
   opacity: 0;
-  
   transition: opacity 1s ease, transform 0.4s ease;
-  
 }
-  
 
-  
 #gameButton.show {
-  
   display: block;
-  
   opacity: 1;
-  
   transform: translateX(-50%) translateY(-10px);
-  
 }
-  
 
-  
 /* GAME MODAL */
-  
 .game-modal {
-  
   position: fixed;
-  
   inset: 0;
-  
   background: rgba(0,0,0,0.45);
-  
   display: none;
-  
   align-items: center;
-  
   justify-content: center;
-  
   z-index: 20000;
-  
 }
-  
 
-  
 .game-modal[aria-hidden="false"] {
-  
   display: flex;
-  
 }
-  
 
-  
 .game-box {
-  
   background: linear-gradient(135deg, #fff0f6, #ffe4f7);
-  
   border-radius: 22px;
-  
   border: 2px solid #ffb3d6;
-  
   padding: 26px;
-  
   width: 90%;
-  
   max-width: 450px;
-  
   box-shadow: 0 14px 40px rgba(0,0,0,0.3);
-  
   text-align: center;
-  
   animation: popIn 0.6s ease;
-  
 }
-  
 
-  
 @keyframes popIn {
-  
   from { transform: scale(0.8); opacity: 0; }
-  
   to { transform: scale(1); opacity: 1; }
-  
 }
-  
 
-  
 .game-grid {
-  
   display: grid;
-  
   grid-template-columns: repeat(5, 1fr);
-  
   gap: 10px;
-  
   margin-top: 20px;
-  
 }
-  
 
-  
 /* Box default look */
-  
 .box {
-  
   background: #fff;
-  
   border: 2px dashed #ff8fb8;
-  
   border-radius: 12px;
-  
   padding: 14px 0;
-  
   cursor: pointer;
-  
   transition: all 0.3s ease;
-  
   font-weight: bold;
-  
   color: #ff4f8b;
-  
   box-shadow: 0 4px 12px rgba(255,111,165,0.15);
-  
 }
-  
 
-  
 /* Hover */
-  
 .box:hover {
-  
   background: #ffb3d6;
-  
   color: white;
-  
   transform: translateY(-4px);
-  
 }
-  
 
-  
 /* Opened state */
-  
 .box.opened {
-  
   background: #ff99c8;
-  
   color: white;
-  
   border-style: solid;
-  
   transform: scale(1.05);
-  
 }
-  
 
-  
 /* Task bubble under each box */
-  
 .task-bubble {
-  
   margin-top: 10px;
-  
   background: #fff7fb;
-  
   border-radius: 14px;
-  
   padding: 10px;
-  
   font-size: 0.9rem;
-  
   color: #444;
-  
   border: 1px solid #ffb3d6;
-  
   box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-  
   animation: fadeInTask 0.6s ease;
-  
 }
-  
 
-  
 @keyframes fadeInTask {
-  
   from { opacity: 0; transform: translateY(10px); }
-  
   to { opacity: 1; transform: translateY(0); }
-  
 }
-  
 
-  
 .close-game {
-  
   margin-top: 18px;
-  
   background: linear-gradient(135deg, #ff6fa5, #ff99c8);
-  
   border: none;
-  
   color: white;
-  
   border-radius: 999px;
-  
   padding: 8px 20px;
-  
   cursor: pointer;
-  
   font-weight: bold;
-  
   box-shadow: 0 6px 20px rgba(255,79,139,0.3);
-  
 }
-  
 
-  
 
-  
-  </style></head><body>  <div class="bg-collage-grid"><div class="tile"><img src="images/bg1.jpg" alt=""></div>
+  </style>
+</head>
 
-<div class="tile"><img src="images/bg2.jpg" alt=""></div>
+<body>
 
-<div class="tile"><img src="images/bg3.jpg" alt=""></div>
-
-<div class="tile"><img src="images/bg4.jpg" alt=""></div>
-
-<div class="tile"><img src="images/bg5.jpg" alt=""></div>
-
-<div class="tile"><img src="images/bg6.jpg" alt=""></div>
-
-  </div>  <div class="container"><h1>Our Love Scrapbook 💗</h1>
-
-<div class="sub">A secret cute little world only for us 🥺✨</div>
-
-<div class="sub"><b>I am just a man written by you..</b></div>
-
-
-
-<div id="lock">
-
-  <p>Enter our secret password to unlock our memories 💕</p>
-
-
-
-  <form id="login-form">
-
-    <input id="password" type="password" placeholder="Passwordd neededd mam!" required>
-
-    <br>
-
-    <button class="btn" type="submit">Unlock 💗</button>
-
-  </form>
-
-
-
-  <div id="error" class="error"></div>
-
-</div>
-
-
-
-<div id="blog">
-
-
-
-  <section class="open-when-section">
-
-    <h2 class="ow-heading">Open When You Need Me... 💌</h2>
-
-    
-
-    <div class="envelope-grid">
-
-      
-
-      <div class="envelope-container" onclick="openLetter('sad')">
-
-        <div class="envelope">
-
-          <div class="seal">❤</div>
-
-        </div>
-
-        <div class="envelope-label">You are Sad</div>
-
-      </div>
-
-
-
-      <div class="envelope-container" onclick="openLetter('miss')">
-
-        <div class="envelope">
-
-          <div class="seal">❤</div>
-
-        </div>
-
-        <div class="envelope-label">You Miss Me</div>
-
-      </div>
-
-
-
-      <div class="envelope-container" onclick="openLetter('happy')">
-
-        <div class="envelope">
-
-          <div class="seal">❤</div>
-
-        </div>
-
-        <div class="envelope-label">You Need a Laugh</div>
-
-      </div>
-
-
-
-      <div class="envelope-container" onclick="openLetter('love')">
-
-        <div class="envelope">
-
-          <div class="seal">❤</div>
-
-        </div>
-
-        <div class="envelope-label">Why I Love You</div>
-
-      </div>
-
-
-
-    </div>
-
-  </section>
-
-
-
-  <div class="reel-section">
-
-    <div class="reel-title">Here are your favourite guys 😏🎥</div>
-
-    <div class="reel-sub">
-
-      Since you love them so much, I kept them ready in reel format just for you.
-
-      After this, back to your real favourite guy (me). 💗
-
-    </div>
-
-
-
-    <div class="reel-grid">
-
-      <div class="reel">
-
-        <video class="autoplay-reel" muted loop playsinline preload="auto">
-
-          <source src="videos/reel1.mp4" type="video/mp4">
-
-        </video>
-
-      </div>
-
-      <div class="reel">
-
-        <video class="autoplay-reel" muted loop playsinline preload="auto">
-
-          <source src="videos/reel2.mp4" type="video/mp4">
-
-        </video>
-
-      </div>
-
-    </div>
-
+  <div class="bg-collage-grid">
+    <div class="tile"><img src="images/bg1.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg2.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg3.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg4.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg5.jpg" alt=""></div>
+    <div class="tile"><img src="images/bg6.jpg" alt=""></div>
   </div>
 
+  <div class="container">
+    <h1>Our Love Scrapbook 💗</h1>
+    <div class="sub">A secret cute little world only for us 🥺✨</div>
+    <div class="sub"><b>I am just a man written by you..</b></div>
 
+    <div id="lock">
+      <p>Enter our secret password to unlock our memories 💕</p>
 
-  <div class="journal-wrapper">
+      <form id="login-form">
+        <input id="password" type="password" placeholder="Passwordd neededd mam!" required>
+        <br>
+        <button class="btn" type="submit">Unlock 💗</button>
+      </form>
 
-    <div class="journal-inner">
+      <div id="error" class="error"></div>
+    </div>
 
-      <div class="journal-top-line">
+    <div id="blog">
 
-        <span><b><i>H&M</i></b></span>
+      <section class="open-when-section">
+        <h2 class="ow-heading">Open When You Need Me... 💌</h2>
+        
+        <div class="envelope-grid">
+          
+          <div class="envelope-container" onclick="openLetter('sad')">
+            <div class="envelope">
+              <div class="seal">❤</div>
+            </div>
+            <div class="envelope-label">You are Sad</div>
+          </div>
 
-        <span>THE BHOCHKUU JOURNAL</span>
+          <div class="envelope-container" onclick="openLetter('miss')">
+            <div class="envelope">
+              <div class="seal">❤</div>
+            </div>
+            <div class="envelope-label">You Miss Me</div>
+          </div>
 
-        <span>DATE: 23/12/24</span>
+          <div class="envelope-container" onclick="openLetter('happy')">
+            <div class="envelope">
+              <div class="seal">❤</div>
+            </div>
+            <div class="envelope-label">You Need a Laugh</div>
+          </div>
 
-      </div>
-
-      <div class="journal-name">THE BHOCHKUU JOURNAL</div>
-
-      <div class="journal-title-bar">Title: The Day My Life Changed Because of You</div>
-
-      <div class="journal-byline">By Uss🫶</div>
-
-      <div class="journal-lead">
-
-        Sometimes life changes quietly. No fireworks, no big announcement —
-
-        just a message, a call, a smile. That’s how it started with you, and
-
-        that’s how our ordinary days turned into mour favourite story. 💗
-
-      </div>
-
-
-
-      <div class="journal-grid">
-
-        <div class="journal-column">
-
-          <div class="journal-subtitle">Little Moments That Started It</div>
-
-          <div class="journal-list">
-
-            <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you<p>
-
-            <p class="journal-heart-bullet"><b>Late-Night Talks:</b> Where every word and text meant whole world</p>
-
-            <p class="journal-heart-bullet"><b>Inside Jokes:</b> The kind only we understand.</p>
-
-            <p class="journal-heart-bullet"><b>Random Good Mornings:</b>The texts i loved!</p>
-
+          <div class="envelope-container" onclick="openLetter('love')">
+            <div class="envelope">
+              <div class="seal">❤</div>
+            </div>
+            <div class="envelope-label">Why I Love You</div>
           </div>
 
         </div>
+      </section>
 
-        <div class="journal-column">
+      <div class="reel-section">
+        <div class="reel-title">Here are your favourite guys 😏🎥</div>
+        <div class="reel-sub">
+          Since you love them so much, I kept them ready in reel format just for you.
+          After this, back to your real favourite guy (me). 💗
+        </div>
 
-          <div class="journal-subtitle">Why You’re My Favourite Person?</div>
+        <div class="reel-grid">
+          <div class="reel">
+            <video class="autoplay-reel" muted loop playsinline preload="auto">
+              <source src="videos/reel1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="reel">
+            <video class="autoplay-reel" muted loop playsinline preload="auto">
+              <source src="videos/reel2.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
 
-          <div class="journal-list">
-
-            <p class="journal-heart-bullet">With you storms felt lovely.</p>
-
-            <p class="journal-heart-bullet">On bad days, your words feel like home.</p>
-
-            <p class="journal-heart-bullet">Your thought's always enough to make me smile.</p>
-
-            <p class="journal-heart-bullet">When i know i will miss you more in a room full of people..</p>
-
+      <div class="journal-wrapper">
+        <div class="journal-inner">
+          <div class="journal-top-line">
+            <span><b><i>H&M</i></b></span>
+            <span>THE BHOCHKUU JOURNAL</span>
+            <span>DATE: 23/12/24</span>
+          </div>
+          <div class="journal-name">THE BHOCHKUU JOURNAL</div>
+          <div class="journal-title-bar">Title: The Day My Life Changed Because of You</div>
+          <div class="journal-byline">By Uss🫶</div>
+          <div class="journal-lead">
+            Sometimes life changes quietly. No fireworks, no big announcement —
+            just a message, a call, a smile. That’s how it started with you, and
+            that’s how our ordinary days turned into mour favourite story. 💗
           </div>
 
+          <div class="journal-grid">
+            <div class="journal-column">
+              <div class="journal-subtitle">Little Moments That Started It</div>
+              <div class="journal-list">
+                <p class="journal-heart-bullet"><b>First Chat:</b> That first text which made me drive crazy for you<p>
+                <p class="journal-heart-bullet"><b>Late-Night Talks:</b> Where every word and text meant whole world</p>
+                <p class="journal-heart-bullet"><b>Inside Jokes:</b> The kind only we understand.</p>
+                <p class="journal-heart-bullet"><b>Random Good Mornings:</b>The texts i loved!</p>
+              </div>
+            </div>
+            <div class="journal-column">
+              <div class="journal-subtitle">Why You’re My Favourite Person?</div>
+              <div class="journal-list">
+                <p class="journal-heart-bullet">With you storms felt lovely.</p>
+                <p class="journal-heart-bullet">On bad days, your words feel like home.</p>
+                <p class="journal-heart-bullet">Your thought's always enough to make me smile.</p>
+                <p class="journal-heart-bullet">When i know i will miss you more in a room full of people..</p>
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
 
-    </div>
-
-  </div>
-
-
-
-  <div class="collage-section">
-
-    <img class="collage-full" src="images/collage.jpg" alt="Our Collage" loading="lazy">
-
-    <div class="collage-caption-text">Our Collage — a whole page of us 💗</div>
-
-  </div>
-
-
-
-  <div class="love-counter">
-
-    <h2 class="counter-title">Since The Day Our Hands First Met 🤝💗</h2>
-
-    <p class="counter-date">6 July</p>
-
-    <div class="counter-grid" id="loveCounter">
-
-      <div class="counter-box"><span class="counter-number" id="c-days">0</span><span class="counter-label">Days</span></div>
-
-      <div class="counter-box"><span class="counter-number" id="c-hours">0</span><span class="counter-label">Hours</span></div>
-
-      <div class="counter-box"><span class="counter-number" id="c-minutes">0</span><span class="counter-label">Minutes</span></div>
-
-      <div class="counter-box"><span class="counter-number" id="c-seconds">0</span><span class="counter-label">Seconds</span></div>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="reason-section">
-
-    <h3 class="reason-title">✨ Why I Love You? ✨</h3>
-
-    <div class="reason-card">
-
-      <p id="reason-display">Click the button below! 👇</p>
-
-    </div>
-
-    <button class="reason-btn" onclick="showReason()">
-
-      <span class="btn-text">Tell me why 🥺</span>
-
-      <span class="btn-heart">💗</span>
-
-    </button>
-
-  </div>
-
-
-
-  <div class="timeline-section" id="our-story">
-
-    <div class="timeline-inner">
-
-      <h2 class="timeline-heading">Our Story, Step by Step 💗</h2>
-
-      <p class="timeline-subtitle">Just little dots on this line… but each one changed my heart. 🥺</p>
-
-      <div class="timeline-line"></div>
-
-      
-
-      <div class="timeline-item">
-
-        <div class="timeline-marker">♥</div>
-
-        <div class="timeline-card">
-
-          <div class="timeline-label">First Chat</div>
-
-          <div class="timeline-date">14 June 2024</div>
-
-          <div class="timeline-text">That shy first “hi” that didn’t know it was starting forever.</div>
-
-        </div>
-
+      <div class="collage-section">
+        <img class="collage-full" src="images/collage.jpg" alt="Our Collage" loading="lazy">
+        <div class="collage-caption-text">Our Collage — a whole page of us 💗</div>
       </div>
 
-      <div class="timeline-item">
-
-        <div class="timeline-marker">♥</div>
-
-        <div class="timeline-card">
-
-          <div class="timeline-label">First Call</div>
-
-          <div class="timeline-date">4 July 2024</div>
-
-          <div class="timeline-text">Your voice that night felt more like home than my own room.</div>
-
+      <div class="love-counter">
+        <h2 class="counter-title">Since The Day Our Hands First Met 🤝💗</h2>
+        <p class="counter-date">6 July</p>
+        <div class="counter-grid" id="loveCounter">
+          <div class="counter-box"><span class="counter-number" id="c-days">0</span><span class="counter-label">Days</span></div>
+          <div class="counter-box"><span class="counter-number" id="c-hours">0</span><span class="counter-label">Hours</span></div>
+          <div class="counter-box"><span class="counter-number" id="c-minutes">0</span><span class="counter-label">Minutes</span></div>
+          <div class="counter-box"><span class="counter-number" id="c-seconds">0</span><span class="counter-label">Seconds</span></div>
         </div>
-
       </div>
 
-      <div class="timeline-item">
-
-        <div class="timeline-marker">♥</div>
-
-        <div class="timeline-card">
-
-          <div class="timeline-label">First Fight</div>
-
-          <div class="timeline-date">Didnt remembered hehe</div>
-
-          <div class="timeline-text">We broke a little… but we chose each other again, even louder.</div>
-
+      <div class="reason-section">
+        <h3 class="reason-title">✨ Why I Love You? ✨</h3>
+        <div class="reason-card">
+          <p id="reason-display">Click the button below! 👇</p>
         </div>
-
+        <button class="reason-btn" onclick="showReason()">
+          <span class="btn-text">Tell me why 🥺</span>
+          <span class="btn-heart">💗</span>
+        </button>
       </div>
 
-      <div class="timeline-item">
-
-        <div class="timeline-marker">♥</div>
-
-        <div class="timeline-card">
-
-          <div class="timeline-label">First Kiss</div>
-
-          <div class="timeline-date">22 Sep 2024</div>
-
-          <div class="timeline-text">My whole world paused forgot how to be alone.</div>
-
+      <div class="timeline-section" id="our-story">
+        <div class="timeline-inner">
+          <h2 class="timeline-heading">Our Story, Step by Step 💗</h2>
+          <p class="timeline-subtitle">Just little dots on this line… but each one changed my heart. 🥺</p>
+          <div class="timeline-line"></div>
+          
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">First Chat</div>
+              <div class="timeline-date">14 June 2024</div>
+              <div class="timeline-text">That shy first “hi” that didn’t know it was starting forever.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">First Call</div>
+              <div class="timeline-date">4 July 2024</div>
+              <div class="timeline-text">Your voice that night felt more like home than my own room.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">First Fight</div>
+              <div class="timeline-date">Didnt remembered hehe</div>
+              <div class="timeline-text">We broke a little… but we chose each other again, even louder.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">First Kiss</div>
+              <div class="timeline-date">22 Sep 2024</div>
+              <div class="timeline-text">My whole world paused forgot how to be alone.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">Today</div>
+              <div class="timeline-date">Right now</div>
+              <div class="timeline-text">Still choosing you. Still learning you. Still falling again & again.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker">♥</div>
+            <div class="timeline-card">
+              <div class="timeline-label">Tomorrow</div>
+              <div class="timeline-date">Every day after this</div>
+              <div class="timeline-text">I don’t know the future, but I know your name is already in it. ✨</div>
+            </div>
+          </div>
         </div>
-
       </div>
 
-      <div class="timeline-item">
-
-        <div class="timeline-marker">♥</div>
-
-        <div class="timeline-card">
-
-          <div class="timeline-label">Today</div>
-
-          <div class="timeline-date">Right now</div>
-
-          <div class="timeline-text">Still choosing you. Still learning you. Still falling again & again.</div>
-
+      <div class="memory">
+        <div class="memory-content">
+          <h2>💗💞 The Day We First Spoke 💞💗</h2>
+          <p>That moment when everything felt different. I didn’t know yet, but my heart already chose you that day. 🥺💗 This was the beginning of *us*. It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿</p>
         </div>
-
+        <img src="images/first.jpg" alt="First memory">
       </div>
 
-      <div class="timeline-item">
-
-        <div class="timeline-marker">♥</div>
-
-        <div class="timeline-card">
-
-          <div class="timeline-label">Tomorrow</div>
-
-          <div class="timeline-date">Every day after this</div>
-
-          <div class="timeline-text">I don’t know the future, but I know your name is already in it. ✨</div>
-
+      <div class="memory">
+        <div class="memory-content">
+          <h2>🌙 Our Late Night Talks</h2>
+          <p>When the whole world slept but we stayed awake, sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...</p>
         </div>
-
+        <img src="images/night.jpg" alt="Late night chat">
       </div>
 
-    </div>
+      <div class="memory">
+        <div class="memory-content">
+          <h2>💖 Every Little Moment</h2>
+          <p>From silly fights to tight hugs, from missed calls to long smiles — everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿</p>
+        </div>
+        <img src="images/us.jpg" alt="Us together">
+      </div>
 
+      <div class="memory">
+        <div class="memory-content">
+          <h2>Our Fav Moment🥹</h2>
+          <p>It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day!</p>
+        </div>
+        <img src="images/us.jpg" alt="Us together">
+      </div>
+      <button id="gameButton">Play a Game 💌</button>
+      <div id="gameModal" class="game-modal" aria-hidden="true">
+        <div class="game-box">
+          <h3 style="color:#ff4f8b;">Choose a Box 🎲</h3>
+          <div class="game-grid" id="gameGrid"></div>
+          <p class="game-ps">Whatever you open… the task is compulsory for you ;)💗
+            And you owe me 5 videos and i will tell how exactly i want you to record hehe
+          </p>
+          <button class="close-game" onclick="closeGame()">Close</button>
+        </div>
+      </div>
+
+    </div> 
+  </div> 
+
+  <div id="owModal" class="ow-modal" aria-hidden="true">
+    <div class="ow-modal-backdrop" onclick="closeLetter()"></div>
+    <div class="ow-modal-content">
+      <h3 id="owTitle" style="color: #d64375; margin-bottom: 10px;">Letter Title</h3>
+      <div id="owContent" class="ow-unlocked-text">
+        </div>
+      <button class="ow-close-btn" onclick="closeLetter()">Close Letter</button>
+    </div>
   </div>
 
-
-
-  <div class="memory">
-
-    <div class="memory-content">
-
-      <h2>💗💞 The Day We First Spoke 💞💗</h2>
-
-      <p>That moment when everything felt different. I didn’t know yet, but my heart already chose you that day. 🥺💗 This was the beginning of *us*. It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿</p>
-
+  <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true">
+    <div class="love-string"></div>
+    <div class="love-message-box">
+      <p>Heyy <strong>my lovee</strong> 💗<br>Just wanted to remind you that<br>no matter how hard life gets,<br>I’m always with you, okay? 🥺✨</p>
+      <button class="love-message-button" id="loveMessageClose">Okay my love 💗</button>
     </div>
-
-    <img src="images/first.jpg" alt="First memory">
-
   </div>
 
-
-
-  <div class="memory">
-
-    <div class="memory-content">
-
-      <h2>🌙 Our Late Night Talks</h2>
-
-      <p>When the whole world slept but we stayed awake, sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too...</p>
-
-    </div>
-
-    <img src="images/night.jpg" alt="Late night chat">
-
+  <div class="love-note">
+    <span>No matter how far you are… I’ll be right here with you. 💗🌙</span>
   </div>
 
+  <script>
 
-
-  <div class="memory">
-
-    <div class="memory-content">
-
-      <h2>💖 Every Little Moment</h2>
-
-      <p>From silly fights to tight hugs, from missed calls to long smiles — everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿</p>
-
-    </div>
-
-    <img src="images/us.jpg" alt="Us together">
-
-  </div>
-
-
-
-  <div class="memory">
-
-    <div class="memory-content">
-
-      <h2>Our Fav Moment🥹</h2>
-
-      <p>It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day!</p>
-
-    </div>
-
-    <img src="images/us.jpg" alt="Us together">
-
-  </div>
-
-  <button id="gameButton">Play a Game 💌</button>
-
-  <div id="gameModal" class="game-modal" aria-hidden="true">
-
-    <div class="game-box">
-
-      <h3 style="color:#ff4f8b;">Choose a Box 🎲</h3>
-
-      <div class="game-grid" id="gameGrid"></div>
-
-      <p class="game-ps">Whatever you open… the task is compulsory for you ;)💗
-
-        And you owe me 5 videos and i will tell how exactly i want you to record hehe
-
-      </p>
-
-      <button class="close-game" onclick="closeGame()">Close</button>
-
-    </div>
-
-  </div>
-
-
-
-</div>
-
-  </div>   <div id="owModal" class="ow-modal" aria-hidden="true"><div class="ow-modal-backdrop" onclick="closeLetter()"></div>
-
-<div class="ow-modal-content">
-
-  <h3 id="owTitle" style="color: #d64375; margin-bottom: 10px;">Letter Title</h3>
-
-  <div id="owContent" class="ow-unlocked-text">
-
-    </div>
-
-  <button class="ow-close-btn" onclick="closeLetter()">Close Letter</button>
-
-</div>
-
-  </div>  <div class="love-message-overlay" id="loveMessageOverlay" aria-hidden="true"><div class="love-string"></div>
-
-<div class="love-message-box">
-
-  <p>Heyy <strong>my lovee</strong> 💗<br>Just wanted to remind you that<br>no matter how hard life gets,<br>I’m always with you, okay? 🥺✨</p>
-
-  <button class="love-message-button" id="loveMessageClose">Okay my love 💗</button>
-
-</div>
-
-  </div>  <div class="love-note"><span>No matter how far you are… I’ll be right here with you. 💗🌙</span>
-
-  </div>  <script>
-  
-
-  
     const CORRECT_PASSWORD = "Hitarth777";  
-  
 
-  
     const form = document.getElementById("login-form");
-  
     const passInput = document.getElementById("password");
-  
     const error = document.getElementById("error");
-  
     const lock = document.getElementById("lock");
-  
     const blog = document.getElementById("blog");
-  
 
-  
     // 💌 popup elements
-  
     const loveOverlay = document.getElementById("loveMessageOverlay");
-  
     const loveCloseBtn = document.getElementById("loveMessageClose");
-  
     let lovePopupScheduled = false;
-  
 
-  
     function showLovePopup() {
-  
       if (!loveOverlay) return;
-  
       loveOverlay.classList.add("show");
-  
       loveOverlay.setAttribute("aria-hidden", "false");
-  
     }
-  
 
-  
     function hideLovePopup() {
-  
       if (!loveOverlay) return;
-  
       loveOverlay.classList.remove("show");
-  
       loveOverlay.setAttribute("aria-hidden", "true");
-  
     }
-  
 
-  
     function scheduleLovePopup() {
-  
       if (lovePopupScheduled) return;
-  
       lovePopupScheduled = true;
-  
 
-  
       // show after 12 seconds of unlock
-  
       setTimeout(() => {
-  
         // only show if still unlocked
-  
         if (document.body.classList.contains("unlocked")) {
-  
           showLovePopup();
-  
         }
-  
       }, 25000);
-  
     }
-  
 
-  
     if (loveCloseBtn) {
-  
       loveCloseBtn.addEventListener("click", hideLovePopup);
-  
     }
-  
 
-  
     if (loveOverlay) {
-  
       loveOverlay.addEventListener("click", (e) => {
-  
         if (e.target === loveOverlay) hideLovePopup();
-  
       });
-  
     }
-  
 
-  
     // 🔐 Password check
-  
     form.addEventListener("submit", function (e) {
-  
       e.preventDefault();
-  
       const entered = passInput.value.trim();
-  
       if (entered.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
-  
         lock.style.display = "none";
-  
         blog.style.display = "block";
-  
         document.body.classList.add("unlocked");
-  
 
-  
         const reels = document.querySelectorAll(".autoplay-reel");
-  
         reels.forEach((video) => {
-  
           video.play().catch(() => { console.log("Reel autoplay blocked, tap to play."); });
-  
           video.addEventListener("click", () => {
-  
             if (video.paused) video.play(); else video.pause();
-  
           });
-  
         });
-  
 
-  
         scheduleLovePopup();
-  
       } else {
-  
         error.textContent = "Yaad rakho barabar 😭";
-  
         passInput.value = "";
-  
       }
-  
     });
-  
 
-  
     // 💗 HEART APPEARS ON EVERY TAP / CLICK
-  
     document.addEventListener("click", function (e) {
-  
       const heart = document.createElement("div");
-  
       heart.className = "tap-heart";
-  
       heart.textContent = "💗";
-  
       heart.style.left = e.clientX + "px";
-  
       heart.style.top = e.clientY + "px";
-  
       document.body.appendChild(heart);
-  
       setTimeout(() => { heart.remove(); }, 1200);
-  
     });
-  
 
-  
     // 💬 "I love you <3" appears every 15 seconds
-  
     setInterval(() => {
-  
       if (!document.body.classList.contains("unlocked")) return;
-  
       const msg = document.createElement("div");
-  
       msg.className = "love-popup";
-  
       msg.textContent = "I love you <3";
-  
       const padding = 60;
-  
       const x = Math.random() * (window.innerWidth - padding * 2) + padding;
-  
       const y = Math.random() * (window.innerHeight - padding * 2) + padding;
-  
       msg.style.left = x + "px";
-  
       msg.style.top = y + "px";
-  
       document.body.appendChild(msg);
-  
       setTimeout(() => { msg.remove(); }, 3500);
-  
     }, 25000);  
-  
 
-  
     // 💞 TIMELINE SLIDE-IN ON SCROLL
-  
     const timelineItems = document.querySelectorAll(".timeline-item");
-  
     if (timelineItems.length) {
-  
       const observer = new IntersectionObserver((entries, obs) => {
-  
         entries.forEach((entry) => {
-  
           if (entry.isIntersecting) {
-  
             entry.target.classList.add("visible");
-  
             obs.unobserve(entry.target);
-  
           }
-  
         });
-  
       }, { threshold: 0.3 });
-  
 
-  
       timelineItems.forEach((item, index) => {
-  
         if (index % 2 === 1) item.classList.add("from-right");
-  
         observer.observe(item);
-  
       });
-  
     }
-  
 
-  
     // 💗 LOVE COUNTER
-  
     function startLoveCounter() {
-  
       const startDate = new Date("2024-07-06T22:00:00"); 
-  
       function updateCounter() {
-  
         const now = new Date();
-  
         let diff = now - startDate;
-  
         if (diff < 0) diff = 0;
-  
         const totalSeconds = Math.floor(diff / 1000);
-  
         const days = Math.floor(totalSeconds / (3600 * 24));
-  
         const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-  
         const minutes = Math.floor((totalSeconds % 3600) / 60);
-  
         const seconds = totalSeconds % 60;
-  
         const d = document.getElementById("c-days");
-  
         const h = document.getElementById("c-hours");
-  
         const m = document.getElementById("c-minutes");
-  
         const s = document.getElementById("c-seconds");
-  
         if (!d || !h || !m || !s) return;
-  
         d.textContent = days; h.textContent = hours; m.textContent = minutes; s.textContent = seconds;
-  
       }
-  
       updateCounter();
-  
       setInterval(updateCounter, 1000);
-  
     }
-  
     document.addEventListener("DOMContentLoaded", () => { startLoveCounter(); });
-  
 
-  
     // 🎲 REASONS LOGIC
-  
     const reasons = [
-  
       "Because you make even boring days feel special.",
-  
       "Because of the way your eyes light up when you smile.",
-  
       "Because you are the only one who understands my weird jokes.",
-  
       "Because your voice is my favorite sound.",
-  
       "Because you support my dreams.",
-  
       "Because you look cute even when you are angry.",
-  
       "Because being with you feels like home.",
-  
       "Because you have the kindest heart.",
-  
       "Because you make me want to be a better man.",
-  
       "Because I just can't imagine a tomorrow without you.",
-  
       "Because you heal me in untold ways.",
-  
       "Because you always made me feel loved.",
-  
       "Because you are pretty.",
-  
       "Because you are so kind.",
-  
       "Becuase you never give up things easily ",
-  
       "Because of how your eyes speaks more than words",
-  
       "Because of the way you love me.",
-  
       "Because of the hair you have",
-  
       "Because of your cutiee nakhraa",
-  
       "Because of your prettiest brown honey eyes.",
-  
       "Because of the way you speak.",
-  
       "Because of the way your behaviour pushes me",
-  
       "Because the way you express!",
-  
       "Because of how you keep every of relation strong",
-  
       "Because you love sm hehe",
-  
       "Because you are you!",
-  
       "Because of how you care",
-  
       "Because of how you still pray!",
-  
       "Because you are sexyy <3",
-  
       "Because you stayed instead of leaving!",
-  
       "Because i can write a novel on you",
-  
       "Because of how you smell",
-  
       "Because of how soft your skin is!",
-  
       "Because the way everything seems coourful with you",
-  
       "Because how you do crazy things",
-  
       "Because of how you talk about me!",
-  
       "Because you care about the boy who disappeared for everyone",
-  
       "Because you were never bored of me",
-  
       "Because you wanted solution and not to be the winner of argument",
-  
       "Because you knew the importance of love",
-  
       "Because you never degraded me!",
-  
       "Because you have the prettiest soul",
-  
       "Because you are the lovliest, babe!",
-  
       "Because you are my brother! hehe<3",
-  
       "Because you cared about efforts",
-  
       "Because wanted me and not better",
-  
       "Because you are greatest of all time!",
-  
       "Because you always cared about others while you were not okay!But you dont deserve that okay?",
-  
       "Because i would live happily with you!",
-  
       "Because you would be the bestest",
-  
       "Because you are my bestfriend",
-  
       "Because you are keeper hehe",
-  
       "Because you have a pretty nose",
-  
       "Because i would sit with you for hours silently then having a 2 hour gaming session",
-  
       "Because i would watch you sitting for hours then roaming in concerts and parties..",
-  
       "Because your calls make me happiest alive",
-  
       "Because the way you kiss",
-  
       "Because the way your hug feels like heaven",
-  
       "Because when we hold hands i hold my world!",
-  
       "Because i feel safe wid you",
-  
       "Because of how cutiee youu aree",
-  
       "Because of how childishh you can be",
-  
       "Because of how you respect me",
-  
       "Because of how you believe in me!",
-  
       "Because you are more than talha anjum's lyrics to me ",
-  
       "Because you are calm to my encore!",
-  
       "Because without you i am getting seedhe maut..",
-  
       "Because you are words to my letters",
-  
       "Because you are sun to my moon",
-  
       "Because you are missing piece to my puzzle",
-  
       "Because you complete me",
-  
       "Because you left me no regrets",
-  
       "Because i can be angry but not without you..",
-  
       "Because you would teach me!",
-  
       "Because how warm your touch feels",
-  
       "Because of how all my fears fades when i am with you",
-  
       "Because you love doing things i love",
-  
       "Because for me you would hurt yourself to make me happy",
-  
       "Because you treat me like i matter!",
-  
       "Because i want to sleep in your arms",
-  
       "Because i found eternal peace in your presence",
-  
       "Because i hate when i am wihtout you",
-  
       "Because i always wonder what my manu is doing rn?",
-  
       "Because Manasvi is my fav name!",
-  
       "Because i want to play luka chupi iykyk",
-  
       "Because i was worst until you made me best",
-  
       "Because you saw me not what i was!",
-  
       "Because i hurt you and you still cared if i was hurt or not",
-  
       "Because with you my words flow like river",
-  
       "Because i stopped hating myself",
-  
       "Because i satarted learning how to live",
-  
       "Because you  taught me take care of my myself",
-  
       "Because i want to be part of your every moment",
-  
       "Because i never happen to be this jealous for someone",
-  
       "Because i never intended to change myself to good",
-  
       "Because you are my chicago",
-  
       "Because you aree myyy!!!",
-  
       "Because i saw my world in yourr eyes",
-  
       "Because i happen to be gossiping with moon about your beauty",
-  
       "Because i started to feel things again",
-  
       "Because i am so grateful to have you",
-  
       "Because i would relive my life 9999 times and everytime i would want to fall in love with you<3",
-  
     ];
-  
 
-  
     function showReason() {
-  
       const display = document.getElementById("reason-display");
-  
       display.style.opacity = 0;
-  
       setTimeout(() => {
-  
         const random = reasons[Math.floor(Math.random() * reasons.length)];
-  
         display.textContent = `"${random}"`;
-  
         display.style.opacity = 1;
-  
       }, 300);
-  
     }
-  
 
-  
     // 💌 OPEN LETTER LOGIC (NO PASSWORD)
-  
     const LETTER_CONTENT = {
-  
       sad: "When you are sad — Remember the time we stayed up till 4am talking about us teasing out each other my silliest yet lamyy jokes huh?.",
-  
       miss: "When you miss me — If you do miss me then you better do everything happily okay? Cause my memories of mine should bring smile forever! ♥",
-  
       happy: "Silly memory:Remember we were at hetvi's and like tu mara aagad aam ayine javani hti tease krva jem krto hu but instead you lost your balance and tu mara pr padvani hati pchi banne hsta?.",
-  
       love: "Why I love you? Because it's you!."
-  
     };
-  
 
-  
     function openLetter(type) {
-  
       const modal = document.getElementById('owModal');
-  
       const title = document.getElementById('owTitle');
-  
       const content = document.getElementById('owContent');
-  
       
-  
       let titleText = "";
-  
       if(type === 'sad') titleText = "Open When You're Sad";
-  
       if(type === 'miss') titleText = "Open When You Miss Me";
-  
       if(type === 'happy') titleText = "Open When You Need a Laugh";
-  
       if(type === 'love') titleText = "Why I Love You";
-  
 
-  
       title.textContent = titleText;
-  
       content.textContent = LETTER_CONTENT[type];
-  
       modal.setAttribute("aria-hidden", "false");
-  
     }
-  
 
-  
     function closeLetter() {
-  
       const modal = document.getElementById('owModal');
-  
       modal.setAttribute("aria-hidden", "true");
-  
     }
-  
     const gameButton = document.getElementById('gameButton');
-  
 const gameModal = document.getElementById('gameModal');
-  
 const grid = document.getElementById('gameGrid');
-  
 
-  
 const tasks = [
-  
   "Say 'I love you' in your cutest voice 💗",
-  
   "Send me your cutest selfie 😘",
-  
   "Tell me one memory of us you love the most ❤️",
-  
   "Sing one line of any song you think of me 🎤",
-  
   "Send me a voice note saying you miss me 🥺",
-  
   "Tell me what you would name our future pet 😆",
-  
   "Say 'Goodnight my love' in sleepy voice 💤",
-  
   "Send me a picture of any pink thing 💖",
-  
   "Call me and say one sweet thing 💞",
-  
   "Write 'I love you' 10 times and send me 💌"
-  
 ];
-  
 
-  
 // create 10 boxes
-  
 tasks.forEach((task, index) => {
-  
   const boxWrapper = document.createElement("div");
-  
   boxWrapper.style.textAlign = "center";
-  
 
-  
   const box = document.createElement("div");
-  
   box.className = "box";
-  
   box.textContent = index + 1;
-  
 
-  
   const taskBubble = document.createElement("div");
-  
   taskBubble.className = "task-bubble";
-  
   taskBubble.style.display = "none";
-  
   taskBubble.textContent = task;
-  
 
-  
   box.addEventListener("click", () => {
-  
     box.classList.add("opened");
-  
     taskBubble.style.display = "block";
-  
   });
-  
 
-  
   boxWrapper.appendChild(box);
-  
   boxWrapper.appendChild(taskBubble);
-  
   grid.appendChild(boxWrapper);
-  
 });
-  
 
-  
 function openGame() {
-  
   gameModal.setAttribute("aria-hidden", "false");
-  
 }
-  
 
-  
 function closeGame() {
-  
   gameModal.setAttribute("aria-hidden", "true");
-  
 }
-  
 
-  
 gameButton.addEventListener("click", openGame);
-  
 
-  
 // Show button when page bottom reached
-  
 window.addEventListener("scroll", () => {
-  
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-  
     gameButton.classList.add("show");
-  
   }
-  
 });
-  
 
-  
 
-  
-  </script></body></html>
+  </script>
+
+</body>
+</html>
