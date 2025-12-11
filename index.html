@@ -1026,6 +1026,144 @@
     .ow-close-btn {
       background: #ff4f8b; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer;
     }
+    /* GAME BUTTON */
+#gameButton {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(255, 111, 165, 0.4);
+  cursor: pointer;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 1s ease, transform 0.4s ease;
+}
+
+#gameButton.show {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+/* GAME MODAL */
+.game-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+}
+
+.game-modal[aria-hidden="false"] {
+  display: flex;
+}
+
+.game-box {
+  background: linear-gradient(135deg, #fff0f6, #ffe4f7);
+  border-radius: 22px;
+  border: 2px solid #ffb3d6;
+  padding: 26px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: popIn 0.6s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Box default look */
+.box {
+  background: #fff;
+  border: 2px dashed #ff8fb8;
+  border-radius: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  color: #ff4f8b;
+  box-shadow: 0 4px 12px rgba(255,111,165,0.15);
+}
+
+/* Hover */
+.box:hover {
+  background: #ffb3d6;
+  color: white;
+  transform: translateY(-4px);
+}
+
+/* Opened state */
+.box.opened {
+  background: #ff99c8;
+  color: white;
+  border-style: solid;
+  transform: scale(1.05);
+}
+
+/* Task bubble under each box */
+.task-bubble {
+  margin-top: 10px;
+  background: #fff7fb;
+  border-radius: 14px;
+  padding: 10px;
+  font-size: 0.9rem;
+  color: #444;
+  border: 1px solid #ffb3d6;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  animation: fadeInTask 0.6s ease;
+}
+
+@keyframes fadeInTask {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-game {
+  margin-top: 18px;
+  background: linear-gradient(135deg, #ff6fa5, #ff99c8);
+  border: none;
+  color: white;
+  border-radius: 999px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(255,79,139,0.3);
+}
+.game-ps {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #d64375;
+  font-weight: 600;
+  background: #fff0f7;
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1px dashed #ffb3d6;
+  box-shadow: 0 4px 10px rgba(255, 179, 214, 0.25);
+  animation: fadeInTask 0.6s ease;
+  text-align: center;
+}
+
+
 
   </style>
 </head>
@@ -1271,6 +1409,17 @@
         </div>
         <img src="images/us.jpg" alt="Us together">
       </div>
+      <button id="gameButton">Play a Game 💌</button>
+      <div id="gameModal" class="game-modal" aria-hidden="true">
+        <div class="game-box">
+          <h3 style="color:#ff4f8b;">Choose a Box 🎲</h3>
+          <div class="game-grid" id="gameGrid"></div>
+          <p class="game-ps">Whatever you open… the task is compulsory for you ;)💗
+            And you owe me 5 videos and i will tell how exactly i want you to record hehe!
+          </p>
+          <button class="close-game" onclick="closeGame()">Close</button>
+        </div>
+      </div>
 
     </div> 
   </div> 
@@ -1298,6 +1447,7 @@
   </div>
 
   <script>
+
     const CORRECT_PASSWORD = "Hitarth777";  
 
     const form = document.getElementById("login-form");
@@ -1582,6 +1732,64 @@
       const modal = document.getElementById('owModal');
       modal.setAttribute("aria-hidden", "true");
     }
+    const gameButton = document.getElementById('gameButton');
+const gameModal = document.getElementById('gameModal');
+const grid = document.getElementById('gameGrid');
+
+const tasks = [
+  "Say 'I love you' in your cutest voice 💗",
+  "Send me your cutest selfie 😘",
+  "Tell me one memory of us you love the most ❤️",
+  "Sing one line of any song you think of me 🎤",
+  "Send me a voice note saying you miss me 🥺",
+  "Tell me what you would name our future pet 😆",
+  "Say 'Goodnight my love' in sleepy voice 💤",
+  "Send me a picture of any pink thing 💖",
+  "Call me and say one sweet thing 💞",
+  "Write 'I love you' 10 times and send me 💌"
+];
+
+// create 10 boxes
+tasks.forEach((task, index) => {
+  const boxWrapper = document.createElement("div");
+  boxWrapper.style.textAlign = "center";
+
+  const box = document.createElement("div");
+  box.className = "box";
+  box.textContent = index + 1;
+
+  const taskBubble = document.createElement("div");
+  taskBubble.className = "task-bubble";
+  taskBubble.style.display = "none";
+  taskBubble.textContent = task;
+
+  box.addEventListener("click", () => {
+    box.classList.add("opened");
+    taskBubble.style.display = "block";
+  });
+
+  boxWrapper.appendChild(box);
+  boxWrapper.appendChild(taskBubble);
+  grid.appendChild(boxWrapper);
+});
+
+function openGame() {
+  gameModal.setAttribute("aria-hidden", "false");
+}
+
+function closeGame() {
+  gameModal.setAttribute("aria-hidden", "true");
+}
+
+gameButton.addEventListener("click", openGame);
+
+// Show button when page bottom reached
+window.addEventListener("scroll", () => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+    gameButton.classList.add("show");
+  }
+});
+
 
   </script>
 
