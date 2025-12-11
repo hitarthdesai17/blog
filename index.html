@@ -677,6 +677,210 @@
       </div>
     </div>
   </div>
+  <!-- BOUQUET GENERATOR -->
+<style>
+  /* place these in your CSS or inside a <style> near the component */
+  #bouquetWrap {
+    margin: 18px auto;
+    max-width: 920px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #bouquetArea {
+    position: relative;
+    width: 280px;
+    height: 220px;
+    background: linear-gradient(180deg,#fff7fb,#ffeef8);
+    border-radius: 18px;
+    border: 2px dashed #ffb3d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 8px 24px rgba(255,111,165,0.12);
+  }
+
+  #bouquetArea .hint {
+    text-align: center;
+    color: #d64375;
+    font-weight:700;
+    pointer-events: none;
+  }
+
+  .flower {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    transform-origin: center center;
+    will-change: transform, opacity;
+    pointer-events: none;
+    animation: growFloat 900ms cubic-bezier(.2,.9,.3,1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes growFloat {
+    0% { transform: translateY(14px) scale(0.25) rotate(-8deg); opacity: 0; }
+    60% { transform: translateY(-6px) scale(1.05) rotate(6deg); opacity: 1; }
+    100% { transform: translateY(-14px) scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  /* small pop on final bouquet */
+  #bouquetNote {
+    display: none;
+    max-width: 440px;
+    background: linear-gradient(135deg,#fff0f6,#ffe6f4);
+    border-radius: 14px;
+    padding: 12px 16px;
+    border: 1px solid #ffb3d6;
+    color: #7b2f45;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(214,67,117,0.08);
+  }
+
+  #bouquetControls { display:flex; gap:8px; align-items:center; flex-direction:column; }
+  .btn-small {
+    background: linear-gradient(135deg,#ff6fa5,#ff99c8);
+    color:white; padding:8px 12px; border-radius:999px; border:none; cursor:pointer; font-weight:700;
+  }
+  .btn-ter { background: transparent; border: 1px solid #ffb3d6; color:#d64375; padding:8px 10px; border-radius:999px; cursor:pointer; }
+  @media (max-width:520px){ #bouquetArea{ width: 220px; height:180px } .flower{ width:48px; height:48px } }
+</style>
+
+<div id="bouquetWrap">
+  <div id="bouquetArea" aria-label="Tap to grow a flower" role="button" tabindex="0">
+    <div class="hint">Tap once for a flower<br>Tap 10 times for a bouquet 💐</div>
+  </div>
+
+  <div id="bouquetControls">
+    <div id="bouquetNote" aria-live="polite">
+      <!-- filled by JS -->
+    </div>
+    <div style="display:flex; gap:8px; margin-top:6px;">
+      <button id="resetBouquet" class="btn-ter">Reset</button>
+      <button id="giftBouquet" class="btn-small" style="display:none;">Send Bouquet ✨</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const area = document.getElementById('bouquetArea');
+    const note = document.getElementById('bouquetNote');
+    const resetBtn = document.getElementById('resetBouquet');
+    const giftBtn = document.getElementById('giftBouquet');
+    let count = 0;
+    const MAX = 10;
+
+    // small palette
+    const petalColors = ['#ff6fa5','#ff99c8','#ffd1e6','#ffe47a','#cce7ff','#fff0f6','#ffb3d6'];
+    const centerColors = ['#ffd6e8','#ffeedb','#fff4d9','#ffe1f0','#fbeaf2'];
+
+    function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    function randRange(a,b){ return a + Math.random()*(b-a); }
+
+    function makeFlower() {
+      // create simple SVG flower (5 petals + center)
+      const petal = rand(petalColors);
+      const center = rand(centerColors);
+      const svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+        <g transform="translate(50 50)">
+          <g id="petals">
+            <ellipse rx="14" ry="26" fill="${petal}" transform="rotate(0) translate(0 -30)"></ellipse>
+            <ellipse rx="14" ry="26" fill="${petal}" transform="rotate(72) translate(0 -30)"></ellipse>
+            <ellipse rx="14" ry="26" fill="${petal}" transform="rotate(144) translate(0 -30)"></ellipse>
+            <ellipse rx="14" ry="26" fill="${petal}" transform="rotate(216) translate(0 -30)"></ellipse>
+            <ellipse rx="14" ry="26" fill="${petal}" transform="rotate(288) translate(0 -30)"></ellipse>
+          </g>
+          <circle r="12" fill="${center}" stroke="#f6cfe0" stroke-width="2"></circle>
+        </g>
+      </svg>`;
+
+      const el = document.createElement('div');
+      el.className = 'flower';
+      el.innerHTML = svg;
+
+      // pick a pleasant position inside area (not at edges)
+      const pad = 24;
+      const w = area.clientWidth, h = area.clientHeight;
+      const left = Math.round(randRange(pad, w - pad - 56));
+      const top = Math.round(randRange(pad, h - pad - 56));
+      el.style.left = left + 'px';
+      el.style.top = top + 'px';
+
+      // subtle entrance rotation
+      el.style.transform = `translateY(12px) scale(0.25) rotate(${Math.floor(randRange(-18,18))}deg)`;
+      area.appendChild(el);
+
+      // remove after a while if you want a temporary effect OR keep them for bouquet
+      return el;
+    }
+
+    function showBouquetNote() {
+      note.innerHTML = `<strong>Here’s a bouquet, because you deserve one every day.</strong><br>Count: ${count} 🌸`;
+      note.style.display = 'block';
+      giftBtn.style.display = 'inline-block';
+      // tiny pop animation
+      note.animate([{ transform:'scale(.98)', opacity:0 },{ transform:'scale(1.02)', opacity:1 }], { duration:380, easing:'cubic-bezier(.2,.9,.3,1)'});
+    }
+
+    // main handler (click or keyboard)
+    function handleGrow(e) {
+      // ignore clicks on control buttons
+      e && e.preventDefault();
+      if (count >= MAX) return;
+      count++;
+      const fl = makeFlower();
+
+      // small wobble
+      fl.animate([{ transform:'scale(0.9) translateY(6px)' }, { transform:'scale(1.03) translateY(-6px)' }, { transform:'scale(1) translateY(-14px)'}], { duration: 900, easing: 'cubic-bezier(.2,.9,.3,1)' });
+
+      // optional: keep flowers permanently by not removing
+      // but add a tiny drop-shadow overlay to look fuller
+      if (count === MAX) {
+        showBouquetNote();
+      } else {
+        // update hint
+        const hint = area.querySelector('.hint');
+        if (hint) hint.textContent = `Great! ${count}/${MAX} 🌼`;
+      }
+    }
+
+    // support pointer & keyboard (space/enter)
+    area.addEventListener('pointerdown', handleGrow);
+    area.addEventListener('keydown', (ev)=> { if(ev.key==='Enter' || ev.key===' '){ handleGrow(ev); } });
+
+    resetBtn.addEventListener('click', ()=> {
+      count = 0;
+      note.style.display = 'none';
+      giftBtn.style.display = 'none';
+      // remove flowers
+      area.querySelectorAll('.flower').forEach(n=> n.remove());
+      const hint = area.querySelector('.hint');
+      if (hint) hint.innerHTML = 'Tap once for a flower<br>Tap 10 times for a bouquet 💐';
+    });
+
+    // optional "send bouquet" hook — you can wire to any action (open modal, send msg, etc.)
+    giftBtn.addEventListener('click', ()=> {
+      // simple visual reward
+      note.innerHTML = `Sent! 💌 She got a bouquet — you are the sweetest.`;
+      note.animate([{ opacity:0.8 },{ opacity:1 }], { duration:280 });
+    });
+
+    // small accessibility: announce count when flowers added (aria-live)
+    const live = document.createElement('div');
+    live.setAttribute('aria-live','polite');
+    live.style.position = 'absolute'; live.style.left = '-9999px'; document.body.appendChild(live);
+    function announce(s){ live.textContent = s; }
+
+    area.addEventListener('pointerdown', ()=> announce(`${count+1 > MAX ? MAX : count+1}/${MAX} flowers`));
+  })();
+</script>
+
 
   <div id="owModal" class="modal-backdrop">
     <div class="ow-modal-content">
