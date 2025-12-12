@@ -203,6 +203,104 @@
       border: 8px solid #fff; border-bottom-width: 20px; border-radius: 4px;
       box-shadow: 5px 8px 15px rgba(0,0,0,0.2); transform: rotate(3deg); transition: transform 0.3s ease;
     }
+    /* container for video to match existing image style */
+.memory-media {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border: 8px solid #fff;
+  border-bottom-width: 20px;
+  border-radius: 4px;
+  box-shadow: 5px 8px 15px rgba(0,0,0,0.2);
+  transform: rotate(3deg);
+  transition: transform .3s ease, filter .3s ease;
+  position: relative;
+  overflow: hidden; /* for vignette/mask */
+}
+
+
+.memory-video {
+  flex:0 0 auto;
+  width:100%;
+  max-width:280px;
+  height:auto;
+  aspect-ratio: 3/4;       /* keeps same portrait shape */
+  object-fit: cover;
+  border:8px solid #fff;
+  border-bottom-width:20px;
+  border-radius:4px;
+  box-shadow:5px 8px 15px rgba(0,0,0,0.2);
+  transform:rotate(3deg);
+  transition: transform .3s ease;
+}
+.memory-media {
+  flex:0 0 auto;
+  position: relative;
+}
+.film-frame::before {
+  content:"";
+  position:absolute;
+  top:-10px; left:0; right:0;
+  height:14px;
+  background-image: radial-gradient(#000 1.4px, transparent 1.4px);
+  background-size:10px 10px; 
+  opacity:0.25;
+}
+
+.memory:hover .memory-video {
+  transform: rotate(1deg) scale(1.02);
+}
+
+
+/* hover behavior like images */
+.memory:hover .memory-media,
+.memory:hover .memory-video {
+  transform: rotate(1deg) scale(1.02);
+}
+
+/* soft vignette / faded edges */
+.memory-media::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.08) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* subtle rounded film perforation frame (optional - remove .film-frame class if not wanted) */
+.film-frame {
+  padding: 6px 6px 12px 6px; /* creates extra inner border like a film strip */
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0 3px, transparent 3px 18px) border-box;
+  border-radius: 6px;
+  border: 6px solid transparent;
+}
+
+/* small decorative holes at top (CSS-only "perforation" dots) */
+.film-frame::before{
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  background-image: radial-gradient(#f1f1f1 0 40%, transparent 40%);
+  background-size: 12px 8px;
+  background-repeat: repeat-x;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* responsive tweak for small screens */
+@media (max-width:700px){
+  .memory-media, .memory-video { max-width: 240px; aspect-ratio: 4/5; }
+  .film-frame::before { left: 6%; right: 6%; background-size: 10px 6px; }
+}
+
+    
     .memory:hover img { transform: rotate(1deg) scale(1.02); }
     .memory::before {
       content: "♥"; position: absolute; top: 15px; right: 15px; font-size: 30px;
@@ -707,7 +805,10 @@
           <h2>The day I proposed</h2>
           <p>Not to mention the date cause you remembered this one ig hehe! It was only 143 days of us talking together not knowing we both found each other to be this precious! i lovee youuu girlll i reallyy really do! And thank youu for accepting me because i will be your last!</p>
         </div>
-        <img src="images/us.jpg" alt="Us together">
+        <div class="memory-media film-frame">
+  <video class="memory-video" src="videos/propose.mp4" muted loop playsinline preload="metadata"></video>
+</div>
+
       </div>
       <div class="memory">
         <div class="memory-content">
@@ -1156,6 +1257,48 @@
       fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
       fire(0.1, { spread: 120, startVelocity: 45 });
     }
+    // call this once in your <script> (after DOM is ready)
+(function () {
+  const mediaEls = document.querySelectorAll('.memory-media');
+
+  if (!('IntersectionObserver' in window)) {
+    // fallback: autoplay all muted videos (still no fullscreen)
+    document.querySelectorAll('.memory-video').forEach(v => { v.play().catch(()=>{}); });
+    return;
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const mediaWrap = entry.target;
+      const video = mediaWrap.querySelector('.memory-video');
+      if (!video) return;
+
+      // when 40% visible, play; pause otherwise (keeps bandwidth low)
+      if (entry.intersectionRatio >= 0.4) {
+        // try to load and play (muted + playsinline -> mobile autoplay allowed)
+        if (video.paused) {
+          // ensure preload is ready if not loaded
+          if (video.readyState < 2) {
+            // start loading minimal data
+            video.preload = 'auto';
+            video.load();
+          }
+          video.play().catch(()=>{ /* ignore autoplay failures */ });
+        }
+      } else {
+        // pause to save CPU and bandwidth
+        if (!video.paused) {
+          video.pause();
+        }
+      }
+    });
+  }, {
+    threshold: [0, 0.2, 0.4, 0.75, 1]
+  });
+
+  mediaEls.forEach(el => obs.observe(el));
+})();
+
 
   </script>
 </body>
