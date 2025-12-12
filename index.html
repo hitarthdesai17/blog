@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,6 +98,14 @@
       border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex; justify-content: center; align-items: center; z-index: 1;
     }
+    .autoplay-reel[data-ended="true"] {
+  filter: brightness(0.85) contrast(1.1);
+  cursor: pointer;
+}
+.autoplay-reel[data-ended="true"]:hover {
+  filter: brightness(1) contrast(1.15);
+}
+
     /* Flap */
     .envelope::before {
       content: ''; position: absolute; top: 0;
@@ -929,6 +938,42 @@
             if (video.paused) video.play(); else video.pause();
           });
         });
+        document.querySelectorAll(".autoplay-reel").forEach(video => {
+
+  let playedOnce = false;
+
+  // Play reel once after unlock
+  video.play().catch(()=>{});
+
+  // When video ends → show thumbnail
+  video.addEventListener("ended", () => {
+    playedOnce = true;
+    video.pause();
+    video.currentTime = 0;
+
+    // Exit fullscreen mode if somehow triggered
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+
+    // Freeze frame so it looks like a thumbnail
+    video.setAttribute("data-ended", "true");
+  });
+
+  // When clicked → restart ONLY IF played once
+  video.addEventListener("click", () => {
+    if (playedOnce) {
+      video.play();
+      video.removeAttribute("data-ended");
+    } else {
+      // before first end → toggle play/pause normally
+      if (video.paused) video.play();
+      else video.pause();
+    }
+  });
+
+});
+
 
         // Schedule Popup
         setTimeout(() => {
