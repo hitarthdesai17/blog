@@ -931,13 +931,7 @@
         document.body.classList.add("unlocked");
         document.getElementById("bg-music").play().catch(e => console.log("Audio error:", e));
 
-        // Start Reels
-        document.querySelectorAll(".autoplay-reel").forEach((video) => {
-          video.play().catch(() => {});
-          video.addEventListener("click", () => {
-            if (video.paused) video.play(); else video.pause();
-          });
-        });
+       
         document.querySelectorAll(".autoplay-reel").forEach(video => {
 
   let playedOnce = false;
