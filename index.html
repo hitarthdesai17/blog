@@ -892,9 +892,6 @@
   <div class="love-note">
     <span>No matter how far you are… I’ll be right here with you. 💗🌙</span>
   </div>
-  <audio id="bg-music" loop>
-    <source src="music/song.mp3" type="audio/mp3">
-  </audio>
   <script>
     const CORRECT_PASSWORD = "Hitarth777";  
     const form = document.getElementById("login-form");
@@ -929,7 +926,6 @@
         lock.style.display = "none";
         blog.style.display = "block";
         document.body.classList.add("unlocked");
-        document.getElementById("bg-music").play().catch(e => console.log("Audio error:", e));
 
        
         document.querySelectorAll(".autoplay-reel").forEach(video => {
