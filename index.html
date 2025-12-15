@@ -98,7 +98,7 @@
     }
     .control-btn.next-prev svg {
       width: 20px; height: 20px;
-      fill: currentColor; /* Ensure SVG color matches button color */
+      fill: currentColor;
     }
     .control-btn.next-prev:hover svg {
       fill: #ff4f8b;
@@ -106,10 +106,11 @@
     /* ───── MAIN CONTAINER ───── */
     .container {
       position: relative; z-index: 1;
-      background: rgba(255,255,255,0.95);
+      /* Adjusted opacity for blending */
+      background: rgba(255,255,255,0.75);
       width: 100%; max-width: 900px;
       border-radius: 25px; padding: 22px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Softened shadow */
       animation: fadeIn 1.2s ease;
     }
     @keyframes fadeIn {
@@ -648,7 +649,6 @@
 
         </div>
       </section>
-
       <div class="music-player-widget">
         <div class="widget-header">
           <svg role="img" height="16" width="16" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 14.5a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h7.5c.414 0 .75.336.75.75zm-1.5-3a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h6.5c.414 0 .75.336.75.75zm-1.5-3a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h5.5c.414 0 .75.336.75.75z" fill="#ff4f8b"></path></svg>
@@ -1008,7 +1008,7 @@
         lock.style.display = "none";
         blog.style.display = "block";
         document.body.classList.add("unlocked");
-        updatePlayer(); // **CORRECTLY ADDED**
+        updatePlayer();
 
        
         document.querySelectorAll(".autoplay-reel").forEach(video => {
