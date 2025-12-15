@@ -103,6 +103,42 @@
     .control-btn.next-prev:hover svg {
       fill: #ff4f8b;
     }
+    /* NEW SEEK BAR STYLES */
+    .seek-bar-container {
+      display: flex; align-items: center; gap: 10px; margin-top: 15px;
+      font-size: 0.7rem; color: #b3b3b3;
+    }
+    .time-display {
+      width: 30px; /* fixed width for time display */
+      text-align: center;
+    }
+    #seekBar {
+      flex-grow: 1; height: 4px; background: #535353; border: none;
+      -webkit-appearance: none; appearance: none;
+      cursor: pointer; margin: 0; padding: 0;
+    }
+    /* Webkit (Chrome/Safari) thumb and track styles */
+    #seekBar::-webkit-slider-runnable-track {
+      width: 100%; height: 4px; background: #535353; border-radius: 2px;
+    }
+    #seekBar::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      height: 12px; width: 12px; border-radius: 50%; background: #fff;
+      margin-top: -4px; /* Center the thumb vertically */
+      box-shadow: 0 0 4px rgba(0,0,0,0.4);
+      transition: background-color 0.2s;
+    }
+    #seekBar:hover::-webkit-slider-thumb { background: #ff4f8b; }
+    /* Firefox thumb and track styles */
+    #seekBar::-moz-range-track {
+      width: 100%; height: 4px; background: #535353; border-radius: 2px; border: none;
+    }
+    #seekBar::-moz-range-thumb {
+      height: 12px; width: 12px; border-radius: 50%; background: #fff;
+      border: none;
+      transition: background-color 0.2s;
+    }
+    #seekBar:hover::-moz-range-thumb { background: #ff4f8b; }
     /* ───── MAIN CONTAINER ───── */
     .container {
       position: relative; z-index: 1;
@@ -652,15 +688,22 @@
       <div class="music-player-widget">
         <div class="widget-header">
           <svg role="img" height="16" width="16" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 14.5a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h7.5c.414 0 .75.336.75.75zm-1.5-3a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h6.5c.414 0 .75.336.75.75zm-1.5-3a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h5.5c.414 0 .75.336.75.75z" fill="#ff4f8b"></path></svg>
-          OUR CUTIEE PLAYLIST
+          OUR CUTIEE PLAYLIST(I sang some of them)
         </div>
         <div class="song-info">
-          <img id="albumCover" class="album-cover" src="images/cover_placeholder.jpg"" alt="Album Cover">
+          <img id="albumCover" class="album-cover" src="images/bg10.jpg" alt="Album Cover">
           <div class="text-content">
             <h3 id="songTitle">Loading Song...</h3>
             <p id="songArtist">Loading Artist...</p>
           </div>
         </div>
+        
+        <div class="seek-bar-container">
+          <span id="currentTimeDisplay" class="time-display">0:00</span>
+          <input type="range" id="seekBar" value="0" min="0" max="100">
+          <span id="durationDisplay" class="time-display">0:00</span>
+        </div>
+        
         <div class="controls">
           <button class="control-btn next-prev" onclick="prevSong()">
             <svg role="img" height="16" width="16" viewBox="0 0 16 16"><path d="M4 4.5l6.5 4L4 12.5V4.5zM12 4v8h-1V4h1z" fill="currentColor"></path></svg>
@@ -1084,7 +1127,7 @@
       msg.style.left = x + "px";
       msg.style.top = y + "px";
       document.body.appendChild(msg);
-      setTimeout(() => msg.remove(), 3500);
+      setTimeout(() => msg.remove(), 15000);
     }, 15000);
 
     // 💞 TIMELINE ANIMATION
@@ -1435,6 +1478,18 @@
     const albumCoverEl = document.getElementById("albumCover");
     const playIconEl = document.getElementById("playIcon");
     const pauseIconEl = document.getElementById("pauseIcon");
+    
+    // NEW SEEK BAR ELEMENTS
+    const seekBarEl = document.getElementById("seekBar");
+    const currentTimeDisplayEl = document.getElementById("currentTimeDisplay");
+    const durationDisplayEl = document.getElementById("durationDisplay");
+
+    // Helper function to format seconds into M:SS
+    function formatTime(secs) {
+      const minutes = Math.floor(secs / 60);
+      const seconds = Math.floor(secs % 60);
+      return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
 
     function updatePlayer() {
       const song = playlist[currentSongIndex];
@@ -1443,11 +1498,41 @@
       albumCoverEl.src = song.cover || "images/cover_placeholder.jpg";
       audioPlayer.src = song.src;
       
+      // NEW: Update seek bar max value and duration display on load
+      audioPlayer.onloadedmetadata = function() {
+        seekBarEl.max = audioPlayer.duration;
+        durationDisplayEl.textContent = formatTime(audioPlayer.duration);
+        
+        // Also update seek bar on initial load to reflect 0:00
+        seekBarEl.value = 0;
+        currentTimeDisplayEl.textContent = "0:00";
+        // Reset progress bar gradient
+        seekBarEl.style.background = `linear-gradient(to right, #ff4f8b 0%, #ff4f8b 0%, #535353 0%, #535353 100%)`;
+      };
+
       // If a song was playing, try to play the new one automatically
       if (audioPlayer.dataset.isPlaying === 'true') {
         audioPlayer.play().catch(e => console.error("Autoplay failed:", e));
       }
     }
+
+    // NEW: Update current time and seek bar position
+    audioPlayer.addEventListener('timeupdate', () => {
+      // Update the progress bar position and current time display
+      seekBarEl.value = audioPlayer.currentTime;
+      currentTimeDisplayEl.textContent = formatTime(audioPlayer.currentTime);
+      
+      // Update the progress bar fill color (The 'magic' for the filled progress bar)
+      const value = (audioPlayer.currentTime / audioPlayer.duration) * 100 || 0;
+      seekBarEl.style.background = `linear-gradient(to right, #ff4f8b 0%, #ff4f8b ${value}%, #535353 ${value}%, #535353 100%)`;
+    });
+
+    // NEW: Handle user dragging the seek bar (input event for live update)
+    seekBarEl.addEventListener('input', () => {
+      // Set audio player time to the new value
+      audioPlayer.currentTime = seekBarEl.value;
+      currentTimeDisplayEl.textContent = formatTime(audioPlayer.currentTime);
+    });
 
     function playPause() {
       if (audioPlayer.paused) {
@@ -1472,7 +1557,7 @@
       updatePlayer();
       // Auto-play the next song if it was playing
       if (audioPlayer.dataset.isPlaying === 'true') {
-        playPause(); // Toggle pause/play to reset state and play new song
+        audioPlayer.play().catch(e => console.error("Autoplay failed:", e));
       }
     }
 
@@ -1481,7 +1566,7 @@
       updatePlayer();
       // Auto-play the previous song if it was playing
       if (audioPlayer.dataset.isPlaying === 'true') {
-        playPause(); // Toggle pause/play to reset state and play new song
+        audioPlayer.play().catch(e => console.error("Autoplay failed:", e));
       }
     }
 
