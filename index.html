@@ -45,7 +45,64 @@
     body.unlocked .bg-collage-grid {
       opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
     }
-
+    /* ───── SPOTIFY WIDGET STYLE ───── */
+    .music-player-widget {
+      max-width: 400px; margin: 25px auto;
+      background: linear-gradient(135deg, #121212, #242424);
+      border-radius: 12px; padding: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+      color: #fff; text-align: left;
+    }
+    .widget-header {
+      display: flex; align-items: center; margin-bottom: 12px;
+      font-size: 0.8rem; color: #b3b3b3;
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .widget-header svg { margin-right: 6px; fill: #ff4f8b; }
+    .song-info { display: flex; align-items: center; gap: 15px; }
+    .album-cover {
+      width: 70px; height: 70px; border-radius: 6px;
+      object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .text-content h3 {
+      font-size: 1.1rem; font-weight: 700; margin: 0 0 4px;
+      color: #fff;
+    }
+    .text-content p {
+      font-size: 0.9rem; margin: 0; color: #b3b3b3;
+    }
+    .controls {
+      display: flex; justify-content: space-around; align-items: center;
+      margin-top: 18px;
+    }
+    .control-btn {
+      background: none; border: none; color: #fff;
+      cursor: pointer; padding: 10px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .control-btn:hover { color: #ff99c8; }
+    .control-btn.play-pause {
+      color: #ff4f8b;
+      background: #fff;
+      border-radius: 50%;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 15px rgba(255, 79, 139, 0.4);
+    }
+    .control-btn.play-pause:hover {
+      background: #eee;
+      transform: scale(1.05);
+    }
+    .control-btn.play-pause svg {
+      width: 24px; height: 24px;
+      fill: #ff4f8b;
+    }
+    .control-btn.next-prev svg {
+      width: 20px; height: 20px;
+    }
+    .control-btn.next-prev:hover svg {
+      fill: #ff4f8b;
+    }
     /* ───── MAIN CONTAINER ───── */
     .container {
       position: relative; z-index: 1;
@@ -591,7 +648,31 @@
 
         </div>
       </section>
-
+      <div class="music-player-widget">
+        <div class="widget-header">
+          <svg role="img" height="16" width="16" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 14.5a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h7.5c.414 0 .75.336.75.75zm-1.5-3a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h6.5c.414 0 .75.336.75.75zm-1.5-3a.75.75 0 01-.75.75H8.25a.75.75 0 010-1.5h5.5c.414 0 .75.336.75.75z" fill="#ff4f8b"></path></svg>
+          OUR CUTIEE PLAYLIST
+        </div>
+        <div class="song-info">
+          <img id="albumCover" class="album-cover" src="images/cover_placeholder.jpg" alt="Album Cover">
+          <div class="text-content">
+            <h3 id="songTitle">Loading Song...</h3>
+            <p id="songArtist">Loading Artist...</p>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="control-btn next-prev" onclick="prevSong()">
+            <svg role="img" height="16" width="16" viewBox="0 0 16 16"><path d="M4 4.5l6.5 4L4 12.5V4.5zM12 4v8h-1V4h1z" fill="currentColor"></path></svg>
+          </button>
+          <button class="control-btn play-pause" id="playPauseBtn" onclick="playPause()">
+            <svg id="playIcon" role="img" viewBox="0 0 16 16" width="16" height="16" style="display: block;"><path d="M3 1.713a.75.75 0 011.05.027l7.74 7.74a.75.75 0 010 1.06L4.05 14.26A.75.75 0 013 13.713V1.713z"></path></svg>
+            <svg id="pauseIcon" role="img" viewBox="0 0 16 16" width="16" height="16" style="display: none;"><path d="M3 2.75A.75.75 0 013.75 2h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 013 2.75zm0 4A.75.75 0 013.75 6h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 013 6.75zm0 4A.75.75 0 013.75 10h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 013 10.75zm5-8A.75.75 0 018.75 2h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 018 2.75zm0 4A.75.75 0 018.75 6h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 018 6.75zm0 4a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5a.75.75 0 01-.75-.75zm5-8A.75.75 0 0113.75 2h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 0113 2.75zm0 4A.75.75 0 0113.75 6h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 0113 6.75zm0 4a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5a.75.75 0 01-.75-.75z"></path></svg>
+          </button>
+          <button class="control-btn next-prev" onclick="nextSong()">
+            <svg role="img" height="16" width="16" viewBox="0 0 16 16"><path d="M12 4.5L5.5 8.5 12 12.5V4.5zM4 4v8H3V4h1z" fill="currentColor"></path></svg>
+          </button>
+        </div>
+      </div>
       <div class="reel-section">
         <div class="reel-title">Here are your favourite guys 😏🎥</div>
         <div class="reel-sub">
@@ -926,6 +1007,7 @@
         lock.style.display = "none";
         blog.style.display = "block";
         document.body.classList.add("unlocked");
+        updatePlayer();
 
        
         document.querySelectorAll(".autoplay-reel").forEach(video => {
@@ -1335,6 +1417,93 @@
 
   mediaEls.forEach(el => obs.observe(el));
 })();
+    // 1. ADD YOUR SONGS HERE:
+    const playlist = [
+      { title: "My Favourite Song for You", artist: "Artist Name", src: "music/song1.mp3", cover: "images/cover_placeholder.jpg" },
+      { title: "The Song We First Danced To", artist: "Another Artist", src: "music/song2.mp3", cover: "images/cover_placeholder.jpg" },
+      { title: "The Song That Reminds Me of You", artist: "A Third Artist", src: "music/song3.mp3", cover: "images/cover_placeholder.jpg" }
+    ];
+
+    let currentSongIndex = 0;
+    const audioPlayer = new Audio();
+    audioPlayer.volume = 0.7; // Set default volume
+
+    const songTitleEl = document.getElementById("songTitle");
+    const songArtistEl = document.getElementById("songArtist");
+    const albumCoverEl = document.getElementById("albumCover");
+    const playIconEl = document.getElementById("playIcon");
+    const pauseIconEl = document.getElementById("pauseIcon");
+
+    function updatePlayer() {
+      const song = playlist[currentSongIndex];
+      songTitleEl.textContent = song.title;
+      songArtistEl.textContent = song.artist;
+      albumCoverEl.src = song.cover || "images/cover_placeholder.jpg";
+      audioPlayer.src = song.src;
+      
+      // If a song was playing, try to play the new one automatically
+      if (audioPlayer.dataset.isPlaying === 'true') {
+        audioPlayer.play().catch(e => console.error("Autoplay failed:", e));
+      }
+    }
+
+    function playPause() {
+      if (audioPlayer.paused) {
+        // Before playing, make sure the current song is loaded
+        if (!audioPlayer.src || audioPlayer.src.endsWith('undefined')) {
+          updatePlayer(); // Load the first song if not already loaded
+        }
+        audioPlayer.play().catch(e => console.error("Play failed (User interaction needed?):", e));
+        playIconEl.style.display = "none";
+        pauseIconEl.style.display = "block";
+        audioPlayer.dataset.isPlaying = 'true';
+      } else {
+        audioPlayer.pause();
+        playIconEl.style.display = "block";
+        pauseIconEl.style.display = "none";
+        audioPlayer.dataset.isPlaying = 'false';
+      }
+    }
+
+    function nextSong() {
+      currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      updatePlayer();
+      // Auto-play the next song if it was playing
+      if (audioPlayer.dataset.isPlaying === 'true') {
+        playPause(); // Toggle pause/play to reset state and play new song
+      }
+    }
+
+    function prevSong() {
+      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      updatePlayer();
+      // Auto-play the previous song if it was playing
+      if (audioPlayer.dataset.isPlaying === 'true') {
+        playPause(); // Toggle pause/play to reset state and play new song
+      }
+    }
+
+    // Event listener to automatically play the next song when current one ends
+    audioPlayer.addEventListener('ended', nextSong);
+
+    // Initialize player display on load
+    updatePlayer();
+
+    // 🔐 PASSWORD & UNLOCK - Add the play() function to the unlock logic
+    // Add this to the end of your form.addEventListener("submit", ...) function:
+    // **NOTE: You must manually add a call to 'updatePlayer()' inside your existing
+    // password unlock logic if you want the first song to load when unlocked.**
+    // You should check if the audio element exists before calling.
+
+    // Example of what to add inside the `if (entered.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) { ... }` block:
+    /*
+        // ... (inside the if statement) ...
+        document.body.classList.add("unlocked");
+        
+        // **ADD THIS LINE:**
+        updatePlayer(); // Load first song after unlock
+
+        // ... (rest of your unlock code) ...
 
 
   </script>
