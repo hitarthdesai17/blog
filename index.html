@@ -642,7 +642,7 @@
       font-size: 0.9rem; color: #444; border: 1px solid #ffb3d6;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08); animation: fadeInTask 0.6s ease;
     }
-    @keyframes fadeInTask { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInTask { from { opacity: 0; transform: translateY(10px); } to { transform: translateY(0); opacity: 1; } }
 
     /* Sticky Game Footer */
     .game-footer {
@@ -670,6 +670,52 @@
       border-radius: 20px; cursor: pointer;
     }
 
+    /* ───── SECRET ENDING STYLES ───── */
+    .secret-ending-overlay {
+      position: fixed; inset: 0; background: black;
+      z-index: 100000;
+      display: none;
+      align-items: center; justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      color: #00ff00; /* Neon green/hacker text color */
+      font-family: 'Courier New', Courier, monospace;
+      padding: 20px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .secret-ending-overlay.active {
+        display: flex;
+    }
+    
+    /* --- Typing/Cursor Effects --- */
+    .typing-text {
+      font-size: 1.5rem;
+      white-space: pre-wrap;
+    }
+    .blinking-cursor {
+      font-size: 1.5rem;
+      font-weight: 700;
+      opacity: 1;
+      animation: blink-cursor 0.7s infinite step-end;
+    }
+    @keyframes blink-cursor {
+      50% { opacity: 0; }
+    }
+    
+    /* --- Glitch Effect --- */
+    /* This applies a temporary strong visual glitch using CSS filter */
+    .glitch-active {
+        animation: quick-glitch 0.2s infinite;
+    }
+    @keyframes quick-glitch {
+        0% { transform: translateX(0); filter: hue-rotate(0deg) invert(0%); }
+        20% { transform: translateX(5px) scaleY(1.02); filter: hue-rotate(100deg) invert(1%); }
+        40% { transform: translateX(-5px) scaleY(0.98); filter: hue-rotate(200deg) invert(2%); }
+        60% { transform: translateX(3px) scaleY(1.01); filter: hue-rotate(300deg) invert(0%); }
+        80% { transform: translateX(-3px) scaleY(0.99); filter: hue-rotate(180deg) invert(1%); }
+        100% { transform: translateX(0); filter: hue-rotate(0deg) invert(0%); }
+    }
   </style>
 </head>
 
@@ -1065,12 +1111,14 @@
       <button class="love-message-button" id="loveMessageClose">Okay my love 💗</button>
     </div>
   </div>
+
   <div id="secretEnding" class="secret-ending-overlay">
-    <div class="glitch-text">
+    <div class="glitch-text" data-text="My sweetest Manu, thank you for completing the journey. Now you know the only password that matters: our love is the truest end. I will always be your final save point. I love you.">
       <span id="finalMessage" class="typing-text"></span><span id="cursor" class="blinking-cursor">_</span>
     </div>
   </div>
   <audio id="typingSound" src="music/keyboard_click.mp3" preload="auto"></audio>
+
   <div class="love-note">
     <span>No matter how far you are… I’ll be right here with you. 💗🌙</span>
   </div>
@@ -1681,54 +1729,61 @@
         playPause();
       }
     }
-// ... [Existing Code Ends Here] ...
-    
-    /* 🎵 NEW MUSIC NOTE LOGIC */
-    function showMusicNote() {
-      // Uses the generic openModal function, opening the custom modal.
-      const modal = document.getElementById('musicNoteModal');
-      modal.classList.add("show");
 
-      // Stops the music when the note is open for focus (optional)
-      if (audioPlayer.dataset.isPlaying === 'true') {
-        playPause();
-      }
-    }
-    
-    /* 🔐 SECRET ENDING LOGIC */
+    /* 🔐 SECRET ENDING LOGIC (UPDATED) */
     const secretMessage = "My sweetest Manu, thank you for completing the journey. Now you know the only password that matters: our love is the truest end. I will always be your final save point. I love you.";
     const finalMessageEl = document.getElementById('finalMessage');
     const cursorEl = document.getElementById('cursor');
     const secretEndingOverlay = document.getElementById('secretEnding');
     const typingSound = document.getElementById('typingSound');
-    const secretUnlockBtn = document.getElementById('secretUnlockBtn');
+    const secretUnlockBtn = document.getElementById('secretUnlockBtn'); // Game close button
 
-    let isTyping = false;
+    let isTypingFinished = false; 
     let typeIndex = 0;
     let typeInterval;
     
+    // Function to return to the blog page
+    function exitSecretEnding() {
+        if (isTypingFinished) {
+            // 1. Restore visibility and state
+            secretEndingOverlay.classList.remove('active');
+            secretEndingOverlay.classList.remove('glitch-active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('blog').style.display = 'block';
+            
+            // 2. Clean up old text and cursor for next run
+            finalMessageEl.textContent = '';
+            typeIndex = 0;
+            cursorEl.style.animation = 'blink-cursor 0.7s infinite step-end';
+
+            // 3. Remove the listener to prevent accidental triggers later
+            secretEndingOverlay.removeEventListener('click', exitSecretEnding);
+        }
+    }
+
     // Function to handle the letter-by-letter typing effect
     function typeWriter() {
         if (typeIndex < secretMessage.length) {
             finalMessageEl.textContent += secretMessage.charAt(typeIndex);
             
-            // Check if the character is a space to pause the sound
             if (secretMessage.charAt(typeIndex) !== ' ') {
-                typingSound.currentTime = 0; // Rewind the sound for a fast, repeating click
-                typingSound.play().catch(e => {}); // Play the click sound
+                typingSound.currentTime = 0;
+                typingSound.volume = 0.5; 
+                typingSound.play().catch(e => {}); 
             }
             
             typeIndex++;
         } else {
             clearInterval(typeInterval);
-            typingSound.pause(); // Stop continuous sound
+            typingSound.pause();
             cursorEl.style.animation = 'none';
             cursorEl.style.opacity = '1';
+            isTypingFinished = true; // Set flag
         }
     }
     
     function triggerSecretEnding() {
-        // 1. Hide everything on the page except the new overlay
+        // 1. Hide the entire site content and lock body scroll
         document.body.style.overflow = 'hidden';
         document.getElementById('gameModal').classList.remove('show');
         document.getElementById('blog').style.display = 'none';
@@ -1737,19 +1792,25 @@
         // 2. Stop music immediately
         audioPlayer.pause();
         
-        // 3. Activate the secret screen and glitch effect
+        // 3. Activate the black screen with an aggressive visual glitch
         secretEndingOverlay.classList.add('active');
-        secretEndingOverlay.classList.add('glitch-active'); 
+        secretEndingOverlay.classList.add('glitch-active');
         
-        // 4. Wait for the screen transition, then start typing
+        // 4. Wait for the glitch moment, then clean up and start typing
         setTimeout(() => {
-            secretEndingOverlay.classList.remove('glitch-active'); // Stop major glitching
-            isTyping = true;
+            secretEndingOverlay.classList.remove('glitch-active'); // Stop aggressive glitching
+            
+            // Start the typing animation
+            isTypingFinished = false;
             typeInterval = setInterval(typeWriter, 70); // Adjust 70ms for faster/slower typing
-        }, 1000); 
+            
+            // Add click-to-exit listener (it checks the isTypingFinished flag)
+            secretEndingOverlay.addEventListener('click', exitSecretEnding);
+
+        }, 1000); // 1 second of blackout/glitch before typing starts
     }
 
-    // Attach the handler to the specific button
+    // Attach the handler ONLY to the game modal close button
     if (secretUnlockBtn) {
       secretUnlockBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1758,5 +1819,6 @@
     }
 
   </script>
+
 </body>
 </html>
