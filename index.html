@@ -795,7 +795,7 @@
 
       <div class="collage-section">
         <img class="collage-full" src="images/collage.png" alt="Our Collage" loading="lazy">
-        <div class="collage-caption-text">Our Story - Every photo describes different months. Just how fast we completed 19 months together and can't wait to complete till 90 years of our life 🥹🧿</div>
+        <div class="collage-caption-text">Our Story - Every photo describes different months. Just how fast we completed 19 months together and can't wait to complete till 90 years of our life 🥹🧿(Need atleast one face photo of each month tbh😭)</div>
       </div>
 
       <div class="love-counter">
@@ -1047,6 +1047,7 @@
     <span>No matter how far you are… I’ll be right here with you. 💗🌙</span>
   </div>
   <script>
+
     const CORRECT_PASSWORD = "Hitarth777";  
     const form = document.getElementById("login-form");
     const passInput = document.getElementById("password");
@@ -1600,11 +1601,41 @@
       }
     }
 
-    // Event listener to automatically play the next song when current one ends
+ // Event listener to automatically play the next song when current one ends
     audioPlayer.addEventListener('ended', nextSong);
+    
+    /* 🔊 PAUSE/PLAY ON VISIBILITY CHANGE (NEW FEATURE) */
+    let shouldResumePlay = false;
+
+    document.addEventListener("visibilitychange", function() {
+        // 1. Only run this logic if the content is unlocked
+        if (!document.body.classList.contains("unlocked")) {
+            return; 
+        }
+
+        if (document.hidden) {
+            // Page is hidden (switched tabs, minimized app, or screen off)
+            if (!audioPlayer.paused) {
+                // If music was playing, save state and pause
+                shouldResumePlay = true;
+                audioPlayer.pause();
+            } else {
+                shouldResumePlay = false;
+            }
+        } else {
+            // Page is visible (brought back to foreground)
+            if (shouldResumePlay) {
+                // If it was playing when we left, resume playback
+                audioPlayer.play().catch(e => console.error("Resume failed:", e));
+            }
+        }
+    });
+    /* END VISIBILITY CHANGE LOGIC */
+
 
     // Initialize player display on load
     updatePlayer();
+    
     /* 🎵 NEW MUSIC NOTE LOGIC */
     function showMusicNote() {
       // Uses the generic openModal function, opening the custom modal.
@@ -1615,8 +1646,10 @@
       if (audioPlayer.dataset.isPlaying === 'true') {
         playPause();
       }
-    }
+    } 
+    // <--- THIS CLOSING BRACE IS CRITICAL AND WAS MISSING IN YOUR SNIPPET
 
   </script>
+
 </body>
 </html>
