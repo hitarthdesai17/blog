@@ -74,6 +74,25 @@
       display: flex; justify-content: space-around; align-items: center;
       margin-top: 18px;
     }
+    /* NEW: Music Note Icon Style */
+    .note-icon {
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #ff99c8;
+      transition: color 0.2s, transform 0.2s;
+      margin-left: auto; /* Pushes the icon far right in the song-info container */
+      align-self: center; /* Vertically center with the album art/text */
+      padding-right: 5px; 
+    }
+    .note-icon:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+    /* Custom Note Modal Styling */
+    #musicNoteModal .ow-modal-content {
+        max-width: 350px;
+        background: linear-gradient(180deg,#fffafc,#fff7fa);
+    }
     .control-btn {
       background: none; border: none; color: #fff;
       cursor: pointer; padding: 10px;
@@ -696,6 +715,7 @@
             <h3 id="songTitle">Loading Song...</h3>
             <p id="songArtist">Loading Artist...</p>
           </div>
+          <span id="musicNoteIcon" class="note-icon" onclick="showMusicNote()">💌</span>
         </div>
         
         <div class="seek-bar-container">
@@ -1005,7 +1025,16 @@
       <button class="ow-close-btn" onclick="closeModal('owModal')">Close Letter</button>
     </div>
   </div>
-
+  <div id="musicNoteModal" class="modal-backdrop">
+    <div class="ow-modal-content">
+      <h3 id="musicNoteTitle" style="color: #d64375; margin-bottom: 10px;">A Little Note From Me 💌</h3>
+      <div id="musicNoteContent" class="ow-unlocked-text">
+        <p>You are my favorite song, Manu. Always listen to your heart and know I'm right there with you, even when the song changes. I love you the most. 
+        Ik these are not all your fav songs but i sang them and i wanted yk to be lowkey us! Either i was gonna add the songs from your diary thats why i was reading it hehe. I am sorry but  i lovee youu mostt😭</p>
+      </div>
+      <button class="ow-close-btn" onclick="closeModal('musicNoteModal')">Close Note</button>
+    </div>
+  </div>
   <div class="love-message-overlay" id="loveMessageOverlay">
     <div class="love-string"></div>
     <div class="love-message-box">
@@ -1576,6 +1605,17 @@
 
     // Initialize player display on load
     updatePlayer();
+    /* 🎵 NEW MUSIC NOTE LOGIC */
+    function showMusicNote() {
+      // Uses the generic openModal function, opening the custom modal.
+      const modal = document.getElementById('musicNoteModal');
+      modal.classList.add("show");
+
+      // Stops the music when the note is open for focus (optional)
+      if (audioPlayer.dataset.isPlaying === 'true') {
+        playPause();
+      }
+    }
 
   </script>
 </body>
