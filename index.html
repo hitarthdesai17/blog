@@ -440,6 +440,28 @@
     }
     .collage-caption-text { margin-top: 8px; text-align: center; font-size: 0.9rem; color: #d64375; font-weight: 600; }
 
+    /* ───── Love Notifications (Custom Note) Style ───── */
+    /* NEW: Music Note Icon Style */
+    .note-icon {
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #ff99c8;
+      transition: color 0.2s, transform 0.2s;
+      margin-left: auto; /* Pushes the icon far right in the song-info container */
+      align-self: center; /* Vertically center with the album art/text */
+      padding-right: 5px; 
+    }
+    .note-icon:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+    /* Custom Note Modal Styling */
+    #musicNoteModal .ow-modal-content {
+        max-width: 350px;
+        background: linear-gradient(180deg,#fffafc,#fff7fa);
+    }
+
+    /* ───── TIMELINE ───── */
     .timeline-section { margin: 20px 0 26px; }
     .timeline-inner { max-width: 760px; margin: 0 auto; position: relative; padding: 8px 0 4px; }
     .timeline-heading { text-align: center; font-size: 1.2rem; color: #ff4f8b; margin-bottom: 4px; }
@@ -541,6 +563,7 @@
     .counter-number { display: block; font-size: 1.1rem; font-weight: 800; color: #ff4f8b; }
     .counter-label { font-size: 0.7rem; color: #666; }
 
+    /* ───── REASONS ───── */
     .reason-section { text-align: center; margin: 30px auto; max-width: 600px; padding: 24px; position: relative; }
     .reason-card {
       background: rgba(255, 255, 255, 0.9); border: 2px dashed #ffb3d6;
@@ -745,12 +768,12 @@
         </div>
         <div class="reel-grid">
           <div class="reel">
-            <video class="autoplay-reel" muted loop playsinline preload="auto">
+            <video class="autoplay-reel" muted loop playsinline preload="metadata" loading="lazy">
               <source src="videos/reels2.mp4" type="video/mp4">
             </video>
           </div>
           <div class="reel">
-            <video class="autoplay-reel" muted loop playsinline preload="auto">
+            <video class="autoplay-reel" muted loop playsinline preload="metadata" loading="lazy">
               <source src="videos/reels1.mp4" type="video/mp4">
             </video>
           </div>
@@ -879,7 +902,7 @@
           <h2>💗💞 The Day We First Met 💞💗</h2>
           <p>That moment when everything felt different. I didn’t know yet, but my heart already chose you that day. 🥺💗 This was the beginning of *us*. It was just amazing to see you in that black dress! You took my breath away and i whispered underneath myy breath! Darlingg you look perfectt tonightt🥹🧿</p>
         </div>
-        <img src="images/first.jpeg" alt="First memory">
+        <img src="images/first.jpeg" alt="First memory" loading="lazy">
       </div>
 
       <div class="memory">
@@ -887,7 +910,7 @@
           <h2>🌙 Our Late Night Talks</h2>
           <p>When the whole world slept but we stayed awake, sharing dreams, jokes, fears… and love. 💗Every saturdays were just blessingg to me it was the day i would cry out my heart loud and could share some happy tears too... On some nights we just used to talk randomly or having fightss and just going offline and online back and forth! but you always used to check on me whether i was feeling okay? I dont say at time like that but trust me I lovee youuu😭 when we talk and you sharee me crazyy thingss its just livingg yourr lifee too</p>
         </div>
-        <img src="images/call.jpg" alt="Late night chat">
+        <img src="images/call.jpg" alt="Late night chat" loading="lazy">
       </div>
 
       <div class="memory">
@@ -895,7 +918,7 @@
           <h2>💖 Every Little Moment</h2>
           <p>From silly fights to tight hugs, from missed calls to long smiles — everything with you is special. 💕Every little moment every time you care every time it brought me a smilee on my face. Those little little things you do to make us better. I lovee youuu myy gurll❤️‍🩹🧿 Everytime you said "Dhyan rakhje", "Hu chhu ne", "Na vicharis smjyo?", "I loveeeee youuuu mosttt hituuu","Chal ne na vichar ne sorryyy" I cantt tell how howw muchh these little textt holdss infinite amount of your lovee and how much it meant to me! i am sorry for being silly everytime but its my love for youu and not anger...</p>
         </div>
-        <img src="images/little.jpg" alt="Us together">
+        <img src="images/little.jpg" alt="Us together" loading="lazy">
       </div>
 
       <div class="memory">
@@ -903,22 +926,22 @@
           <h2>Our Fav Moment🥹</h2>
           <p>It was 8th of januaryy and we just had our first lip kiss sitting up while i was sleeping in your lap. In my eyes i could see two of moons and one close to me was more beautifull.. i saw your face and something in me couldnt resist so i just kissed your lipss! And then we went down on terrace to have walk and while we were walking we were talking about metro station things that arya did and we go to the other side and i lifted you up! You were saying that niche utar hitu niche utar! Me kidhu kiss kr to j and u kissed me on lips and trust me i didnt expect lip kiss hehe but it was one of the bestest day!</p>
         </div>
-        <img src="images/nazar.jpg" alt="Us together">
+        <img src="images/nazar.jpg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>Desi on Swadeshi😭</h2>
           <p>First of all sorry for being late hehe! Man you were so so verryyy beautiful in that sarree i am glad i came and you waited! It was the first bouquet i bought for you and you took it to home! We clicked photos you know i just miss that dayss hehe i love these dayss more though as now you loving me open😭You waited for around 40 mins more for me! You were stunning remember you took photos of us hehe then iktara song was getting at trend so i put that on storyy! And i later got to know that you were fucking obsessed with the bouquet hehe! I wish i could hold youu everytimee in my arms like i am holding a cutee little kiddo and love the way you deserve🥹🧿</p>
         </div>
-        <img src="images/swadeshi.jpg" alt="Us together">
+        <img src="images/swadeshi.jpg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>Our first Ride together!</h2>
-          <p>Remember it was 1st of september and you were in periods and the call came of yourss i came there to meet you! We had a little chat i would never forget that yellow kurti of yourss! The nazar nail art on the third finger of right hand and when you took support of my shoulders to sit behind me! It was pure bliss hehe I lovee youu! Ik its not that day's clip but its one of myy favv becausee myyy bitchh is in there hehe! Btw je divas ni clip hti ej divse kiss krelii starting ma to hu pn darelo but tu kai boli nai etle signal maaro green light pr htu hehe and hvee bijaa bdhaaa maate red light mara maate green lightt hehe the only winner😭</p>
+          <p>Remember it was 1st of september and you were in periods and the call came of yourss i came there to meet you! We had a little chat i would never forget that yellow kurti of yourss! The nazar nail art on the third finger of right hand and when you took support of my shoulders to sit behind me! It was pure bliss hehe I lovee youu! Ik its not that day's clip but one of myy favv becausee myyy bitchh is in there hehe! Btw je divas ni clip hti ej divse kiss krelii starting ma to hu pn darelo but tu kai boli nai etle signal maaro green light pr htu hehe and hvee bijaa bdhaaa maate red light mara maate green lightt hehe the only winner😭</p>
         </div>
         <div class="memory-media film-frame">
-  <video class="memory-video" src="videos/ride.mp4" muted loop playsinline preload="metadata"></video>
+  <video class="memory-video" src="videos/ride.mp4" muted loop playsinline preload="metadata" loading="lazy"></video>
 </div>
       </div>
       <div class="memory">
@@ -926,35 +949,35 @@
           <h2>The Bunk</h2>
           <p>I was literally beeging you all the time to lets just do it once and you agreed and we bunked on 26sep! I brought in extra hoodie because i wanted you to wear it and you were looking pretty i must say! Then we roamed and sat in garden and i had my first kiss on hand and head hehe we sat talked walked and it was prettiest nai? TBH every moment with youwas prettiest and will alwayss bee myy kiddo🥹</p>
         </div>
-        <img src="images/bunk.jpeg" alt="Us together">
+        <img src="images/bunk.jpeg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>Our first hug..</h2>
           <p>We happened to had our first hug on first day of navratri24 which was 3rd october! I still remember it was time to go! adn you were hugging everyone shailyy hetvi and everyone who was present! I thought i wont be able to get that but you initiated as i went towards you and we had! I still know how great it felt and just how howww much i didnt wanted to let you go! </p>
         </div>
-        <img src="images/firsthug.jpeg" alt="Us together">
+        <img src="images/firsthug.jpeg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>Your first kiss</h2>
           <p>It was my birthday! i was really reallyyy happy becausee you were there and we were clicking photos in the mirror! It was 11:44 16 mins remaining for my birthday to end! And you gave me the most beautiful gift i didnt know what and how happened but you kissed me on my cheeks all i knew was time stopped and there was no one more happy than me! Hehe here is the photo of me kissing😭🧿</p>
         </div>
-        <img src="images/yourkiss.jpeg" alt="Us together">
+        <img src="images/yourkiss.jpeg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>Our first video call</h2>
           <p>Hehe i know you dont like the video calls so much but its happen to be fine with me! You were sleeping resting and i couldnt help but staring at you! In your eyes i found my universe... You were just laying while we were on call do you even realise how cutee you were looking? It makess me so happy that i am your boyfriendd fr ! You are the bestesttt manuu i lobee youu !</p>
         </div>
-        <img src="images/bg5.jpeg" alt="Us together">
+        <img src="images/bg5.jpeg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>The day you were gonna propose</h2>
           <p>26th october : The day i was going to be proposed by the most beautiful women! But i myself ruined that moment so instead on this day we created a problem hehe! The metro kaand fr! Ik it didnt went good but i am glad we still here and sharing this as memories!</p>
         </div>
-        <img src="images/propose.jpg" alt="Us together">
+        <img src="images/propose.jpg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
@@ -962,7 +985,7 @@
           <p>Not to mention the date cause you remembered this one ig hehe! It was only 143 days of us talking together not knowing we both found each other to be this precious! i lovee youuu girlll i reallyy really do! And thank youu for accepting me because i will be your last! You know i was so scared to propose because you already said it that you didnt wanted but when i got to know i was pretty confident ofc but still i was nervousss frr!! But i am very gladd we becamee us heheee</p>
         </div>
         <div class="memory-media film-frame">
-  <video class="memory-video" src="videos/propose.mp4" muted loop playsinline preload="metadata"></video>
+  <video class="memory-video" src="videos/propose.mp4" muted loop playsinline preload="metadata" loading="lazy"></video>
 </div>
 
       </div>
@@ -971,21 +994,21 @@
           <h2>First Cuddle!</h2>
           <p>It was at my house... You came to myy house for the very first timee at 3rdFeb25! You were super cormfortable! I loveedd that dayyy fr! How we just lay down there and was together! I could do that whole life yk! I miss youu when you are not by my side! It was legit a fun day! We kissed cuddled lay down and all i wanted aws more of youu! I would never get enough of you fs!</p>
         </div>
-        <img src="images/us.jpg" alt="Us together">
+        <img src="images/us.jpg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>1706</h2>
           <p>I know we couldnt meet that day but atleast we both were able to see each other! Ik it was tough but it really made me happy knowing you loved your birthdayy becuase of me.. that perfume,princy(only yours) and everything i am just grateful to make you laugh and brought smile to your face🥹</p>
         </div>
-        <img src="images/birthday.jpg" alt="Us together">
+        <img src="images/birthday.jpg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
           <h2>6107</h2>
           <p>Hehe i finally understood how it felt when someone sent gifts with love but how it feels when person is not there! The effort you showed in makingg my lovliest box is something i would neverr everr forget! I cried and it was the happiest tears i ever shed!</p>
         </div>
-        <img src="images/bg4.jpeg" alt="Us together">
+        <img src="images/bg4.jpeg" alt="Us together" loading="lazy">
       </div>
       <div class="memory">
         <div class="memory-content">
@@ -1081,8 +1104,9 @@
         lock.style.display = "none";
         blog.style.display = "block";
         document.body.classList.add("unlocked");
+        
         updatePlayer();
-        playPause();
+        playPause(); // STARTS THE MUSIC ON UNLOCK
 
        
         document.querySelectorAll(".autoplay-reel").forEach(video => {
@@ -1158,7 +1182,7 @@
       msg.style.left = x + "px";
       msg.style.top = y + "px";
       document.body.appendChild(msg);
-      setTimeout(() => msg.remove(), 15000);
+      setTimeout(() => msg.remove(), 3500);
     }, 15000);
 
     // 💞 TIMELINE ANIMATION
@@ -1495,9 +1519,15 @@
     // 🎵 MUSIC PLAYER LOGIC (SPOTIFY WIDGET)
     // 1. ADD YOUR SONGS HERE:
     const playlist = [
-      { title: "YK I Love You So?", artist: "Yellow", src: "music/yellow.mp3", cover: "images/bg10.jpg" },
-      { title: "The Song We First Danced To", artist: "Another Artist", src: "music/song2.mp3", cover: "images/cover_placeholder.jpg" },
-      { title: "The Song That Reminds Me of You", artist: "A Third Artist", src: "music/song3.mp3", cover: "images/cover_placeholder.jpg" }
+      { title: "Kaise Hua", artist: "Your Voice", src: "music/kaise_hua.mp3", cover: "images/bg3.jpeg" },
+      { title: "Ye Tune Kya Kia", artist: "Your Voice", src: "music/ye_tune_kya_kia.mp3", cover: "images/bg2.jpeg" },
+      { title: "Tum Hi Ho", artist: "Your Voice", src: "music/tumhiho.mp3", cover: "images/us.jpg" },
+      { title: "Until I Found You", artist: "Your Voice", src: "music/until_i_found_you.mp3", cover: "images/bg11.jpg" },
+      { title: "Let Her Go (Husn Mashup)", artist: "Your Voice", src: "music/lethergo_husn.mp3", cover: "images/bg1.jpeg" },
+      { title: "Line Without A Hook", artist: "Your Voice", src: "music/linewithouthook.mp3", cover: "images/bunk.jpeg" },
+      { title: "Yellow (Cover)", artist: "Your Voice", src: "music/yellow.mp3", cover: "images/bg10.jpg" },
+      { title: "Blue (Cover)", artist: "Your Voice", src: "music/blue.mp3", cover: "images/bg7.jpeg" },
+      { title: "Memories (Cover)", artist: "Your Voice", src: "music/memories.mp3", cover: "images/yourkiss.jpeg" },
     ];
 
     let currentSongIndex = 0;
