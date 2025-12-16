@@ -1631,6 +1631,20 @@
         }
     });
     /* END VISIBILITY CHANGE LOGIC */
+    // Initialize player display on load
+    updatePlayer();
+    
+    /* 🎵 NEW MUSIC NOTE LOGIC */
+    function showMusicNote() {
+      // Uses the generic openModal function, opening the custom modal.
+      const modal = document.getElementById('musicNoteModal');
+      modal.classList.add("show");
+
+      // Stops the music when the note is open for focus (optional)
+      if (audioPlayer.dataset.isPlaying === 'true') {
+        playPause();
+      }
+    }
 
 
 
