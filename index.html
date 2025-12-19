@@ -670,6 +670,108 @@
       background: #ff4f8b; color: white; border: none; padding: 8px 20px;
       border-radius: 20px; cursor: pointer;
     }
+    /* ───── FLOATING MEMORIES STYLES ───── */
+.floating-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* So it doesn't block clicking buttons */
+  z-index: 0; /* Behind the content but above the collage */
+  overflow: hidden;
+}
+
+.floating-item {
+  position: absolute;
+  bottom: -50px;
+  font-size: 20px;
+  color: #ff4f8b;
+  opacity: 0.6;
+  user-select: none;
+  animation: floatUp var(--duration) linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+/* ───── TIMELINE PROGRESS BAR STYLES ───── */
+.timeline-progress-container {
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: rgba(255, 179, 214, 0.2); /* Faint background line */
+  z-index: 0;
+}
+
+#timelineProgressBar {
+  width: 100%;
+  height: 0%; /* Start at 0% */
+  background: linear-gradient(to bottom, #ffb3d6, #ff4f8b);
+  box-shadow: 0 0 10px rgba(255, 79, 139, 0.6);
+  transition: height 0.1s ease-out;
+}
+
+/* Adjust for mobile view where the line is on the left */
+@media (max-width: 700px) {
+  .timeline-progress-container {
+    left: 10px;
+    transform: none;
+  }
+}
+/* ───── NAZAR GLINT EFFECT ───── */
+/* Container to hold the image and the glint */
+.nazar-glint-container {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 4px; /* Matches your memory img border-radius */
+}
+
+/* The actual glint overlay */
+.nazar-glint-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: none;
+}
+
+/* Animation trigger: sweeps every 5 seconds */
+.nazar-glint-active::after {
+  animation: nazarSweep 5s infinite;
+}
+
+@keyframes nazarSweep {
+  0% { left: -150%; }
+  20% { left: 150%; }
+  100% { left: 150%; }
+}
   </style>
 </head>
 
@@ -844,7 +946,9 @@
         <div class="timeline-inner">
           <h2 class="timeline-heading">Our Story, Step by Step 💗</h2>
           <p class="timeline-subtitle">Just little dots on this line… but each one changed my heart. 🥹</p>
-          <div class="timeline-line"></div>
+          <div class="timeline-progress-container">
+            <div id="timelineProgressBar"></div>
+          </div>
           
           <div class="timeline-item">
             <div class="timeline-marker">♥</div>
@@ -1107,6 +1211,7 @@
         
         updatePlayer();
         playPause(); // STARTS THE MUSIC ON UNLOCK
+        applyNazarGlint();
 
        
         document.querySelectorAll(".autoplay-reel").forEach(video => {
@@ -1220,6 +1325,45 @@
       updateCounter(); setInterval(updateCounter, 1000);
     }
     startLoveCounter();
+    /* ───── FLOATING MEMORIES GENERATOR ───── */
+function createFloatingMemories() {
+  const container = document.createElement('div');
+  container.className = 'floating-container';
+  document.body.appendChild(container);
+
+  const icons = ["💗", "✨", "🧿", "💌", "🌸", "🧸"];
+
+  function spawn() {
+    if (!document.body.classList.contains("unlocked")) return; // Only float when unlocked
+
+    const item = document.createElement('div');
+    item.className = 'floating-item';
+    
+    // Randomize appearance
+    const icon = icons[Math.floor(Math.random() * icons.length)];
+    const duration = Math.random() * 5 + 10; // 10-15 seconds
+    const startX = Math.random() * 100; // 0-100% of width
+    const size = Math.random() * 15 + 15; // 15-30px
+
+    item.textContent = icon;
+    item.style.left = startX + 'vw';
+    item.style.fontSize = size + 'px';
+    item.style.setProperty('--duration', duration + 's');
+
+    container.appendChild(item);
+
+    // Remove item after it floats off screen to save memory
+    setTimeout(() => {
+      item.remove();
+    }, duration * 1000);
+  }
+
+  // Create a new floating icon every 2 seconds
+  setInterval(spawn, 2000);
+}
+
+// Start the effect
+createFloatingMemories();
 
     // 🎲 REASONS
     const reasons = [
@@ -1679,6 +1823,48 @@
         playPause();
       }
     }
+    /* ───── TIMELINE PROGRESS LOGIC ───── */
+function updateTimelineProgress() {
+  const section = document.getElementById('our-story');
+  const progressBar = document.getElementById('timelineProgressBar');
+  
+  if (!section || !progressBar) return;
+
+  const rect = section.getBoundingClientRect();
+  const sectionHeight = rect.height;
+  
+  // Calculate how much of the section has passed the middle of the screen
+  const viewThreshold = window.innerHeight / 2;
+  const progressTop = viewThreshold - rect.top;
+  
+  let scrollPercent = (progressTop / sectionHeight) * 100;
+  
+  // Constrain between 0 and 100%
+  scrollPercent = Math.max(0, Math.min(100, scrollPercent));
+  
+  progressBar.style.height = scrollPercent + "%";
+}
+
+// Update on scroll
+window.addEventListener('scroll', updateTimelineProgress);
+/* ───── NAZAR GLINT APPLIER ───── */
+function applyNazarGlint() {
+  // Target all images inside the 'memory' sections
+  const memoryImages = document.querySelectorAll('.memory img');
+  
+  memoryImages.forEach(img => {
+    // Create the wrapper container
+    const wrapper = document.createElement('div');
+    wrapper.className = 'nazar-glint-container nazar-glint-active';
+    
+    // Insert the wrapper before the image, then move the image inside it
+    img.parentNode.insertBefore(wrapper, img);
+    wrapper.appendChild(img);
+  });
+}
+
+// Run this after the page is unlocked so she sees the "shimmer" start
+// You can call this inside your login-form submit listener
   </script>
 
 </body>
