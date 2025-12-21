@@ -772,6 +772,57 @@
   20% { left: 150%; }
   100% { left: 150%; }
 }
+/* ───── ANNIVERSARY COUNTDOWN STYLES ───── */
+.milestone-container {
+  margin: 20px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff5f8, #ffe9f3);
+  border: 2px solid #ffb3d6;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(255, 79, 139, 0.1);
+  max-width: 500px;
+}
+
+.milestone-title {
+  color: #d64375;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.milestone-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.milestone-box {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ffd1e6;
+}
+
+.milestone-number {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ff4f8b;
+  animation: pulseHeart 2s infinite;
+}
+
+@keyframes pulseHeart {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.milestone-label {
+  font-size: 0.75rem;
+  color: #666;
+}
+
   </style>
 </head>
 
@@ -933,6 +984,27 @@
           <div class="counter-box"><span class="counter-number" id="c-seconds">0</span><span class="counter-label">Seconds</span></div>
         </div>
       </div>
+      <div class="milestone-container">
+  <div class="milestone-title">Countdown to our 2nd Official Anniversary! 💍✨</div>
+  <div class="milestone-grid">
+    <div class="milestone-box">
+      <span class="milestone-number" id="m-months">0</span>
+      <span class="milestone-label">Months</span>
+    </div>
+    <div class="milestone-box">
+      <span class="milestone-number" id="m-days">0</span>
+      <span class="milestone-label">Days</span>
+    </div>
+    <div class="milestone-box">
+      <span class="milestone-number" id="m-hours">0</span>
+      <span class="milestone-label">Hours</span>
+    </div>
+<div class="milestone-box">
+      <span class="milestone-number" id="m-seconds">0</span>
+      <span class="milestone-label">Seconds</span>
+    </div>
+  </div>
+</div>
 
       <div class="reason-section">
         <h3 class="reason-title">✨ Why I Love You? ✨</h3>
@@ -1212,6 +1284,7 @@
         updatePlayer();
         playPause(); // STARTS THE MUSIC ON UNLOCK
         applyNazarGlint();
+        startMilestoneCountdown();
 
        
         document.querySelectorAll(".autoplay-reel").forEach(video => {
@@ -1865,6 +1938,37 @@ function applyNazarGlint() {
 
 // Run this after the page is unlocked so she sees the "shimmer" start
 // You can call this inside your login-form submit listener
+function startMilestoneCountdown() {
+  const targetDate = new Date("2026-11-04T00:00:00");
+
+  function update() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      document.querySelector(".milestone-title").textContent = "Happy 2 Years, Manu! ❤️(Official hehe)";
+      return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const totalDays = Math.floor(totalSeconds / (3600 * 24));
+    
+    const months = Math.floor(totalDays / 30);
+    const days = totalDays % 30;
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const seconds = totalSeconds % 60; // Calculate remaining seconds
+
+    document.getElementById("m-months").textContent = months;
+    document.getElementById("m-days").textContent = days;
+    document.getElementById("m-hours").textContent = hours;
+    document.getElementById("m-seconds").textContent = seconds; // Update the new element
+  }
+
+  update();
+  // Change 3600000 to 1000 so it updates every second
+  setInterval(update, 1000); 
+}
+
   </script>
 
 </body>
